@@ -1,6 +1,6 @@
 # Multiple Sequence Alignment with Suffix Tree
 
-This project is aimed to improve a part of [HAlign2.0](https://github.com/malabz/HAlign), which could do MSA fast and accurately.
+This project is aimed at improving a part of [HAlign2.0](https://github.com/malabz/HAlign), which could align multiple nucleotide sequences fast and accurately.
 
 ## Usage
 
@@ -22,7 +22,11 @@ optional arguments:
 
 ## Update
 
-* 07-11-2019
+* 28-07-2020
+
+  pairwise-alignment scoring rules adjusted
+
+* 11-07-2020
   
   optimizations
 
@@ -32,7 +36,7 @@ optional arguments:
 
 * 15-12-2019
 
-  `SuffixTree.java` rewrited to improve the performance
+  `SuffixTree.java` rewritten to improve the performance
  
 * 20-10-2019
 

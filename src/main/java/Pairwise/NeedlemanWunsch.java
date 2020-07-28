@@ -8,7 +8,7 @@ import Utilities.UtilityFunctions;
 public class NeedlemanWunsch extends PairwiseAligner
 {
 
-    private static final int MATCH = 7, MISMATCH = -3, MID_OPEN = -13, EXTENSION = -2, END_OPEN = -3;
+    private static final int MATCH = 7, MISMATCH = -3, MID_OPEN = -11, EXTENSION = -2, END_OPEN = -3;
     private static final int MINUS_INFINITY = Integer.MIN_VALUE / 2;
     private static final int X = 0, Y = 1, Z = 2;
 
@@ -81,19 +81,20 @@ public class NeedlemanWunsch extends PairwiseAligner
         {
             for (int j = 1; j <= rhs.length; ++j)
             {
+                int open = i == lhs.length || j == rhs.length ? END_OPEN : MID_OPEN;
                 var arr = new int[3];
                 int index_of_max;
 
                 arr[X] = mtrx[X][i - 1][j];
-                arr[Y] = mtrx[Y][i - 1][j] + MID_OPEN;
-                arr[Z] = mtrx[Z][i - 1][j] + MID_OPEN;
+                arr[Y] = mtrx[Y][i - 1][j] + open;
+                arr[Z] = mtrx[Z][i - 1][j] + open;
                 index_of_max = UtilityFunctions.index_of_max(arr);
                 mtrx[X][i][j] = arr[index_of_max] + EXTENSION;
                 path[X][i][j] = index_of_max;
 
-                arr[X] = mtrx[X][i][j - 1] + MID_OPEN;
+                arr[X] = mtrx[X][i][j - 1] + open;
                 arr[Y] = mtrx[Y][i][j - 1];
-                arr[Z] = mtrx[Z][i][j - 1] + MID_OPEN;
+                arr[Z] = mtrx[Z][i][j - 1] + open;
                 index_of_max = UtilityFunctions.index_of_max(arr);
                 mtrx[Y][i][j] = arr[index_of_max] + EXTENSION;
                 path[Y][i][j] = index_of_max;
