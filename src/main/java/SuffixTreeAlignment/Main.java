@@ -179,7 +179,11 @@ public final class Main
     {
         THREAD = 1;
         long start = System.currentTimeMillis();
-        Main.align("data_set\\SARS-CoV-2_20200417_deoutlier.fasta", false);
+//        Main.align("data-set\\SARS-CoV-2_20200417_refined.fasta", false).output("debug\\a.txt", false);
+//        Main.align("data-set\\mt_genome_1x.fasta", false).output("debug\\a.txt", false);
+//        Main.align("data-set\\NCBI_H7N9_HA.fasta", false).output("debug\\a.txt", false);
+//        Main.align("data-set\\Animals_organelles_9685_9680SEQ_CDHIT9648.fasta", false).output("debug\\a.txt", false);
+        Main.align("c:\\Users\\heartunderblade\\Documents\\lab\\temporary\\20200902\\gisaid_hcov-19_2020_09_01_08.fasta", false).output("debug\\1.txt", false);
         System.out.println("total time consumed: " + (System.currentTimeMillis() - start));
     }
 

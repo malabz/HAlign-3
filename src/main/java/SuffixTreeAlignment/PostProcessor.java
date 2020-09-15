@@ -10,13 +10,15 @@ import java.util.Comparator;
 import Utilities.Pair;
 import Utilities.Pseudo;
 import Utilities.UtilityFunctions;
+
 import static Main.GlobalVariables.*;
 
 /**
  * 用于对dna, rna比对结果的后续处理
  */
 @SuppressWarnings("unused")
-class PostProcessor implements Pseudo {
+class PostProcessor implements Pseudo
+{
 
     private byte[][] pseudo;
     private int row, old_column;
@@ -32,31 +34,38 @@ class PostProcessor implements Pseudo {
      * @param pseudo 比对完成的伪序列
      * @return 后续处理完成的伪序列
      */
-    public byte[][] post_process(byte[][] pseudo) {
+    public byte[][] post_process(byte[][] pseudo)
+    {
         initialise(pseudo);
         select();
-        if (chaotic_areas.size() != 0) {
+        if (chaotic_areas.size() != 0)
+        {
             post_align();
             // output_chaotic_part();
             return put_together();
-        } else {
+        }
+        else
+        {
             return pseudo;
         }
     }
 
-    private void initialise(byte[][] pseudo) {
+    private void initialise(byte[][] pseudo)
+    {
         this.pseudo = pseudo;
         old_column = pseudo[0].length;
         row = pseudo.length;
         count();
     }
 
-    private void count() {
+    private void count()
+    {
         contains_gap = new boolean[old_column];
         most_char_of_column = new byte[old_column];
         var char_frequency = new int[old_column][CHAR_KIND];
         for (int i = 0; i != row; ++i) for (int j = 0; j != old_column; ++j) ++char_frequency[j][pseudo[i][j]];
-        for (int j = 0; j != old_column; ++j) {
+        for (int j = 0; j != old_column; ++j)
+        {
             if (char_frequency[j][GAP] != 0) contains_gap[j] = true;
             for (byte curr_char = 1; curr_char != CHAR_KIND; ++curr_char)
                 if (char_frequency[j][curr_char] > char_frequency[j][most_char_of_column[j]])
@@ -70,17 +79,20 @@ class PostProcessor implements Pseudo {
         endpoints = UtilityFunctions.to_array(al);
     }
 
-    private void select() {
+    private void select()
+    {
         var is_unstable = new boolean[old_column];
         for (int i = most_char_of_column[0] == GAP ? 1 : 0; i < endpoints.length - 1; i += 2)
             if (determine_if_unstable(endpoints[i], endpoints[i + 1]))
                 for (int j = endpoints[i]; j != endpoints[i + 1]; ++j) is_unstable[j] = true;
         var al = new ArrayList<Integer>();
         for (int j = 0; j < old_column; ++j) // 待检查
-            if (is_unstable[j]) {
+            if (is_unstable[j])
+            {
                 int l = j, r = j + 1;
                 while (l != 0 && most_char_of_column[l - 1] == GAP) --l;
-                if (l != 0) {
+                if (l != 0)
+                {
                     int probe = l;
                     byte fringe = most_char_of_column[probe - 1];
                     while (probe != 0 && most_char_of_column[probe - 1] == fringe) --probe;
@@ -88,7 +100,8 @@ class PostProcessor implements Pseudo {
                     l = probe;
                 }
                 while (r != old_column && (is_unstable[r] || most_char_of_column[r] == GAP)) ++r;
-                if (r != old_column) {
+                if (r != old_column)
+                {
                     int probe = r;
                     byte fringe = most_char_of_column[probe];
                     while (probe != old_column && most_char_of_column[probe] == fringe) ++probe;
@@ -105,11 +118,13 @@ class PostProcessor implements Pseudo {
             if (al.get(i).compareTo(al.get(i + 1)) < 0) chaotic_areas.add(new Pair<>(al.get(i), al.get(i + 1)));
     }
 
-    private boolean determine_if_unstable(int lhs, int rhs) {
+    private boolean determine_if_unstable(int lhs, int rhs)
+    {
         final int UNSTABLE_IF_LESS_THAN = 4, LENGTH_CEILING = 32, DIVISOR = 8;
         int length = rhs - lhs;
         if (length < UNSTABLE_IF_LESS_THAN) return true;
-        if (length < LENGTH_CEILING) {
+        if (length < LENGTH_CEILING)
+        {
             var counts = new int[CHAR_KIND];
             for (; lhs != rhs; ++lhs) ++counts[most_char_of_column[lhs]];
             Arrays.sort(counts);
@@ -118,9 +133,11 @@ class PostProcessor implements Pseudo {
         return false;
     }
 
-    private void post_align() {
+    private void post_align()
+    {
         substitutes = new byte[chaotic_areas.size()][][];
-        for (int i = 0; i != chaotic_areas.size(); ++i) {
+        for (int i = 0; i != chaotic_areas.size(); ++i)
+        {
             var pending_alignment = new byte[row][];
             for (int j = 0; j != row; ++j)
                 pending_alignment[j] = Pseudo.remove_spaces(pseudo[j], chaotic_areas.get(i).get_first(), chaotic_areas.get(i).get_second());
@@ -129,15 +146,18 @@ class PostProcessor implements Pseudo {
         // for (int i = 0; i != chaotic_areas.size(); ++i) substitutes[i] = post_align(chaotic_areas.get(i).get_first(), chaotic_areas.get(i).get_second());
     }
 
-    private byte[][] put_together() {
+    private byte[][] put_together()
+    {
         int new_column = old_column;
         for (int i = 0; i != chaotic_areas.size(); ++i)
             new_column += chaotic_areas.get(i).get_first() - chaotic_areas.get(i).get_second() + substitutes[i][0].length;
         var ret = new byte[row][];
-        for (int i = 0; i != row; ++i) {
+        for (int i = 0; i != row; ++i)
+        {
             var curr = new byte[new_column];
             int index = 0;
-            for (int j = 0; j != chaotic_areas.size(); ++j) {
+            for (int j = 0; j != chaotic_areas.size(); ++j)
+            {
                 int src_pos = j == 0 ? 0 : chaotic_areas.get(j - 1).get_second(), length_added = chaotic_areas.get(j).get_first() - src_pos;
                 System.arraycopy(pseudo[i], src_pos, curr, index, length_added);
                 index += length_added;
@@ -236,32 +256,44 @@ class PostProcessor implements Pseudo {
 //    }
 
     @SuppressWarnings("unused")
-    static private class StringComparisonByLength implements Comparator<String> {
+    static private class StringComparisonByLength implements Comparator<String>
+    {
         @Override
-        public int compare(String lhs, String rhs) {
+        public int compare(String lhs, String rhs)
+        {
             int ret = lhs.length() - rhs.length();
             return ret == 0 ? UtilityFunctions.edict_distance_of(lhs, rhs) : ret;
         }
     }
 
-    private void output_chaotic_part() {
+    private void output_chaotic_part()
+    {
         String prefix = "debug\\chaotic_part", fasta_fix = ".fasta", txt_fix = ".txt", aligned = "_aligned";
-        for (int i = 0; i != chaotic_areas.size(); ++i) {
-            try (var bw = new BufferedWriter(new FileWriter(prefix + i + fasta_fix))) {
-                for (int j = 0; j != row; ++j) {
+        for (int i = 0; i != chaotic_areas.size(); ++i)
+        {
+            try (var bw = new BufferedWriter(new FileWriter(prefix + i + fasta_fix)))
+            {
+                for (int j = 0; j != row; ++j)
+                {
                     bw.write(">" + j + '\n');
                     bw.write(Pseudo.pseudo2string(Pseudo.remove_spaces(pseudo[j], chaotic_areas.get(i).get_first(), chaotic_areas.get(i).get_second())));
                     if (j != row - 1) bw.write('\n');
                 }
-            } catch (IOException e) {
+            }
+            catch (IOException e)
+            {
                 System.err.println("chaotic_part write err");
             }
-            try (var bw = new BufferedWriter(new FileWriter(prefix + i + aligned + txt_fix))) {
-                for (int j = 0; j != row; ++j) {
+            try (var bw = new BufferedWriter(new FileWriter(prefix + i + aligned + txt_fix)))
+            {
+                for (int j = 0; j != row; ++j)
+                {
                     bw.write(Pseudo.pseudo2string(substitutes[i][j]));
                     if (j != row - 1) bw.write('\n');
                 }
-            } catch (IOException e) {
+            }
+            catch (IOException e)
+            {
                 System.err.println("chaotic_part write err");
             }
         }

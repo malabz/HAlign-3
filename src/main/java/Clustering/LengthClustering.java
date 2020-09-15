@@ -46,16 +46,12 @@ public class LengthClustering
         var groups = new ArrayList<ArrayList<Integer>>(checkpoints.size());
         for (int i = 0; i != checkpoints.size(); ++i) groups.add(new ArrayList<>());
         for (int i = 0; i != lengths.length; ++i)
-        {
             for (int j = 0; j != checkpoints.size(); ++j)
-            {
                 if (lengths[i] <= checkpoints.get(j))
                 {
                     groups.get(j).add(i);
                     break;
                 }
-            }
-        }
 
         var ret = new int[groups.size()][];
         for (int i = 0; i != groups.size(); ++i) ret[i] = UtilityFunctions.to_array(groups.get(i));

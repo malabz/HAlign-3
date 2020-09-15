@@ -28,6 +28,7 @@ code {
 .code-block {
     padding: 1ch 2% 1ch 2%;
     background-color: #f7f7f7;
+    white-space: nowrap;
 }
 
 #main {

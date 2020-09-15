@@ -165,20 +165,36 @@ public class UtilityFunctions
     /**
      * 返回多个整数的最大值
      */
-    public static int max(int... arg)
+    public static int max(int... args)
     {
         int max = Integer.MIN_VALUE;
-        for (int i : arg) if (i > max) max = i;
+        for (int i : args)
+            if (i > max)
+                max = i;
         return max;
+    }
+
+    /**
+     * 返回多个整数的最小值
+     */
+    public static int min(int... args)
+    {
+        int min = Integer.MAX_VALUE;
+        for (int i : args)
+            if (i < min)
+                min = i;
+        return min;
     }
 
     /**
      * 返回多个双精度浮点数的最大值
      */
-    public static double max(double... arg)
+    public static double max(double... args)
     {
         var max = Double.MIN_VALUE;
-        for (var i : arg) if (i > max) max = i;
+        for (double i : args)
+            if (i > max)
+                max = i;
         return max;
     }
 

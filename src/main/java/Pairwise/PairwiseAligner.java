@@ -13,6 +13,8 @@ import Utilities.Pseudo;
 public abstract class PairwiseAligner
 {
 
+    protected static final int MINUS_INFINITY = Integer.MIN_VALUE / 2;
+
     protected byte[] lhs, rhs; // 两个序列
     protected int[] lhs_spaces, rhs_spaces; // 插入空格数量
 
@@ -53,7 +55,7 @@ public abstract class PairwiseAligner
     public static void local_align(byte[] lhs, int[] lhs_spaces, int lhs_begin, int lhs_end,
                                    byte[] rhs, int[] rhs_spaces, int rhs_begin, int rhs_end)
     {
-        var result = NeedlemanWunsch.align(Arrays.copyOfRange(lhs, lhs_begin, lhs_end), Arrays.copyOfRange(rhs, rhs_begin, rhs_end));
+        var result = NeedlemanWunschKBand.align(Arrays.copyOfRange(lhs, lhs_begin, lhs_end), Arrays.copyOfRange(rhs, rhs_begin, rhs_end));
         merge(result.get_first(), lhs_spaces, lhs_begin);
         merge(result.get_second(), rhs_spaces, rhs_begin);
     }
