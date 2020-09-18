@@ -9,7 +9,7 @@ import static Main.GlobalVariables.GAP;
 public class ResultInfo
 {
 
-    private static final int DEFAULT_MATCH_SCORE = 1, DEFAULT_MISMATCH_SCORE = -1, DEFAULT_GAP_SCORE = -2;
+    private static final int MATCH_SCORE = 1, MISMATCH_SCORE = -1, GAP_SCORE = -2;
 
     /**
      * 计算比对结果sp得分, 使用默认计分模式
@@ -18,7 +18,7 @@ public class ResultInfo
      */
     public static long calculate_sp(byte[][] pseudo_result)
     {
-        return calculate_sp(pseudo_result, DEFAULT_MATCH_SCORE, DEFAULT_MISMATCH_SCORE, DEFAULT_GAP_SCORE);
+        return calculate_sp(pseudo_result, MATCH_SCORE, MISMATCH_SCORE, GAP_SCORE);
     }
 
     /**
@@ -41,7 +41,7 @@ public class ResultInfo
 
     public static long pairwise_sp(byte[] lhs, byte[] rhs)
     {
-        return pairwise_sp(lhs, rhs, DEFAULT_MATCH_SCORE, DEFAULT_MISMATCH_SCORE, DEFAULT_GAP_SCORE);
+        return pairwise_sp(lhs, rhs, MATCH_SCORE, MISMATCH_SCORE, GAP_SCORE);
     }
 
     public static long pairwise_sp(byte[] lhs, byte[] rhs, int match_score, int mismatch_score, int gap_score)

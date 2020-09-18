@@ -7,7 +7,7 @@ import static Main.GlobalVariables.*;
 
 import java.util.*;
 
-class Realigner implements Pseudo
+class Realigner
 {
 
     final static double TOLERANCE = .9; // 当当前串和串池等长或当前串长度小于串池但尝试简单插入时, 能够容忍多大的差异度

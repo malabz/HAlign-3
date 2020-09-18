@@ -19,19 +19,7 @@ public class NeedlemanWunschKBand extends PairwiseAligner
 
     public static Pair<int[], int[]> align(byte[] lhs, byte[] rhs)
     {
-        try
-        {
-            return new NeedlemanWunschKBand().do_align(lhs, rhs);
-        }
-        catch (OutOfMemoryError oom)
-        {
-            System.err.println("lhs length: " + lhs.length + "; rhs length: " + rhs.length);
-            System.err.println(Pseudo.pseudo2string(lhs));
-            System.err.println(Pseudo.pseudo2string(rhs));
-            System.err.println("out of memory");
-            System.exit(1);
-        }
-        return null;
+        return new NeedlemanWunschKBand().do_align(lhs, rhs);
     }
 
     private Pair<int[], int[]> do_align(byte[] lhs, byte[] rhs)
@@ -68,13 +56,13 @@ public class NeedlemanWunschKBand extends PairwiseAligner
         mtrx = new int[3][lhs.length + 1][rhs.length + 1];
         for (int i = 0; i <= lhs.length; ++i)
         {
-            mtrx[X][i][0] = END_OPEN + i * EXTENSION;
+            mtrx[X][i][0] = MID_OPEN + i * EXTENSION;
             mtrx[Y][i][0] = mtrx[Z][i][0] = MINUS_INFINITY;
         }
         for (int j = 0; j <= rhs.length; ++j)
         {
             mtrx[X][0][j] = mtrx[Z][0][j] = MINUS_INFINITY;
-            mtrx[Y][0][j] = END_OPEN + j * EXTENSION;
+            mtrx[Y][0][j] = MID_OPEN + j * EXTENSION;
         }
         mtrx[Z][0][0] = 0;
 
@@ -107,20 +95,20 @@ public class NeedlemanWunschKBand extends PairwiseAligner
             for (int j = 1; j <= rhs.length; ++j)
                 if (i - j <= lhs_offset || j - i >= rhs_offset)
                 {
-                    int open = i == lhs.length || j == rhs.length ? END_OPEN : MID_OPEN;
+//                    int open = i == lhs.length || j == rhs.length ? END_OPEN : MID_OPEN;
                     var arr = new int[3];
                     int index_of_max;
 
                     arr[X] = mtrx[X][i - 1][j];
-                    arr[Y] = mtrx[Y][i - 1][j] + open;
-                    arr[Z] = mtrx[Z][i - 1][j] + open;
+                    arr[Y] = mtrx[Y][i - 1][j] + MID_OPEN;
+                    arr[Z] = mtrx[Z][i - 1][j] + MID_OPEN;
                     index_of_max = UtilityFunctions.index_of_max(arr);
                     mtrx[X][i][j] = arr[index_of_max] + EXTENSION;
                     path[X][i][j] = index_of_max;
 
-                    arr[X] = mtrx[X][i][j - 1] + open;
+                    arr[X] = mtrx[X][i][j - 1] + MID_OPEN;
                     arr[Y] = mtrx[Y][i][j - 1];
-                    arr[Z] = mtrx[Z][i][j - 1] + open;
+                    arr[Z] = mtrx[Z][i][j - 1] + MID_OPEN;
                     index_of_max = UtilityFunctions.index_of_max(arr);
                     mtrx[Y][i][j] = arr[index_of_max] + EXTENSION;
                     path[Y][i][j] = index_of_max;
@@ -169,13 +157,13 @@ public class NeedlemanWunschKBand extends PairwiseAligner
 
     public static void main(String[] args)
     {
-        byte[] lhs = Pseudo.string2pseudo("agcttcttaggagaatgacaataaggtagcgaaattccttgtcaactaattattgacctgcacgaaaggcgcatgcctaacatgcttagaattatggcctcacttgt");
-        byte[] rhs = Pseudo.string2pseudo("nnnnnnttaggaaaaaaanaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        byte[] lhs = Pseudo.string_to_pseudo("agcttcttaggagaatgacaataaggtagcgaaattccttgtcaactaattattgacctgcacgaaaggcgcatgcctaacatgcttagaattatggcctcacttgt");
+        byte[] rhs = Pseudo.string_to_pseudo("nnnnnnttaggaaaaaaanaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 //        byte[] lhs = Pseudo.string2pseudo("agct");
 //        byte[] rhs = Pseudo.string2pseudo("agct");
         var result = NeedlemanWunsch.align(lhs, rhs);
-        System.out.println(Pseudo.pseudo2string(Pseudo.insert_spaces(lhs, result.get_first())));
-        System.out.println(Pseudo.pseudo2string(Pseudo.insert_spaces(rhs, result.get_second())));
+        System.out.println(Pseudo.pseudo_to_string(Pseudo.insert_spaces(lhs, result.get_first())));
+        System.out.println(Pseudo.pseudo_to_string(Pseudo.insert_spaces(rhs, result.get_second())));
     }
 
 }

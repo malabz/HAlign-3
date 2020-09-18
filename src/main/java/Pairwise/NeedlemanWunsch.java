@@ -145,13 +145,13 @@ public class NeedlemanWunsch extends PairwiseAligner
 
     public static void main(String[] args)
     {
-        byte[] lhs = Pseudo.string2pseudo("agcttcttaggagaatgacaataaggtagcgaaattccttgtcaactaattattgacctgcacgaaaggcgcatgcctaacatgcttagaattatggcctcacttgt");
-        byte[] rhs = Pseudo.string2pseudo("nnnnnnttaggaaaaaaanaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        byte[] lhs = Pseudo.string_to_pseudo("agcttcttaggagaatgacaataaggtagcgaaattccttgtcaactaattattgacctgcacgaaaggcgcatgcctaacatgcttagaattatggcctcacttgt");
+        byte[] rhs = Pseudo.string_to_pseudo("nnnnnnttaggaaaaaaanaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 //        byte[] lhs = Pseudo.string2pseudo("agct");
 //        byte[] rhs = Pseudo.string2pseudo("agct");
         var result = NeedlemanWunsch.align(lhs, rhs);
-        System.out.println(Pseudo.pseudo2string(Pseudo.insert_spaces(lhs, result.get_first())));
-        System.out.println(Pseudo.pseudo2string(Pseudo.insert_spaces(rhs, result.get_second())));
+        System.out.println(Pseudo.pseudo_to_string(Pseudo.insert_spaces(lhs, result.get_first())));
+        System.out.println(Pseudo.pseudo_to_string(Pseudo.insert_spaces(rhs, result.get_second())));
     }
 
 }

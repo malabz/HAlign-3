@@ -91,8 +91,8 @@ public abstract class PairwiseAligner
             try (var bw = new BufferedWriter(new FileWriter("debug\\pairwise.txt", true)))
             {
                 bw.write("aligned by " + this.getClass().getName() + "\n");
-                bw.write(Pseudo.pseudo2string(Pseudo.insert_spaces(lhs, lhs_spaces)) + "\n");
-                bw.write(Pseudo.pseudo2string(Pseudo.insert_spaces(rhs, rhs_spaces)) + "\n\n");
+                bw.write(Pseudo.pseudo_to_string(Pseudo.insert_spaces(lhs, lhs_spaces)) + "\n");
+                bw.write(Pseudo.pseudo_to_string(Pseudo.insert_spaces(rhs, rhs_spaces)) + "\n\n");
             }
             catch (IOException e)
             {

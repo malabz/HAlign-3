@@ -17,7 +17,7 @@ import static Main.GlobalVariables.*;
  * 用于对dna, rna比对结果的后续处理
  */
 @SuppressWarnings("unused")
-class PostProcessor implements Pseudo
+class PostProcessor
 {
 
     private byte[][] pseudo;
@@ -276,7 +276,7 @@ class PostProcessor implements Pseudo
                 for (int j = 0; j != row; ++j)
                 {
                     bw.write(">" + j + '\n');
-                    bw.write(Pseudo.pseudo2string(Pseudo.remove_spaces(pseudo[j], chaotic_areas.get(i).get_first(), chaotic_areas.get(i).get_second())));
+                    bw.write(Pseudo.pseudo_to_string(Pseudo.remove_spaces(pseudo[j], chaotic_areas.get(i).get_first(), chaotic_areas.get(i).get_second())));
                     if (j != row - 1) bw.write('\n');
                 }
             }
@@ -288,7 +288,7 @@ class PostProcessor implements Pseudo
             {
                 for (int j = 0; j != row; ++j)
                 {
-                    bw.write(Pseudo.pseudo2string(substitutes[i][j]));
+                    bw.write(Pseudo.pseudo_to_string(substitutes[i][j]));
                     if (j != row - 1) bw.write('\n');
                 }
             }

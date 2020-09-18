@@ -6,13 +6,13 @@ import java.util.Collection;
 import static Main.GlobalVariables.*;
 
 @SuppressWarnings("unused")
-public interface Pseudo
+public class Pseudo
 {
 
     /**
      * byte列表到数组的转换
      */
-    static byte[] to_array(Collection<Byte> al)
+    public static byte[] to_array(Collection<Byte> al)
     {
         var ret = new byte[al.size()];
         for (var i : al) ret[i] = i;
@@ -22,15 +22,15 @@ public interface Pseudo
     /**
      * 返回序列的字符串版
      */
-    static String pseudo2string(byte[] pseudo)
+    public static String pseudo_to_string(byte[] pseudo)
     {
-        return pseudo2string(pseudo, 0, pseudo.length);
+        return pseudo_to_string(pseudo, 0, pseudo.length);
     }
 
     /**
      * 返回序列中一段的字符串
      */
-    static String pseudo2string(byte[] pseudo_sequence, int from, int to)
+    public static String pseudo_to_string(byte[] pseudo_sequence, int from, int to)
     {
         var sb = new StringBuilder(pseudo_sequence.length);
         for (int i = from; i != to; ++i) sb.append(decode(pseudo_sequence[i]));
@@ -40,7 +40,7 @@ public interface Pseudo
     /**
      * 返回序列的字符串版
      */
-    static byte[] string2pseudo(String sequence)
+    public static byte[] string_to_pseudo(String sequence)
     {
         var ret = new byte[sequence.length()];
         for (int i = 0; i != sequence.length(); ++i) ret[i] = code(sequence.charAt(i));
@@ -50,7 +50,7 @@ public interface Pseudo
     /**
      * 字符编码
      */
-    static byte code(char c)
+    public static byte code(char c)
     {
         switch (c)
         {
@@ -76,7 +76,7 @@ public interface Pseudo
     /**
      * 字符解码
      */
-    static char decode(byte i)
+    public static char decode(byte i)
     {
         switch (i)
         {
@@ -92,7 +92,7 @@ public interface Pseudo
     /**
      * 返回两个序列的编辑距离
      */
-    static int edict_distance(byte[] lhs, byte[] rhs)
+    public static int edict_distance(byte[] lhs, byte[] rhs)
     {
 //        int[][] dp = new int[2][lhs.length + 1];
 //        for (int i = 0; i <= lhs.length; ++i) {
@@ -113,7 +113,7 @@ public interface Pseudo
     /**
      * 返回两个序列各自子序列的编辑距离
      */
-    static int edict_distance(byte[] lhs, int lhs_from, int lhs_to, byte[] rhs, int rhs_from, int rhs_to)
+    public static int edict_distance(byte[] lhs, int lhs_from, int lhs_to, byte[] rhs, int rhs_from, int rhs_to)
     {
         int[][] dp = new int[2][lhs_to - lhs_from + 1];
         int lhs_length = lhs_to - lhs_from, rhs_length = rhs_to - rhs_from;
@@ -128,17 +128,17 @@ public interface Pseudo
         return dp[rhs_length % 2][lhs_length];
     }
 
-    static byte[] reverse_range(byte[] src, int from, int to)
+    public static byte[] reverse(byte[] src, int from, int to)
     {
-        var ret = new byte[to - from];
-        for (int left = from, i = 0; i != ret.length; ++left, ++i) ret[i] = src[left];
-        return ret;
+        var result = new byte[to - from];
+        for (int left = from, i = 0; i != result.length; ++left, ++i) result[i] = src[left];
+        return result;
     }
 
     /**
      * 从序列中截取一段并返回去空格版
      */
-    static byte[] remove_spaces(byte[] src, int from, int to)
+    public static byte[] remove_spaces(byte[] src, int from, int to)
     {
         var al = new ArrayList<Byte>(to - from);
         for (int i = from; i != to; ++i) if (src[i] != GAP) al.add(src[i]);
@@ -148,7 +148,7 @@ public interface Pseudo
     /**
      * 返回序列的去空格版
      */
-    static byte[] remove_spaces(byte[] src)
+    public static byte[] remove_spaces(byte[] src)
     {
         return remove_spaces(src, 0, src.length);
     }
@@ -156,7 +156,7 @@ public interface Pseudo
     /**
      * 未计算好长度时返回插入空格后的伪序列
      */
-    static byte[] insert_spaces(byte[] src, int[] spaces)
+    public static byte[] insert_spaces(byte[] src, int[] spaces)
     {
         int result_length = src.length;
         for (int i = 0; i <= src.length; ++i) result_length += spaces[i];
@@ -166,7 +166,7 @@ public interface Pseudo
     /**
      * 计算好长度时返回插入空格后的伪序列
      */
-    static byte[] insert_spaces(byte[] src, int[] spaces, int result_length)
+    public static byte[] insert_spaces(byte[] src, int[] spaces, int result_length)
     {
 //        assert src.length + 1 == spaces.length;
 //        int tmp = src.length;

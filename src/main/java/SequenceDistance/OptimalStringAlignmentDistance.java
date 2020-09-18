@@ -46,11 +46,11 @@ public class OptimalStringAlignmentDistance
     {
         String lhs, rhs;
         System.out.println((lhs = "ca") + ' ' + (rhs = "agc") + ": " +
-                OptimalStringAlignmentDistance.get_distance(Pseudo.string2pseudo(lhs), Pseudo.string2pseudo(rhs)));
+                OptimalStringAlignmentDistance.get_distance(Pseudo.string_to_pseudo(lhs), Pseudo.string_to_pseudo(rhs)));
         System.out.println((lhs = "ga") + ' ' + (rhs = "agc") + ": " +
-                OptimalStringAlignmentDistance.get_distance(Pseudo.string2pseudo(lhs), Pseudo.string2pseudo(rhs)));
+                OptimalStringAlignmentDistance.get_distance(Pseudo.string_to_pseudo(lhs), Pseudo.string_to_pseudo(rhs)));
         System.out.println((lhs = "at") + ' ' + (rhs = "gc") + ": " +
-                OptimalStringAlignmentDistance.get_distance(Pseudo.string2pseudo(lhs), Pseudo.string2pseudo(rhs)));
+                OptimalStringAlignmentDistance.get_distance(Pseudo.string_to_pseudo(lhs), Pseudo.string_to_pseudo(rhs)));
     }
 
 }

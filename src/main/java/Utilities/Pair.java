@@ -4,8 +4,8 @@ package Utilities;
 public class Pair<first_type, second_type>
 {
 
-    first_type first;
-    second_type second;
+    private first_type first;
+    private second_type second;
 
     public Pair(first_type lhs, second_type rhs)
     {
@@ -38,4 +38,5 @@ public class Pair<first_type, second_type>
     {
         second = new_value;
     }
+
 }

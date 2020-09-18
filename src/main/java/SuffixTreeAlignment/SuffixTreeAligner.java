@@ -8,6 +8,7 @@ import static Main.GlobalVariables.*;
 
 import java.util.ArrayList;
 
+@SuppressWarnings("unused")
 class SuffixTreeAligner
 {
     private final byte[][] sequences; // 伪序列, 产生结果前为原序列, 后为结果序列
@@ -47,49 +48,49 @@ class SuffixTreeAligner
         int centre_index = 0;
         for (int i = 0; i != row; ++i) if (lengths[i] > lengths[centre_index]) centre_index = i;
         centre = sequences[centre_index];
-        var time_stops = new long[5];
-        time_stops[0] = System.currentTimeMillis();
+        var time_stop = System.currentTimeMillis();
+        var start_time = time_stop;
+
+        if (THREAD > 1)
+            name = ConcurrentNameBuilder.build_name(sequences, centre_index);
+        else
+            build_name(centre_index);
+        System.out.println("\tname build: " + (System.currentTimeMillis() - time_stop));
+        time_stop = System.currentTimeMillis();
+//        check_name();
+
+        if (THREAD > 1)
+            anti_name = ConcurrentAntiNameBuilder.build_anti_name(name, sequences, centre_index);
+        else
+            build_anti_name();
+        System.out.println("\tanti-name build: " + (System.currentTimeMillis() - time_stop));
+        time_stop = System.currentTimeMillis();
+//        check_anti_name();
+
         if (THREAD > 1)
         {
-            name = ConcurrentNameBuilder.build_name(sequences, centre_index);
-            time_stops[1] = System.currentTimeMillis();
-//        check_name();
-            anti_name = ConcurrentAntiNameBuilder.build_anti_name(name, sequences, centre_index);
-            time_stops[2] = System.currentTimeMillis();
-//        check_anti_name();
             var tmp_spc = ConcurrentSequencePairwiseAligner.pairwise_align(sequences, centre_index, anti_name);
             centre_spaces = tmp_spc.get_first();
             others_spaces = tmp_spc.get_second();
-            time_stops[3] = System.currentTimeMillis();
-//        check_pairwise_align();
-            spaces = ConcurrentFinalSpaceBuilder.build_final_spaces(sequences, centre_index, centre_spaces, others_spaces);
         }
         else
         {
-            build_name(centre_index);
-            time_stops[1] = System.currentTimeMillis();
-            build_anti_name();
-            time_stops[2] = System.currentTimeMillis();
             pairwise_align();
-            time_stops[3] = System.currentTimeMillis();
-            generate_final_spaces();
         }
-        time_stops[4] = System.currentTimeMillis();
-        print_time(time_stops);
+        System.out.println("\tpairwise align: " + (System.currentTimeMillis() - time_stop));
+        time_stop = System.currentTimeMillis();
+//        check_pairwise_align();
+
+        if (THREAD > 1)
+            spaces = ConcurrentFinalSpaceBuilder.build_final_spaces(sequences, centre_index, centre_spaces, others_spaces);
+        else
+            generate_final_spaces();
+        System.out.println("\tspaces build: " + (System.currentTimeMillis() - time_stop));
+        System.out.println("\ttotal: " + (System.currentTimeMillis() - start_time));
+
         return this;
     }
 
-    private void print_time(long[] time_stops)
-    {
-        System.out.println("\tname build: " + (time_stops[1] - time_stops[0]));
-        System.out.println("\tanti name build: " + (time_stops[2] - time_stops[1]));
-        System.out.println("\tpairwise align: " + (time_stops[3] - time_stops[2]));
-        System.out.println("\tspaces build: " + (time_stops[4] - time_stops[3]));
-        System.out.println("\ttime consumed to align current block: " + (time_stops[4] - time_stops[0]));
-        System.out.println();
-    }
-
-    @SuppressWarnings("unused")
     private void build_name(int centre_index)
     {
         centre = sequences[centre_index];
@@ -101,7 +102,6 @@ class SuffixTreeAligner
     }
 
     // 测试name数组是否有效: 即检查所有同质子串对是否相等
-    @SuppressWarnings("unused")
     private void check_name()
     {
         for (int i = 0; i != row; ++i)
@@ -119,7 +119,6 @@ class SuffixTreeAligner
         }
     }
 
-    @SuppressWarnings("unused")
     private void build_anti_name()
     {
         anti_name = new int[row][][];
@@ -153,7 +152,6 @@ class SuffixTreeAligner
         }
     }
 
-    @SuppressWarnings("unused")
     private void check_anti_name()
     {
         String err_message_duplication = "name and anti_name have a duplicated cover";
@@ -190,7 +188,6 @@ class SuffixTreeAligner
         }
     }
 
-    @SuppressWarnings("unused")
     private void pairwise_align()
     {
         centre_spaces = new int[row][centre.length + 1]; // 存放中心序列增加空格的位置
@@ -208,7 +205,6 @@ class SuffixTreeAligner
         }
     }
 
-    @SuppressWarnings("unused")
     private void check_pairwise_align()
     {
         for (int i = 0; i != row; ++i)
@@ -221,7 +217,6 @@ class SuffixTreeAligner
     }
 
     // 生成spaces, 最终版, 用来生成比对结果
-    @SuppressWarnings("unused")
     private void generate_final_spaces()
     {
         var final_centre_spaces = new int[centre.length + 1]; // 记录中心序列中空格的添加位置和数量
@@ -327,7 +322,7 @@ class SuffixTreeAligner
         var result = new byte[row][];
         for (int i = 0; i <= lengths[0]; ++i) result_length += spaces[0][i];
         for (int i = 0; i != row; ++i) result[i] = Pseudo.insert_spaces(sequences[i], spaces[i], result_length);
-        check_result(result);
+//        check_result(result);
         return result;
     }
 

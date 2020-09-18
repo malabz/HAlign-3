@@ -5,33 +5,29 @@ import Utilities.Fasta;
 import Utilities.Pseudo;
 import Utilities.UtilityFunctions;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+// import java.io.BufferedWriter;
+// import java.io.FileWriter;
+// import java.io.IOException;
 
 // import java.text.SimpleDateFormat;
 // import java.util.Date;
 
+@SuppressWarnings("unused")
 public final class Main
 {
 
-    private final String file_name;
+    private final String file_path;
     private final byte[][] sequences;
     private final int[] lengths;
 
     private Main(String infile)
     {
-        file_name = infile;
-        String[] source = new Fasta(file_name).get_sequences();
-        this.sequences = new byte[source.length][];
-        initialise(source);
+        file_path = infile;
+        String[] source = new Fasta(infile).get_sequences();
+        sequences = new byte[source.length][];
+        for (int i = 0; i != source.length; ++i) sequences[i] = Pseudo.string_to_pseudo(source[i]);
         lengths = new int[sequences.length];
         for (int i = 0; i != sequences.length; ++i) lengths[i] = sequences[i].length;
-    }
-
-    private void initialise(String[] source)
-    {
-        for (int i = 0; i != source.length; ++i) sequences[i] = Pseudo.string2pseudo(source[i]);
     }
 
     public static Fasta align(String infile, boolean force_align)
@@ -68,84 +64,94 @@ public final class Main
 
     private Fasta align(boolean force_align)
     {
-        var groups = Clustering.LengthClustering.cluster(lengths);
-        var is_outlier = detect_outliers(groups);
-        int outlier_number = UtilityFunctions.count(is_outlier);
-
-        var jobs = new byte[groups.length][][];
-        var aligned_jobs = new byte[groups.length][][];
-        for (int i = 0; i != groups.length; ++i)
-        {
-            if (force_align || !is_outlier[i])
-            {
-                System.out.println("blocks[" + i + "]: ");
-                jobs[i] = new byte[groups[i].length][];
-                for (int j = 0; j != groups[i].length; ++j) jobs[i][j] = sequences[groups[i][j]];
-                aligned_jobs[i] = SuffixTreeAligner.align(jobs[i]);
-            }
-            else
-            {
-                System.out.println("block[" + i + "] has been recognised as an outlier, which is automatically ignored");
-                System.out.println();
-            }
-        }
-
-        System.out.println("merge: ");
-        var centres = new byte[jobs.length - (force_align ? 0 : outlier_number)][];
-        for (int i = 0, cnt = 0; i != jobs.length; ++i)
-            if (force_align || !is_outlier[i]) centres[cnt++] = extract_centre_sequence(aligned_jobs[i]);
-        for (int i = 0; i != centres.length; ++i)
-            if (centres[i] != null)
-                for (int j = 0; j != centres[i].length; ++j)
-                    if (centres[i][j] == GAP) centres[i][j] = UNKNOWN;
-        var spaces = SuffixTreeAligner.spaces(centres);
+//        var groups = Clustering.LengthClustering.cluster(lengths);
+//        var is_outlier = detect_outliers(groups);
+//        int outlier_number = UtilityFunctions.count(is_outlier);
+//
+//        var jobs = new byte[groups.length][][];
+//        var aligned_jobs = new byte[groups.length][][];
+//        for (int i = 0; i != groups.length; ++i)
+//        {
+//            if (force_align || !is_outlier[i])
+//            {
+//                System.out.println("blocks[" + i + "]: ");
+//                jobs[i] = new byte[groups[i].length][];
+//                for (int j = 0; j != groups[i].length; ++j) jobs[i][j] = sequences[groups[i][j]];
+//                aligned_jobs[i] = SuffixTreeAligner.align(jobs[i]);
+//            }
+//            else
+//            {
+//                System.out.println("block[" + i + "] has been recognised as an outlier, which is automatically ignored");
+//                System.out.println();
+//            }
+//        }
+//
+//        System.out.println("merge: ");
+//        var centres = new byte[jobs.length - (force_align ? 0 : outlier_number)][];
+//        for (int i = 0, cnt = 0; i != jobs.length; ++i)
+//            if (force_align || !is_outlier[i]) centres[cnt++] = extract_centre_sequence(aligned_jobs[i]);
+//        for (int i = 0; i != centres.length; ++i)
+//            if (centres[i] != null)
+//                for (int j = 0; j != centres[i].length; ++j)
+//                    if (centres[i][j] == GAP) centres[i][j] = UNKNOWN;
+//        var spaces = SuffixTreeAligner.spaces(centres);
 //        for (int i = 0; i != centres.length; ++i) System.out.println(Pseudo.pseudo2string(Pseudo.insert_spaces(centres[i], spaces[i])));
 
-        var aligned = new byte[sequences.length][];
-        for (int i = 0, cnt = 0; i != aligned_jobs.length; ++i)
-            if (aligned_jobs[i] != null)
-            {
-                for (int j = 0; j != aligned_jobs[i].length; ++j)
-                    aligned[groups[i][j]] = Pseudo.insert_spaces(aligned_jobs[i][j], spaces[cnt]);
-                ++cnt;
-            }
+//        var aligned = new byte[sequences.length][];
+//        for (int i = 0, cnt = 0; i != aligned_jobs.length; ++i)
+//            if (aligned_jobs[i] != null)
+//            {
+//                for (int j = 0; j != aligned_jobs[i].length; ++j)
+//                    aligned[groups[i][j]] = Pseudo.insert_spaces(aligned_jobs[i][j], spaces[cnt]);
+//                ++cnt;
+//            }
+//
+//        var infile = new Fasta(file_name);
+//        if (!force_align && outlier_number != 0)
+//        {
+//            var outlier_file_name = (file_name.endsWith(".fasta") ? file_name.substring(0, file_name.length() - 6) : file_name) + ".outlier.fasta";
+//            try (var bw = new BufferedWriter(new FileWriter(outlier_file_name)))
+//            {
+//                for (int i = 0; i != sequences.length; ++i)
+//                {
+//                    if (aligned[i] == null)
+//                    {
+//                        bw.write(infile.get_sequence_identifiers(i));
+//                        bw.newLine();
+//                        bw.write(infile.get_sequence(i));
+//                        bw.newLine();
+//                        bw.flush();
+//                    }
+//                }
+//            }
+//            catch (IOException e)
+//            {
+//                System.err.println("cannot write file " + outlier_file_name);
+//            }
+//            System.out.println("the outliers have been stored to file " + outlier_file_name);
+//            System.out.println("you could use [-F] to align all the sequences included in the input file");
+//            System.out.println();
+//        }
+//
+//        var output_sequences = new String[sequences.length];
+//        var output_sequence_identifiers = new String[sequences.length];
+//        for (int i = 0; i != sequences.length; ++i)
+//        {
+//            if (aligned[i] != null)
+//            {
+//                output_sequences[i] = merge(aligned[i], infile.get_sequence(i));
+//                output_sequence_identifiers[i] = infile.get_sequence_identifiers(i);
+//            }
+//        }
 
-        var infile = new Fasta(file_name);
-        if (!force_align && outlier_number != 0)
-        {
-            var outlier_file_name = (file_name.endsWith(".fasta") ? file_name.substring(0, file_name.length() - 6) : file_name) + ".outlier.fasta";
-            try (var bw = new BufferedWriter(new FileWriter(outlier_file_name)))
-            {
-                for (int i = 0; i != sequences.length; ++i)
-                {
-                    if (aligned[i] == null)
-                    {
-                        bw.write(infile.get_sequence_identifiers(i));
-                        bw.newLine();
-                        bw.write(infile.get_sequence(i));
-                        bw.newLine();
-                        bw.flush();
-                    }
-                }
-            }
-            catch (IOException e)
-            {
-                System.err.println("cannot write file " + outlier_file_name);
-            }
-            System.out.println("the outliers have been stored to file " + outlier_file_name);
-            System.out.println("you could use [-F] to align all the sequences included in the input file");
-            System.out.println();
-        }
-
+        var infile = new Fasta(file_path);
+        var aligned = SuffixTreeAligner.align(sequences);
         var output_sequences = new String[sequences.length];
         var output_sequence_identifiers = new String[sequences.length];
         for (int i = 0; i != sequences.length; ++i)
         {
-            if (aligned[i] != null)
-            {
-                output_sequences[i] = merge(aligned[i], infile.get_sequence(i));
-                output_sequence_identifiers[i] = infile.get_sequence_identifiers(i);
-            }
+            output_sequences[i] = merge(aligned[i], infile.get_sequence(i));
+            output_sequence_identifiers[i] = infile.get_sequence_identifiers(i);
         }
         return new Fasta(output_sequences, output_sequence_identifiers);
     }
@@ -181,9 +187,8 @@ public final class Main
         long start = System.currentTimeMillis();
 //        Main.align("data-set\\SARS-CoV-2_20200417_refined.fasta", false).output("debug\\a.txt", false);
 //        Main.align("data-set\\mt_genome_1x.fasta", false).output("debug\\a.txt", false);
-//        Main.align("data-set\\NCBI_H7N9_HA.fasta", false).output("debug\\a.txt", false);
+        Main.align("data-set\\NCBI_H7N9_HA.fasta", false).output("debug\\a.txt", false);
 //        Main.align("data-set\\Animals_organelles_9685_9680SEQ_CDHIT9648.fasta", false).output("debug\\a.txt", false);
-        Main.align("c:\\Users\\heartunderblade\\Documents\\lab\\temporary\\20200902\\gisaid_hcov-19_2020_09_01_08.fasta", false).output("debug\\1.txt", false);
         System.out.println("total time consumed: " + (System.currentTimeMillis() - start));
     }
 

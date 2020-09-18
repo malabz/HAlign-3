@@ -175,9 +175,10 @@ class SuffixTree
 
     int[][] align_with(byte[] rhs)
     {
-        int last_dis = - 1;
+        // int last_dis = - 1;
         var al = new ArrayList<Integer>();
         int lhs_index = 0, rhs_index = 0;
+        int rhs_last_end = 0; // lhs_last_end数值上等于lhs_index
         while (rhs_index < rhs.length)
         {
             var curr_result = search_prefix(rhs, rhs_index);
@@ -189,61 +190,78 @@ class SuffixTree
             {
                 int min_dis = Integer.MAX_VALUE;
                 for (int i = 1; i != curr_result.size(); ++i)
-                    if (curr_result.get(i) > lhs_index && curr_result.get(i) - lhs_index < min_dis)
+                    if (curr_result.get(i) > lhs_index &&               // 在上一次匹配的右边
+                            curr_result.get(i) - lhs_index < min_dis)   // 离得更近
                         min_dis = curr_result.get(i) - lhs_index;
 
                 if (min_dis == Integer.MAX_VALUE)
-                {
-                    ++rhs_index; // 没找到, 从下个字符开始找
+                { // 都不符合要求, 继续找
+                    ++rhs_index;
                 }
                 else // 找到了, 需要检查该匹配是否错位
                 {
-                    final int CROSS_THRESHOLD = word.length / 256, // 错位多长需要检查
-                            MATCH_THRESHOLD = word.length / 128, // 匹配长度大于该值时跳过检查
-                            DIS_THRESHOLD = 32, //
-                            VETO = word.length / 3; // 一票否决该匹配
-                    int curr_dis = al.size() == 0 ?
-                            min_dis - rhs_index :
-                            min_dis - (rhs_index - (al.get(al.size() - 2) + al.get(al.size() - 1)));
-                    if (Math.abs(curr_dis) > CROSS_THRESHOLD) // 进行错配检查的条件
+                    if (curr_result.get(0) - Math.abs(min_dis - (rhs_index - rhs_last_end)) / 3 > THRESHOLD) // 错位检查通过
                     {
-                        int lhs_begin, rhs_begin, rhs_end;
-                        if (al.size() == 0)
-                        {
-                            lhs_begin = rhs_begin = 0;
-                            rhs_end = rhs_index;
-                        }
-                        else
-                        {
-                            lhs_begin = lhs_index;
-                            rhs_begin = al.get(al.size()- 2) + al.get(al.size() - 1);
-                            rhs_end = rhs_index - (al.get(al.size()- 2) + al.get(al.size() - 1));
-                        }
-                        System.out.printf("lhs: %-7d, %-7d, rhs : %-7d, %-7d, dis = %-7d, match_len = %-7d",
-                                lhs_begin, min_dis, rhs_begin, rhs_end, curr_dis, curr_result.get(0));
-                        if (curr_dis > VETO) System.out.println("x  VETO");
-                        else if (curr_result.get(0) >= MATCH_THRESHOLD) System.out.println("   match long enough");
-                        else if (last_dis == -1 || Math.abs(last_dis - curr_dis) > curr_dis/* / DIS_THRESHOLD*/) System.out.println("x  long dis");
-                        else System.out.println("   short dis");
-
-                        if (curr_dis > VETO || // 一票否决
-                                (curr_result.get(0) < MATCH_THRESHOLD && // 如果匹配足够长则不检查
-                                        (last_dis == -1 || Math.abs(last_dis - curr_dis) > curr_dis/* / DIS_THRESHOLD*/))) // 检查和前次匹配长度的差
-                        {
-                            rhs_index += curr_result.get(0);
-                            last_dis = curr_dis;
-                            continue;
-                        }
+                        lhs_index += min_dis;
+                        assert Arrays.equals(word, lhs_index, lhs_index + curr_result.get(0), rhs, rhs_index, rhs_index + curr_result.get(0));
+                        al.add(lhs_index);
+                        al.add(rhs_index);
+                        al.add(curr_result.get(0));
+                        lhs_index += curr_result.get(0);
+                        rhs_index += curr_result.get(0);
+                        rhs_last_end = rhs_index;
                     }
-
-                    // 检查完成, 把当前结果加入返回值中
-                    lhs_index += min_dis;
-                    assert Arrays.equals(word, lhs_index, lhs_index + curr_result.get(0), rhs, rhs_index, rhs_index + curr_result.get(0));
-                    al.add(lhs_index);
-                    al.add(rhs_index);
-                    al.add(curr_result.get(0));
-                    lhs_index += curr_result.get(0);
-                    rhs_index += curr_result.get(0);
+                    else
+                    {
+                        ++rhs_index;
+                    }
+//
+//                    final int CROSS_THRESHOLD = word.length / 256, // 错位多长需要检查
+//                            MATCH_THRESHOLD = word.length / 128, // 匹配长度大于该值时跳过检查
+//                            DIS_THRESHOLD = 32, //
+//                            VETO = word.length / 3; // 一票否决该匹配
+//                    int curr_dis = al.size() == 0 ?
+//                            min_dis - rhs_index :
+//                            min_dis - (rhs_index - (al.get(al.size() - 2) + al.get(al.size() - 1)));
+//                    if (Math.abs(curr_dis) > CROSS_THRESHOLD) // 进行错配检查的条件
+//                    {
+//                        int lhs_begin, rhs_begin, rhs_end;
+//                        if (al.size() == 0)
+//                        {
+//                            lhs_begin = rhs_begin = 0;
+//                            rhs_end = rhs_index;
+//                        }
+//                        else
+//                        {
+//                            lhs_begin = lhs_index;
+//                            rhs_begin = al.get(al.size()- 2) + al.get(al.size() - 1);
+//                            rhs_end = rhs_index - (al.get(al.size()- 2) + al.get(al.size() - 1));
+//                        }
+//                        System.out.printf("lhs: %-7d, %-7d, rhs : %-7d, %-7d, dis = %-7d, match_len = %-7d",
+//                                lhs_begin, min_dis, rhs_begin, rhs_end, curr_dis, curr_result.get(0));
+//                        if (curr_dis > VETO) System.out.println("x  VETO");
+//                        else if (curr_result.get(0) >= MATCH_THRESHOLD) System.out.println("   match long enough");
+//                        else if (last_dis == -1 || Math.abs(last_dis - curr_dis) > curr_dis/* / DIS_THRESHOLD*/) System.out.println("x  long dis");
+//                        else System.out.println("   short dis");
+//
+//                        if (curr_dis > VETO || // 一票否决
+//                                (curr_result.get(0) < MATCH_THRESHOLD && // 如果匹配足够长则不检查
+//                                        (last_dis == -1 || Math.abs(last_dis - curr_dis) > curr_dis/* / DIS_THRESHOLD*/))) // 检查和前次匹配长度的差
+//                        {
+//                            rhs_index += curr_result.get(0);
+//                            last_dis = curr_dis;
+//                            continue;
+//                        }
+//                    }
+//
+//                    // 检查完成, 把当前结果加入返回值中
+//                    lhs_index += min_dis;
+//                    assert Arrays.equals(word, lhs_index, lhs_index + curr_result.get(0), rhs, rhs_index, rhs_index + curr_result.get(0));
+//                    al.add(lhs_index);
+//                    al.add(rhs_index);
+//                    al.add(curr_result.get(0));
+//                    lhs_index += curr_result.get(0);
+//                    rhs_index += curr_result.get(0);
                 }
             }
         }
@@ -367,4 +385,3 @@ class SuffixTree
     }
 
 }
-

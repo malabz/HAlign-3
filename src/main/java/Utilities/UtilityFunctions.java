@@ -251,7 +251,7 @@ public class UtilityFunctions
         {
             for (int j = 0; j != sequences.length; ++j)
             {
-                bw.write(Pseudo.pseudo2string(sequences[j]));
+                bw.write(Pseudo.pseudo_to_string(sequences[j]));
                 if (j != sequences.length - 1) bw.newLine();
                 bw.flush();
             }
