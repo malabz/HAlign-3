@@ -198,14 +198,21 @@ public class UtilityFunctions
         return max;
     }
 
-    public static int index_of_max(int[] array)
+    public static int index_of_max(int... array)
     {
         if (array.length == 0) return -1;
 
         int ret = 0;
-        for (int i = 1; i != array.length; ++i)
-            if (array[ret] < array[i]) ret = i;
+        for (int i = 1; i != array.length; ++i) if (array[ret] < array[i]) ret = i;
+        return ret;
+    }
 
+    public static int index_of_max(long... array)
+    {
+        if (array.length == 0) return -1;
+
+        int ret = 0;
+        for (int i = 1; i != array.length; ++i) if (array[ret] < array[i]) ret = i;
         return ret;
     }
 

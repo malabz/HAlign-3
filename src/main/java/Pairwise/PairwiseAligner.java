@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 
+import Utilities.Pair;
 import Utilities.Pseudo;
 
 /**
@@ -30,11 +31,39 @@ public abstract class PairwiseAligner
      * 打印二维动态规划数组
      */
     @SuppressWarnings("unused")
-    protected static void print_dp_matrix(byte[] lhs, byte[] rhs, int[][] dp)
+    protected static void print_dp_matrix(byte[] lhs, byte[] rhs, int[][] matrix)
     {
         for (int i = 0; i <= lhs.length; ++i)
         {
-            for (int j = 0; j <= rhs.length; ++j) System.out.printf("%13d ", dp[i][j]);
+            for (int j = 0; j <= rhs.length; ++j) System.out.printf("%13d ", matrix[i][j]);
+            System.out.println();
+        }
+        System.out.println();
+    }
+
+    /**
+     * 打印二维动态规划数组
+     */
+    @SuppressWarnings("unused")
+    protected static void print_dp_matrix(byte[] lhs, byte[] rhs, long[][] matrix)
+    {
+        for (int i = 0; i <= lhs.length; ++i)
+        {
+            for (int j = 0; j <= rhs.length; ++j) System.out.printf("%13d ", matrix[i][j]);
+            System.out.println();
+        }
+        System.out.println();
+    }
+
+    /**
+     * 打印二维动态规划数组
+     */
+    @SuppressWarnings("unused")
+    protected static void print_dp_matrix(byte[] lhs, byte[] rhs, byte[][] matrix)
+    {
+        for (int i = 0; i <= lhs.length; ++i)
+        {
+            for (int j = 0; j <= rhs.length; ++j) System.out.printf("%13d ", matrix[i][j]);
             System.out.println();
         }
         System.out.println();
@@ -55,7 +84,19 @@ public abstract class PairwiseAligner
     public static void local_align(byte[] lhs, int[] lhs_spaces, int lhs_begin, int lhs_end,
                                    byte[] rhs, int[] rhs_spaces, int rhs_begin, int rhs_end)
     {
-        var result = NeedlemanWunschKBand.align(Arrays.copyOfRange(lhs, lhs_begin, lhs_end), Arrays.copyOfRange(rhs, rhs_begin, rhs_end));
+        int end_flags = 0;
+        if (lhs_begin == 0) end_flags |= NeedlemanWunschKBandEnding.LEFT_ENDING;
+        if (lhs_end == lhs.length) end_flags |= NeedlemanWunschKBandEnding.RIGHT_ENDING;
+
+        Pair<int[], int[]> result = end_flags == 0 ?
+                NeedlemanWunschKBand.align(
+                        Arrays.copyOfRange(lhs, lhs_begin, lhs_end),
+                        Arrays.copyOfRange(rhs, rhs_begin, rhs_end)) :
+                NeedlemanWunschKBandEnding.align(
+                        Arrays.copyOfRange(lhs, lhs_begin, lhs_end),
+                        Arrays.copyOfRange(rhs, rhs_begin, rhs_end),
+                        end_flags);
+
         merge(result.get_first(), lhs_spaces, lhs_begin);
         merge(result.get_second(), rhs_spaces, rhs_begin);
     }

@@ -19,6 +19,15 @@ public class Pseudo
         return ret;
     }
 
+    public static String[] pseudo_to_string(byte[][] pseudo)
+    {
+        var result = new String[pseudo.length];
+
+        for (int i = 0; i != pseudo.length; ++i)
+            result[i] = pseudo_to_string(pseudo[i]);
+        return result;
+    }
+
     /**
      * 返回序列的字符串版
      */
@@ -33,6 +42,7 @@ public class Pseudo
     public static String pseudo_to_string(byte[] pseudo_sequence, int from, int to)
     {
         var sb = new StringBuilder(pseudo_sequence.length);
+
         for (int i = from; i != to; ++i) sb.append(decode(pseudo_sequence[i]));
         return sb.toString();
     }
@@ -42,9 +52,19 @@ public class Pseudo
      */
     public static byte[] string_to_pseudo(String sequence)
     {
-        var ret = new byte[sequence.length()];
-        for (int i = 0; i != sequence.length(); ++i) ret[i] = code(sequence.charAt(i));
-        return ret;
+        var result = new byte[sequence.length()];
+
+        for (int i = 0; i != sequence.length(); ++i) result[i] = code(sequence.charAt(i));
+        return result;
+    }
+
+    public static byte[][] string_to_pseudo(String[] sequences)
+    {
+        var result = new byte[sequences.length][];
+
+        for (int i = 0; i != sequences.length; ++i)
+            result[i] = string_to_pseudo(sequences[i]);
+        return result;
     }
 
     /**
@@ -181,6 +201,15 @@ public class Pseudo
         }
         for (int j = 0; j != spaces[src.length]; ++j) ret[index++] = GAP;
         return ret;
+    }
+
+    public static ArrayList<Byte> to_al(byte[] src)
+    {
+        var result = new ArrayList<Byte>();
+        result.ensureCapacity(src.length);
+
+        for (int i = 0; i != src.length; ++i) result.add(src[i]);
+        return result;
     }
 
 }

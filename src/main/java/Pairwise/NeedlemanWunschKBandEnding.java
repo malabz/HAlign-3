@@ -6,10 +6,12 @@ import Utilities.UtilityFunctions;
 
 import static Main.GlobalVariables.UNKNOWN;
 
-public class NeedlemanWunschKBand extends PairwiseAligner
+public class NeedlemanWunschKBandEnding extends PairwiseAligner
 {
+    public static final int LEFT_ENDING = 1;
+    public static final int RIGHT_ENDING = 1 << 1;
 
-    private static final int MATCH = 7, MISMATCH = -3, MID_OPEN = -11, EXTENSION = -2;
+    private static final int MATCH = 7, MISMATCH = -3, MID_OPEN = -41, EXTENSION = -2, END_OPEN = 0;
     private static final int MIN_K = 3, LENGTH_DIVISOR = 4;
     private static final int X = 0, Y = 1, Z = 2;
 
@@ -17,18 +19,20 @@ public class NeedlemanWunschKBand extends PairwiseAligner
     private int[][][] path;
     private int lhs_offset, rhs_offset;
 
-    public static Pair<int[], int[]> align(byte[] lhs, byte[] rhs)
+    private int left_open, right_open;
+
+    public static Pair<int[], int[]> align(byte[] lhs, byte[] rhs, int flags)
     {
-        return new NeedlemanWunschKBand().do_align(lhs, rhs);
+        return new NeedlemanWunschKBandEnding().do_align(lhs, rhs, flags);
     }
 
-    private Pair<int[], int[]> do_align(byte[] lhs, byte[] rhs)
+    private Pair<int[], int[]> do_align(byte[] lhs, byte[] rhs, int flags)
     {
-        initialise(lhs, rhs);
+        initialise(lhs, rhs, flags);
 
-//        print_dp(lhs, rhs, matrix[X]);
-//        print_dp(lhs, rhs, matrix[Y]);
-//        print_dp(lhs, rhs, matrix[Z]);
+//        print_dp_matrix(lhs, rhs, mtrx[X]);
+//        print_dp_matrix(lhs, rhs, mtrx[Y]);
+//        print_dp_matrix(lhs, rhs, mtrx[Z]);
 //        System.out.println();
 
         dp();
@@ -49,20 +53,23 @@ public class NeedlemanWunschKBand extends PairwiseAligner
         return new Pair<>(lhs_spaces, rhs_spaces);
     }
 
-    private void initialise(byte[] lhs, byte[] rhs)
+    private void initialise(byte[] lhs, byte[] rhs, int flags)
     {
         base_init(lhs, rhs);
+
+        left_open = (flags & LEFT_ENDING) == 0 ? MID_OPEN : -2;
+        right_open = (flags & RIGHT_ENDING) == 0 ? MID_OPEN : END_OPEN;
 
         mtrx = new int[3][lhs.length + 1][rhs.length + 1];
         for (int i = 0; i <= lhs.length; ++i)
         {
-            mtrx[X][i][0] = MID_OPEN + i * EXTENSION;
+            mtrx[X][i][0] = left_open + i * EXTENSION;
             mtrx[Y][i][0] = mtrx[Z][i][0] = MINUS_INFINITY;
         }
         for (int j = 0; j <= rhs.length; ++j)
         {
             mtrx[X][0][j] = mtrx[Z][0][j] = MINUS_INFINITY;
-            mtrx[Y][0][j] = MID_OPEN + j * EXTENSION;
+            mtrx[Y][0][j] = left_open + j * EXTENSION;
         }
         mtrx[Z][0][0] = 0;
 
@@ -100,15 +107,15 @@ public class NeedlemanWunschKBand extends PairwiseAligner
                     int index_of_max;
 
                     arr[X] = mtrx[X][i - 1][j];
-                    arr[Y] = mtrx[Y][i - 1][j] + MID_OPEN;
-                    arr[Z] = mtrx[Z][i - 1][j] + MID_OPEN;
+                    arr[Y] = mtrx[Y][i - 1][j] + (j == rhs.length ? right_open : MID_OPEN);
+                    arr[Z] = mtrx[Z][i - 1][j] + (j == rhs.length ? right_open : MID_OPEN);
                     index_of_max = UtilityFunctions.index_of_max(arr);
                     mtrx[X][i][j] = arr[index_of_max] + EXTENSION;
                     path[X][i][j] = index_of_max;
 
-                    arr[X] = mtrx[X][i][j - 1] + MID_OPEN;
+                    arr[X] = mtrx[X][i][j - 1] + (i == lhs.length ? right_open : MID_OPEN);
                     arr[Y] = mtrx[Y][i][j - 1];
-                    arr[Z] = mtrx[Z][i][j - 1] + MID_OPEN;
+                    arr[Z] = mtrx[Z][i][j - 1] + (i == lhs.length ? right_open : MID_OPEN);
                     index_of_max = UtilityFunctions.index_of_max(arr);
                     mtrx[Y][i][j] = arr[index_of_max] + EXTENSION;
                     path[Y][i][j] = index_of_max;
@@ -140,28 +147,28 @@ public class NeedlemanWunschKBand extends PairwiseAligner
         {
             switch (curr_path)
             {
-                case X:
-                    curr_path = path[curr_path][lhs_index--][rhs_index];
-                    ++rhs_spaces[rhs_index];
-                    break;
-                case Y:
-                    curr_path = path[curr_path][lhs_index][rhs_index--];
-                    ++lhs_spaces[lhs_index];
-                    break;
-                case Z:
-                    curr_path = path[curr_path][lhs_index--][rhs_index--];
-                    break;
+            case X:
+                curr_path = path[curr_path][lhs_index--][rhs_index];
+                ++rhs_spaces[rhs_index];
+                break;
+            case Y:
+                curr_path = path[curr_path][lhs_index][rhs_index--];
+                ++lhs_spaces[lhs_index];
+                break;
+            case Z:
+                curr_path = path[curr_path][lhs_index--][rhs_index--];
+                break;
             }
         }
     }
 
     public static void main(String[] args)
     {
-        byte[] lhs = Pseudo.string_to_pseudo("agcttcttaggagaatgacaataaggtagcgaaattccttgtcaactaattattgacctgcacgaaaggcgcatgcctaacatgcttagaattatggcctcacttgt");
-        byte[] rhs = Pseudo.string_to_pseudo("nnnnnnttaggaaaaaaanaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-//        byte[] lhs = Pseudo.string2pseudo("agct");
-//        byte[] rhs = Pseudo.string2pseudo("agct");
-        var result = NeedlemanWunschKBand.align(lhs, rhs);
+//        byte[] lhs = Pseudo.string_to_pseudo("agcttcttaggagaatgacaataaggtagcgaaattccttgtcaactaattattgacctgcacgaaaggcgcatgcctaacatgcttagaattatggcctcacttgt");
+//        byte[] rhs = Pseudo.string_to_pseudo("nnnnnnttaggaaaaaaanaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        byte[] lhs = Pseudo.string_to_pseudo("aaaaaaaa");
+        byte[] rhs = Pseudo.string_to_pseudo("aaaa");
+        var result = NeedlemanWunschKBandEnding.align(lhs, rhs, 3);
         System.out.println(Pseudo.pseudo_to_string(Pseudo.insert_spaces(lhs, result.get_first())));
         System.out.println(Pseudo.pseudo_to_string(Pseudo.insert_spaces(rhs, result.get_second())));
     }
