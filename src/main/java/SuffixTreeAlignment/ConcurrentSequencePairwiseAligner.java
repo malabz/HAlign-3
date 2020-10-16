@@ -7,11 +7,11 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import static Main.GlobalVariables.THREAD;
+import static Main.GlobalVariables.thread;
 
 public class ConcurrentSequencePairwiseAligner
 {
-    private final ExecutorService es = Executors.newFixedThreadPool(THREAD);
+    private final ExecutorService es = Executors.newFixedThreadPool(thread);
 
     private final byte[][] sequences;
     private final int[][][] anti_name;

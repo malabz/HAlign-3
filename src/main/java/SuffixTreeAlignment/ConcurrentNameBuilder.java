@@ -8,22 +8,23 @@ import static Main.GlobalVariables.*;
 
 class ConcurrentNameBuilder
 {
-    private final ExecutorService es = Executors.newFixedThreadPool(THREAD);
+
+    private final ExecutorService es = Executors.newFixedThreadPool(thread);
     private final SuffixTree st;
     private final byte[][] sequences;
     private final int[][][] name;
     private final int centre_index;
 
-    static int[][][] build_name(byte[][]sequences, int centre_index)
+    static int[][][] build_name(byte[][]sequences, int centre_index, SuffixTree st)
     {
-        return new ConcurrentNameBuilder(sequences, centre_index).build().get_name();
+        return new ConcurrentNameBuilder(sequences, centre_index, st).build().get_name();
     }
 
-    private ConcurrentNameBuilder(byte[][] sequences, int centre_index)
+    private ConcurrentNameBuilder(byte[][] sequences, int centre_index, SuffixTree st)
     {
         this.sequences = sequences;
         this.centre_index = centre_index;
-        st = new SuffixTree(sequences[centre_index]);
+        this.st = st;
         name = new int[sequences.length][][];
     }
 

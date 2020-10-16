@@ -4,8 +4,8 @@ package Utilities;
 public class Pair<first_type, second_type>
 {
 
-    private first_type first;
-    private second_type second;
+    public first_type first;
+    public second_type second;
 
     public Pair(first_type lhs, second_type rhs)
     {

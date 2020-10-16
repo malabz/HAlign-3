@@ -7,6 +7,7 @@ import static Main.GlobalVariables.*;
 
 import java.util.*;
 
+@Deprecated
 class Realigner
 {
 

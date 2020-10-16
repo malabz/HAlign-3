@@ -7,52 +7,110 @@ import java.util.Arrays;
 
 import static Main.GlobalVariables.*;
 
-@SuppressWarnings("unused")
 public class PoolAligner extends PairwiseAligner
 {
-    private static final int MATCH_SCORE = 2, MISMATCH_SCORE = 0, HORIZONTAL_SCORE = -7, VERTICAL_SCORE = -31;
-    private static final byte DIAGONAL = 0, HORIZONTAL = 1, VERTICAL = 2;
+
+    private static final int MATCH_SCORE = 3,
+                             MISMATCH_SCORE = 0,
+                             HORIZONTAL_SCORE = -2,
+                             VERTICAL_SCORE = -31;
+
+    private static final byte DIAGONAL = 0,
+                              HORIZONTAL = 1,
+                              VERTICAL = 2;
 
     private byte[][] sequences;
     private byte[][] alignments;
-    private byte[] longest;
     private int[][] pool; // always being the centre, incrementally alignment
     private int curr_depth;
+    private int longest_index;
 
     private PoolAligner() {}
 
     public static byte[][] align(byte[][] src)
     {
-        return new PoolAligner().do_align(src);
+        final int row = src.length, clm = src[0].length;
+        int bgn , end;
+        bgn = end = clm / 32;
+//        for (bgn = 0; bgn != clm; ++bgn)
+//        {
+//            int cnt = 0;
+//            for (int i = 0; i != row; ++i)
+//                if (src[i][bgn] == GAP) ++cnt;
+//            if (cnt < row / 1024) break;
+//        }
+//        for (end = 0; end != clm; ++end)
+//        {
+//            int gap_num = 0;
+//            for (int i = 0; i != row; ++i)
+//                if (src[i][clm - end - 1] == GAP) ++gap_num;
+//            if (gap_num < row / 1024) break;
+//        }
+//        bgn += clm / 64;
+//        end += clm / 64;
+
+        var bgn_src = new byte[row][];
+        var end_src = new byte[row][];
+        for (int i = 0; i != row; ++i)
+        {
+            bgn_src[i] = Pseudo.reverse(Pseudo.remove_spaces(src[i], 0, bgn));
+            end_src[i] = Pseudo.remove_spaces(src[i], clm - end, clm);
+        }
+
+        var bgn_rst = new PoolAligner().do_align(bgn_src);
+        for (int i = 0; i != bgn_rst.length; ++i) bgn_rst[i] = Pseudo.reverse(bgn_rst[i]);
+        var end_rst = new PoolAligner().do_align(end_src);
+
+        var result = new byte[row][bgn_rst[0].length + end_rst[0].length + clm - bgn - end];
+        for (int i = 0; i != row; ++i)
+        {
+            System.arraycopy(bgn_rst[i], 0, result[i], 0, bgn_rst[i].length);
+            System.arraycopy(src[i], bgn, result[i], bgn_rst[0].length, clm - bgn - end);
+            System.arraycopy(end_rst[i], 0, result[i], result[i].length - end_rst[i].length, end_rst[i].length);
+        }
+
+//        assert_equal(src, result);
+        return result;
     }
 
     private byte[][] do_align(byte[][] src)
     {
         sequences = src;
-        initialise();
+        init();
 
         for (int i = 0; i != src.length; ++i)
-        {
-            if (src[i] != longest) align_next(src[i]);
+//        {
+            if (src[i] != sequences[longest_index]) align_next(src[i]);
 //            if ((i & 0xf) == 0xf) System.out.print('.');
-            if ((i & 0x7f) == 0x7f) System.out.println(" " + i);
-        }
-        System.out.println();
+//            if ((i & 0x7f) == 0x7f) System.out.println(" " + i);
+//        }
+//        System.out.println();
 
+        uninit();
         return alignments;
     }
 
-    private void initialise()
+    private void init()
     {
-        longest = sequences[0];
-        for (int i = 1; i != sequences.length; ++i) if (sequences[i].length > longest.length) longest = sequences[i];
+        longest_index = 0;
+        for (int i = 1; i != sequences.length; ++i)
+            if (sequences[i].length > sequences[longest_index].length)
+                longest_index = i;
 
         curr_depth = 1;
-        pool = new int[longest.length][CHAR_KIND];
-        for (int i = 0; i != longest.length; ++i) pool[i][longest[i]] = 1;
+        pool = new int[sequences[longest_index].length][CHAR_KIND];
+        for (int i = 0; i != sequences[longest_index].length; ++i) pool[i][sequences[longest_index][i]] = 1;
 
         alignments = new byte[sequences.length][];
-        alignments[0] = longest;
+        alignments[0] = sequences[longest_index];
+    }
+
+    private void uninit()
+    {
+        var longest = alignments[0];
+        for (int i = 0; i != longest_index; ++i)
+            alignments[i] = alignments[i + 1];
+        alignments[longest_index] = longest;
     }
 
     private void align_next(byte[] curr_sequence)
@@ -96,8 +154,7 @@ public class PoolAligner extends PairwiseAligner
         for (int i = 0; i != pool.length; ++i) ++pool[i][last_alignment[i]];
         alignments[curr_depth++] = last_alignment;
 
-        System.out.print(pool_insert == 0 ? ' ' : '-');
-        if (pool_insert != 0) output_alignments();
+//        if (pool_insert != 0) output_alignments();
     }
 
     private byte[][] dp(byte[] curr_sequence)
@@ -122,6 +179,7 @@ public class PoolAligner extends PairwiseAligner
                 mtrx[i][j] = Math.max(Math.max(diagonal, horizontal), vertical);
 //                if (Math.abs(mtrx[i][j]) > Long.MAX_VALUE >> 2) System.out.print('y');
                 path[i][j] = mtrx[i][j] == diagonal ? DIAGONAL : mtrx[i][j] == horizontal ? HORIZONTAL : VERTICAL;
+                path[i][j] = mtrx[i][j] == diagonal ? DIAGONAL : mtrx[i][j] == horizontal ? HORIZONTAL : VERTICAL;
             }
 
 //        print_dp_matrix(curr_sequence, alignments[0], mtrx);
@@ -138,6 +196,10 @@ public class PoolAligner extends PairwiseAligner
         for (int csqc_index = csqc_spaces.length - 1, pool_index = pool_spaces.length - 1; csqc_index > 0 || pool_index > 0; )
             switch (path[csqc_index][pool_index])
             {
+            case DIAGONAL:
+                --pool_index;
+                --csqc_index;
+                break;
             case VERTICAL:
                 ++pool_spaces[pool_index];
                 --csqc_index;
@@ -145,10 +207,6 @@ public class PoolAligner extends PairwiseAligner
             case HORIZONTAL:
                 ++csqc_spaces[csqc_index];
                 --pool_index;
-                break;
-            case DIAGONAL:
-                --pool_index;
-                --csqc_index;
                 break;
             default:
                 break;
@@ -159,38 +217,36 @@ public class PoolAligner extends PairwiseAligner
 
     private int diagonal_step(int pool_index, byte curr_char)
     {
-        int score = pool[pool_index][GAP] * HORIZONTAL_SCORE;
         int match = 0, mismatch = 0;
         for (int i = A; i != UNKNOWN; ++i)
             if (curr_char == UNKNOWN || curr_char == i) match += pool[pool_index][i];
             else mismatch += pool[pool_index][i];
         match += pool[pool_index][UNKNOWN];
-        score += match * MATCH_SCORE + mismatch * MISMATCH_SCORE;
-        return score;
+        return match * MATCH_SCORE + mismatch * MISMATCH_SCORE + pool[pool_index][GAP] * HORIZONTAL_SCORE;
     }
 
     private int horizontal_step(int pool_index)
     {
-        int not_gap = 0;
+        int cnt = 0;
 
         for (int i = A; i != CHAR_KIND; ++i)
-            not_gap += pool[pool_index][i];
-        return not_gap * HORIZONTAL_SCORE;
+            cnt += pool[pool_index][i];
+        return cnt * HORIZONTAL_SCORE;
     }
 
     public static void main(String[] args)
     {
-        var fasta = new Utilities.Fasta("D:\\new-folder\\beginning-origin-reversed.fasta");
+        var fasta = new Utilities.Fasta("D:\\poolalign\\new\\tmp.txt.begin");
 
         byte[][] src = Pseudo.string_to_pseudo(fasta.get_sequences());
 //        byte[][] src = { Pseudo.string_to_pseudo("agctagct"),
 //                         Pseudo.string_to_pseudo("agcta"),
 //                         Pseudo.string_to_pseudo("gctagc"),
 //                         Pseudo.string_to_pseudo("atttt") };
-        var result = PoolAligner.align(src);
+        var result = new PoolAligner().do_align(src);
 
         var output = new Utilities.Fasta(Pseudo.pseudo_to_string(result), null);
-        output.output("D:\\new-folder\\beginning-reversed-poolalign.txt", false);
+        output.output("D:\\poolalign\\new\\beginning-reversed-poolalign.txt", false);
     }
 
     private void print_alignments()
@@ -206,11 +262,26 @@ public class PoolAligner extends PairwiseAligner
         int len = 0;
         for (int i = 0; i != alignments.length; ++i)
             if (alignments[i] != null) ++len;
+
         String[] output = new String[len];
         for (int i = 0; i != alignments.length; ++i)
             if (alignments[i] != null) output[i] = Pseudo.pseudo_to_string(alignments[i]);
 
-        new Utilities.Fasta(output, null).output(len + ".txt", false);
+        new Utilities.Fasta(output, null).output("D:\\poolalign\\new\\bgn\\" + len + ".txt", false);
+    }
+
+    static private void assert_equal(byte[][] src, byte[][] des)
+    {
+        assert src.length == des.length;
+
+        for (int i = 0; i != src.length; ++i)
+            assert_equal(Pseudo.remove_spaces(src[i]), Pseudo.remove_spaces(des[i]));
+    }
+
+    static private void assert_equal(byte[] lhs, byte[] rhs)
+    {
+        assert lhs.length == rhs.length;
+        for (int i = 0; i != lhs.length; ++i) assert lhs[i] == rhs[i];
     }
 
 }

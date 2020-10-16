@@ -6,7 +6,7 @@
 
     <groupId>malabz</groupId>
     <artifactId>halign-stmsa</artifactId>
-    <version>0.2.1-alpha</version>
+    <version>0.3.0</version>
 
     <dependencies>
         <!-- <dependency>

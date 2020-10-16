@@ -6,6 +6,7 @@ import Utilities.UtilityFunctions;
 import java.util.ArrayList;
 import java.util.TreeSet;
 
+@Deprecated
 public class LengthClustering
 {
 

@@ -11,7 +11,7 @@ import static Main.GlobalVariables.*;
 
 class ConcurrentAntiNameBuilder
 {
-    private final ExecutorService es = Executors.newFixedThreadPool(THREAD);
+    private final ExecutorService es = Executors.newFixedThreadPool(thread);
     private final byte[][] sequences;
     private final int[][][] name;
     private final int[][][] anti_name;

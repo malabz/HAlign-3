@@ -9,8 +9,19 @@ import static Main.GlobalVariables.*;
 import java.util.ArrayList;
 
 @SuppressWarnings("unused")
-class SuffixTreeAligner
+public class SuffixTreeAligner
 {
+
+    private static final String[] time_strs =
+    {
+            "\tsuffix tree: ",
+            "\t       name: ",
+            "\t  anti-name: ",
+            "\t  pair-wise: ",
+            "\t     spaces: ",
+            "\t      total: "
+    };
+
     private final byte[][] sequences; // 伪序列, 产生结果前为原序列, 后为结果序列
     private final int row;
     private final int[] lengths;
@@ -49,25 +60,29 @@ class SuffixTreeAligner
         for (int i = 0; i != row; ++i) if (lengths[i] > lengths[centre_index]) centre_index = i;
         centre = sequences[centre_index];
         var time_stop = System.currentTimeMillis();
-        var start_time = time_stop;
+        var launch_time = time_stop;
 
-        if (THREAD > 1)
-            name = ConcurrentNameBuilder.build_name(sequences, centre_index);
+        SuffixTree st = new SuffixTree(centre);
+        System.out.println(time_strs[0] + (System.currentTimeMillis() - time_stop));
+        time_stop = System.currentTimeMillis();
+
+        if (thread > 1)
+            name = ConcurrentNameBuilder.build_name(sequences, centre_index, st);
         else
-            build_name(centre_index);
-        System.out.println("\tname build: " + (System.currentTimeMillis() - time_stop));
+            build_name(centre_index, st);
+        System.out.println(time_strs[1] + (System.currentTimeMillis() - time_stop));
         time_stop = System.currentTimeMillis();
 //        check_name();
 
-        if (THREAD > 1)
+        if (thread > 1)
             anti_name = ConcurrentAntiNameBuilder.build_anti_name(name, sequences, centre_index);
         else
             build_anti_name();
-        System.out.println("\tanti-name build: " + (System.currentTimeMillis() - time_stop));
+        System.out.println(time_strs[2] + (System.currentTimeMillis() - time_stop));
         time_stop = System.currentTimeMillis();
 //        check_anti_name();
 
-        if (THREAD > 1)
+        if (thread > 1)
         {
             var tmp_spc = ConcurrentSequencePairwiseAligner.pairwise_align(sequences, centre_index, anti_name);
             centre_spaces = tmp_spc.get_first();
@@ -77,25 +92,23 @@ class SuffixTreeAligner
         {
             pairwise_align();
         }
-        System.out.println("\tpairwise align: " + (System.currentTimeMillis() - time_stop));
+        System.out.println(time_strs[3] + (System.currentTimeMillis() - time_stop));
         time_stop = System.currentTimeMillis();
 //        check_pairwise_align();
 
-        if (THREAD > 1)
+        if (thread > 1)
             spaces = ConcurrentFinalSpaceBuilder.build_final_spaces(sequences, centre_index, centre_spaces, others_spaces);
         else
             generate_final_spaces();
-        System.out.println("\tspaces build: " + (System.currentTimeMillis() - time_stop));
-        System.out.println("\ttotal: " + (System.currentTimeMillis() - start_time));
+        System.out.println(time_strs[4] + (System.currentTimeMillis() - time_stop));
+        System.out.println(time_strs[5] + (System.currentTimeMillis() - launch_time));
 
         return this;
     }
 
-    private void build_name(int centre_index)
+    private void build_name(int centre_index, SuffixTree st)
     {
-        centre = sequences[centre_index];
         name = new int[row][][];
-        SuffixTree st = new SuffixTree(centre);
         for (int i = 0; i != row; ++i)
             if (i == centre_index) name[i] = new int[][]{{0, 0, centre.length}};
             else name[i] = st.align_with(sequences[i]);

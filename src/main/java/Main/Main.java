@@ -1,19 +1,34 @@
 package Main;
 
-import static Main.GlobalVariables.THREAD;
+import Utilities.Fasta;
+import Utilities.Pseudo;
+
+import static Main.GlobalVariables.thread;
 
 public class Main
 {
 
     private static String infile, outfile;
     private static boolean identifiers_retained = true;
-    private static boolean force_align = false;
+    private static boolean realign_endings = false;
 
     public static void main(String[] args)
     {
         parse(args);
         print_args();
-        SuffixTreeAlignment.Main.align(infile, force_align).output(outfile, identifiers_retained);
+        var input = new Fasta(infile);
+
+        var result = SuffixTreeAlignment.SuffixTreeAligner.align(Pseudo.string_to_pseudo(input.get_sequences()));
+        if (realign_endings) result = Pairwise.PoolAligner.align(result);
+
+        var output_sequences = new String[result.length];
+        var output_sequence_identifiers = new String[result.length];
+        for (int i = 0; i != result.length; ++i)
+        {
+            output_sequences[i] = Pseudo.merge(result[i], input.get_sequence(i));
+            output_sequence_identifiers[i] = input.get_sequence_identifiers(i);
+        }
+        new Fasta(output_sequences, output_sequence_identifiers).output(outfile, identifiers_retained);
     }
 
     // 修改参数需要修改parse, arg_help, print_args三个函数, 其中arg_help可能有两个地方需要更改
@@ -21,7 +36,6 @@ public class Main
     {
         if (args.length == 0) args_help();
         for (int i = 0; i < args.length; ++i)
-        {
             if (args[i].charAt(0) == '-')
             {
                 if (args[i].length() != 2) args_help();
@@ -33,16 +47,16 @@ public class Main
                 else if (args[i].charAt(1) == 't')
                 {
                     if (i == args.length - 1 || args[++i].charAt(0) == '-') args_help();
-                    try { THREAD = Integer.parseInt(args[i]); }
+                    try { thread = Integer.parseInt(args[i]); }
                     catch (NumberFormatException e) { args_help(); }
                 }
                 else if (args[i].charAt(1) == 's')
                 {
                     identifiers_retained = false;
                 }
-                else if (args[i].charAt(1) == 'F')
+                else if (args[i].charAt(1) == 'r')
                 {
-                    force_align = true;
+                    realign_endings = true;
                 }
                 else
                 {
@@ -56,19 +70,17 @@ public class Main
             else
             {
                 infile = args[i];
-                if (outfile == null) outfile = infile + ".aligned";
-                final int core_num = Runtime.getRuntime().availableProcessors();
-                if (THREAD < 1 || THREAD > core_num)
-                {
-                    THREAD = core_num > 2 ? core_num / 2 : 1;
-                }
             }
-        }
+
+        if (infile == null) args_help();
+        if (outfile == null) outfile = infile + ".aligned";
+        final int core_num = Runtime.getRuntime().availableProcessors();
+        if (thread < 1 || thread > core_num) thread = core_num > 2 ? core_num / 2 : 1;
     }
 
     private static void args_help()
     {
-        System.out.println("usage: java -jar " + System.getProperty("java.class.path") + " [-h] [-o] [-t] [-F] [-s] infile" );
+        System.out.println("usage: java -jar " + System.getProperty("java.class.path") + " [-h] [-o] [-t] [-r] [-s] infile" );
         System.out.println();
         System.out.println("positional argument: ");
         System.out.println("  infile   nucleotide sequences in fasta format");
@@ -77,7 +89,7 @@ public class Main
         System.out.println("  -h       show this help message and exit");
         System.out.println("  -o       target file");
         System.out.println("  -t       multi-thread");
-        System.out.println("  -F       align all the sequences despite the huge difference of some sequences from the mainstream");
+        System.out.println("  -r       realign the endings for better results");
         System.out.println("  -s       output alignments without sequence identifiers, i.e. in plain txt format but with sequence order retained");
         System.out.println();
         System.exit(0);
@@ -85,11 +97,11 @@ public class Main
 
     private static void print_args()
     {
-        System.out.println("\t     infile: " + infile);
-        System.out.println("\t    outfile: " + outfile);
-        System.out.println("\t     thread: " + THREAD);
-        System.out.println("\t identifier: " + (identifiers_retained ? "retained" : "not retained"));
-        System.out.println("\tforce align: " + (force_align ? "true" : "false"));
+        System.out.println("\t         infile: " + infile);
+        System.out.println("\t        outfile: " + outfile);
+        System.out.println("\t         thread: " + thread);
+        System.out.println("\t     identifier: " + (identifiers_retained ? "retained" : "not retained"));
+        System.out.println("\trealign endings: " + (realign_endings ? "true" : "false"));
         System.out.println();
     }
 

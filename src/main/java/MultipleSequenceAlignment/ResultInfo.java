@@ -5,7 +5,7 @@ import static Main.GlobalVariables.GAP;
 /**
  * 全部为静态函数, 返回比对结果的某些属性
  */
-@SuppressWarnings("unused")
+// TODO: flaws
 public class ResultInfo
 {
 

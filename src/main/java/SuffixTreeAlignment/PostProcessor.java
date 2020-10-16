@@ -16,7 +16,7 @@ import static Main.GlobalVariables.*;
 /**
  * 用于对dna, rna比对结果的后续处理
  */
-@SuppressWarnings("unused")
+@Deprecated
 class PostProcessor
 {
 

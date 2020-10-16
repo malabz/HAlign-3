@@ -1,23 +1,12 @@
 package Utilities;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 import static Main.GlobalVariables.*;
 
-@SuppressWarnings("unused")
+//@SuppressWarnings("unused")
 public class Pseudo
 {
-
-    /**
-     * byte列表到数组的转换
-     */
-    public static byte[] to_array(Collection<Byte> al)
-    {
-        var ret = new byte[al.size()];
-        for (var i : al) ret[i] = i;
-        return ret;
-    }
 
     public static String[] pseudo_to_string(byte[][] pseudo)
     {
@@ -151,8 +140,15 @@ public class Pseudo
     public static byte[] reverse(byte[] src, int from, int to)
     {
         var result = new byte[to - from];
-        for (int left = from, i = 0; i != result.length; ++left, ++i) result[i] = src[left];
+
+        for (int i = 0, j = to - 1; i != result.length; )
+            result[i++] = src[j--];
         return result;
+    }
+
+    public static byte[] reverse(byte[] src)
+    {
+        return reverse(src, 0, src.length);
     }
 
     /**
@@ -160,9 +156,12 @@ public class Pseudo
      */
     public static byte[] remove_spaces(byte[] src, int from, int to)
     {
-        var al = new ArrayList<Byte>(to - from);
-        for (int i = from; i != to; ++i) if (src[i] != GAP) al.add(src[i]);
-        return Pseudo.to_array(al);
+        int len = to - from;
+        for (int i = from; i != to; ++i) if (src[i] == GAP) --len;
+
+        var result = new byte[len];
+        for (int i = from, j = 0; i != to; ++i) if (src[i] != GAP) result[j++] = src[i];
+        return result;
     }
 
     /**
@@ -210,6 +209,14 @@ public class Pseudo
 
         for (int i = 0; i != src.length; ++i) result.add(src[i]);
         return result;
+    }
+
+    public static String merge(byte[] pseudo, String origin)
+    {
+        var sb = new StringBuilder(pseudo.length);
+        for (int i = 0, origin_index = 0; i != pseudo.length; ++i)
+            sb.append(pseudo[i] == GAP ? '-' : origin.charAt(origin_index++));
+        return sb.toString();
     }
 
 }
