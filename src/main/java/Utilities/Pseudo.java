@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import static Main.GlobalVariables.*;
 
-//@SuppressWarnings("unused")
+// @SuppressWarnings("unused")
 public class Pseudo
 {
 
@@ -180,6 +180,14 @@ public class Pseudo
         int result_length = src.length;
         for (int i = 0; i <= src.length; ++i) result_length += spaces[i];
         return insert_spaces(src, spaces, result_length);
+    }
+
+    public static byte[][] insert_spaces(byte[][] src, int[][] spaces)
+    {
+        var result = new byte[src.length][];
+        for (int i = 0; i != src.length; ++i)
+            result[i] = insert_spaces(src[i], spaces[i]);
+        return result;
     }
 
     /**

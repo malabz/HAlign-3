@@ -16,6 +16,7 @@ public final class Fasta
 
     private Fasta() {}
 
+    // TODO: 输出进度
     /**
      * 输入要求:
      * 每个序列名称必须由以>为开头的完整一行组成
@@ -23,6 +24,9 @@ public final class Fasta
      **/
     public Fasta(String infile)
     {
+        System.out.printf("reading %s... ", infile);
+        System.out.flush();
+        var start_time = System.currentTimeMillis();
         var sequences = new ArrayList<String>();
         var sequence_identifiers = new ArrayList<String>();
         try (var br = new BufferedReader(new FileReader(infile)))
@@ -66,6 +70,7 @@ public final class Fasta
             System.err.println("fatal error: cannot access file " + infile);
             System.exit(1);
         }
+        System.out.printf("finished in %d ms\n", System.currentTimeMillis() - start_time);
     }
 
     public Fasta(String[] sequences, String[] sequence_identifiers)
@@ -75,7 +80,7 @@ public final class Fasta
         this.sequence_identifiers = sequence_identifiers;
     }
 
-    private String remove_white_spaces(String str)
+    private static String remove_white_spaces(String str)
     {
         return str.replaceAll("\\s+", "");
     }
@@ -88,6 +93,11 @@ public final class Fasta
 
     public String[] get_sequences() { return sequences; }
 
+    public int get_sequence_number()
+    {
+        return sequences.length;
+    }
+
     /**
      * 输出文件
      * @param outfile 输出文件名
@@ -95,6 +105,9 @@ public final class Fasta
      */
     public void output(String outfile, boolean output_identifiers)
     {
+        System.out.printf("writing to %s... ", outfile);
+        System.out.flush();
+        var start_time = System.currentTimeMillis();
         try (var bw = new BufferedWriter(new FileWriter(outfile)))
         {
             for (int i = 0; i != sequences.length; ++i)
@@ -117,6 +130,7 @@ public final class Fasta
             System.err.println("fatal error: cannot write file " + outfile);
             System.exit(1);
         }
+        System.out.printf("finished in %d ms\n", System.currentTimeMillis() - start_time);
     }
 
     /**

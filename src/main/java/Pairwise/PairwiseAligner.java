@@ -85,20 +85,41 @@ public abstract class PairwiseAligner
                                    byte[] rhs, int[] rhs_spaces, int rhs_begin, int rhs_end)
     {
         int end_flags = 0;
-        if (lhs_begin == 0) end_flags |= NeedlemanWunschKBandEnding.LEFT_ENDING;
-        if (lhs_end == lhs.length) end_flags |= NeedlemanWunschKBandEnding.RIGHT_ENDING;
+        if (lhs_begin == 0) end_flags |= NeedlemanWunschEnding.LEFT_ENDING;
+        if (lhs_end == lhs.length) end_flags |= NeedlemanWunschEnding.RIGHT_ENDING;
 
-        Pair<int[], int[]> result = end_flags == 0 ?
-                NeedlemanWunschKBand.align(
-                        Arrays.copyOfRange(lhs, lhs_begin, lhs_end),
-                        Arrays.copyOfRange(rhs, rhs_begin, rhs_end)) :
-                NeedlemanWunschKBandEnding.align(
-                        Arrays.copyOfRange(lhs, lhs_begin, lhs_end),
-                        Arrays.copyOfRange(rhs, rhs_begin, rhs_end),
-                        end_flags);
+        Pair<int[], int[]> result = null;
+        try
+        {
+            result = end_flags == 0 ?
+                    NeedlemanWunschKBand.align(
+                            Arrays.copyOfRange(lhs, lhs_begin, lhs_end),
+                            Arrays.copyOfRange(rhs, rhs_begin, rhs_end)) :
+                    NeedlemanWunschEnding.align(
+                            Arrays.copyOfRange(lhs, lhs_begin, lhs_end),
+                            Arrays.copyOfRange(rhs, rhs_begin, rhs_end),
+                            end_flags);
+        }
+        catch (OutOfMemoryError oom)
+        {
+            System.err.println("fatal error: out of memory");
+            System.exit(1);
+        }
+
+        assert check_align(lhs_end - lhs_begin, result.get_first(), rhs_end - rhs_begin, result.get_second());
 
         merge(result.get_first(), lhs_spaces, lhs_begin);
         merge(result.get_second(), rhs_spaces, rhs_begin);
+    }
+
+    static private boolean check_align(int lhs_len, int[] lhs_spaces, int rhs_len, int[] rhs_spaces)
+    {
+        if (lhs_spaces == null || rhs_spaces == null) return false;
+        if (lhs_spaces.length != lhs_len + 1 || rhs_spaces.length != rhs_len + 1) return false;
+
+        for (int i = 0; i != lhs_spaces.length; ++i) lhs_len += lhs_spaces[i];
+        for (int i = 0; i != rhs_spaces.length; ++i) rhs_len += rhs_spaces[i];
+        return lhs_len == rhs_len;
     }
 
     // 把局部比对结果融入全局比对结果

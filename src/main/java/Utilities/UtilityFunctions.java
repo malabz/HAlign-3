@@ -200,20 +200,18 @@ public class UtilityFunctions
 
     public static int index_of_max(int... array)
     {
-        if (array.length == 0) return -1;
-
-        int ret = 0;
-        for (int i = 1; i != array.length; ++i) if (array[ret] < array[i]) ret = i;
-        return ret;
+        int idx_of_mx = 0;
+        for (int i = 1; i != array.length; ++i)
+            if (array[idx_of_mx] < array[i]) idx_of_mx = i;
+        return idx_of_mx;
     }
 
     public static int index_of_max(long... array)
     {
-        if (array.length == 0) return -1;
-
-        int ret = 0;
-        for (int i = 1; i != array.length; ++i) if (array[ret] < array[i]) ret = i;
-        return ret;
+        int idx_of_mx = 0;
+        for (int i = 1; i != array.length; ++i)
+            if (array[idx_of_mx] < array[i]) idx_of_mx = i;
+        return idx_of_mx;
     }
 
     /**
@@ -222,7 +220,7 @@ public class UtilityFunctions
      */
     public static int[][] to_2d_array(List<Integer> al, int num_per_pair)
     {
-        int pair_num = al.size() / num_per_pair;
+        final int pair_num = al.size() / num_per_pair;
         int[][] arr = new int[pair_num][num_per_pair];
         for (int j = 0, k = 0; j != pair_num; ++j)
             for (int l = 0; l != num_per_pair; ++l)
@@ -236,7 +234,16 @@ public class UtilityFunctions
     public static int[] to_array(List<Integer> al)
     {
         var ret = new int[al.size()];
+
         for (int i = 0; i != al.size(); ++i) ret[i] = al.get(i);
+        return ret;
+    }
+
+    public static int[] reverse(ArrayList<Integer> al)
+    {
+        var ret = new int[al.size()];
+
+        for (int i = 0; i != al.size(); ++i) ret[i] = al.get(al.size() - i - 1);
         return ret;
     }
 

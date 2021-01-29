@@ -63,6 +63,7 @@ public class NeedlemanWunsch extends PairwiseAligner
             mtrx[X][0][j] = mtrx[Z][0][j] = MINUS_INFINITY;
             mtrx[Y][0][j] = END_OPEN + j * EXTENSION;
         }
+        mtrx[X][0][0] = mtrx[Y][0][0] = MID_OPEN;
         mtrx[Z][0][0] = 0;
 
         path = new int[3][lhs.length + 1][rhs.length + 1];
@@ -147,8 +148,8 @@ public class NeedlemanWunsch extends PairwiseAligner
     {
         byte[] lhs = Pseudo.string_to_pseudo("agcttcttaggagaatgacaataaggtagcgaaattccttgtcaactaattattgacctgcacgaaaggcgcatgcctaacatgcttagaattatggcctcacttgt");
         byte[] rhs = Pseudo.string_to_pseudo("nnnnnnttaggaaaaaaanaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-//        byte[] lhs = Pseudo.string2pseudo("agct");
-//        byte[] rhs = Pseudo.string2pseudo("agct");
+//        byte[] lhs = Pseudo.string_to_pseudo("agct");
+//        byte[] rhs = Pseudo.string_to_pseudo("agct");
         var result = NeedlemanWunsch.align(lhs, rhs);
         System.out.println(Pseudo.pseudo_to_string(Pseudo.insert_spaces(lhs, result.get_first())));
         System.out.println(Pseudo.pseudo_to_string(Pseudo.insert_spaces(rhs, result.get_second())));

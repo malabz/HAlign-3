@@ -31,23 +31,39 @@ public class PoolAligner extends PairwiseAligner
     {
         final int row = src.length, clm = src[0].length;
         int bgn , end;
-        bgn = end = clm / 32;
-//        for (bgn = 0; bgn != clm; ++bgn)
-//        {
+//        bgn = end = clm / 32;
+        for (bgn = 0; bgn != clm; ++bgn)
+        {
 //            int cnt = 0;
 //            for (int i = 0; i != row; ++i)
 //                if (src[i][bgn] == GAP) ++cnt;
 //            if (cnt < row / 1024) break;
-//        }
-//        for (end = 0; end != clm; ++end)
-//        {
+            boolean nongap = true;
+            for (int i = 0; i != row; ++i)
+                if (src[i][bgn] == GAP)
+                {
+                    nongap = false;
+                    break;
+                }
+            if (nongap) break;
+        }
+        for (end = 0; end != clm; ++end)
+        {
 //            int gap_num = 0;
 //            for (int i = 0; i != row; ++i)
 //                if (src[i][clm - end - 1] == GAP) ++gap_num;
 //            if (gap_num < row / 1024) break;
-//        }
-//        bgn += clm / 64;
-//        end += clm / 64;
+            boolean nongap = true;
+            for (int i = 0; i != row; ++i)
+                if (src[i][clm - end - 1] == GAP)
+                {
+                    nongap = false;
+                    break;
+                }
+            if (nongap) break;
+        }
+        bgn += clm / 1024;
+        end += clm / 1024;
 
         var bgn_src = new byte[row][];
         var end_src = new byte[row][];

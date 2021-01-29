@@ -1,37 +1,37 @@
 package SuffixTreeAlignment;
 
-import Utilities.Pair;
 import Utilities.UtilityFunctions;
-
-import java.util.*;
 import static Main.GlobalVariables.*;
 
-@SuppressWarnings("unused")
+import java.util.*;
+
+// todo: 0长度会报错
 class SuffixTree
 {
 
+    private static final int  THRESHOLD = 15;
+    private static final int  GLOBAL_THRESHOLD = 15;
     private static final byte WIDTH = CHAR_KIND;    // 树宽
-    private static final int THRESHOLD = 15;
 
     private final byte[] word;                      // 包含的字
-    private final Node root;                        // 根结点
+    private final Node   root;                      // 根结点
 
     // 活动点
     private Node active_node;                       // 活动结点
     private Byte active_edge;                       // 用字符代表的活动边
-    private int active_length;                      // 活动长度, 只有在活动边非null时有效
+    private int  active_length;                     // 活动长度, 只有在活动边非null时有效
 
     // 每趟循环临时变量
-    private int curr_end;                           // 待显式插入后缀的区间, 注意这里所代表的区间形式为(begin_index, end_index)
+    private int  curr_end;                          // 待显式插入后缀的区间, 注意这里所代表的区间形式为(begin_index, end_index)
     private Node pre;                               // 最后创建的节点, 后缀链接时使用
 
     SuffixTree(byte[] input)
     {
-        int remainder; // 原本应为类成员, 待插入后缀树数量
+        int remainder;  // 原本为类成员, 待插入后缀树数量
         byte curr_char; // 原本为类成员, 当前待插入后缀的最后一个字符
         word = new byte[input.length + 1];
         System.arraycopy(input, 0, word, 0, input.length);
-        word[input.length] = 0; // 相当于 '$'
+        word[input.length] = GAP; // 相当于 '$'
         root = new Node(-1, 0, 0, false);
         active_node = root;
         active_edge = null;
@@ -56,7 +56,8 @@ class SuffixTree
                     else
                     { // 不可隐式插入
                         int new_edge_length = word.length - curr_end + 1;
-                        active_node.children[curr_char] = new Node(curr_end - 1, new_edge_length, active_node.length_from_root + new_edge_length, true);
+                        active_node.children[curr_char] = new Node(curr_end - 1, new_edge_length,
+                                active_node.length_from_root + new_edge_length, true);
                         if (active_node != root)
                         { // 活动结点为root时无需擦屁股
                             link(active_node);
@@ -75,24 +76,18 @@ class SuffixTree
                 { // 活动长度非0且不可隐式插入
                     active_node.split();
                     int new_edge_length = word.length - curr_end + 1;
-                    active_node.children[active_edge].children[curr_char] = new Node(curr_end - 1, new_edge_length, active_node.children[active_edge].length_from_root + new_edge_length, true);
+                    active_node.children[active_edge].children[curr_char] = new Node(curr_end - 1, new_edge_length,
+                            active_node.children[active_edge].length_from_root + new_edge_length, true);
                     link(active_node.children[active_edge]);
-                    if (active_node == root)
-                    { // 活动结点为根结点
+                    if (active_node == root) // 活动结点为根结点
                         active_edge = --active_length == 0 ? null : word[curr_end - remainder + 1];
-                    }
-                    else
-                    { // 活动结点非根结点
+                    else // 活动结点非根结点
                         active_node = active_node.suffix == null ? root : active_node.suffix;
-                    }
                     try_to_walk_down();
                     --remainder;
                 }
             }
         }
-
-        var statistics = check_suffix_tree(root);
-        System.out.printf("%7d%7d%7d\n", statistics[0], statistics[1], statistics[2]);
     }
 
     // 要求活动边非null
@@ -118,10 +113,7 @@ class SuffixTree
 
     private void link(Node next)
     {
-        if (pre != null)
-        {
-            pre.suffix = next;
-        }
+        if (pre != null) pre.suffix = next;
         pre = next;
     }
 
@@ -171,11 +163,24 @@ class SuffixTree
 
     public static void main(String[] args)
     {
-        new SuffixTree(new byte[]{1, 1, 1});
-        new SuffixTree(new byte[]{1, 4, 3, 2, 4, 4, 1, 4, 3}).print_all_suffix();
-        new SuffixTree(new byte[]{1, 3, 3, 1, 3, 3, 3}).print_all_suffix();
-        /*var st = */new SuffixTree(new byte[]{1, 2, 1, 4, 3, 1, 3, 1, 2, 2, 4, 3, 4, 1, 4, 3, 1, 3, 3, 3, 4, 1, 4, 4, 4, 1, 1, 3, 3, 1, 3, 4, 3, 1, 3, 2, 2, 2, 1, 2, 3, 4, 3, 4, 3, 3, 1, 4, 2, 3, 1, 4, 4, 4, 2, 2, 4, 1, 4, 4, 4, 4, 3, 2, 4, 3, 4, 2, 2, 2, 2, 2, 2, 4, 2, 4, 2, 3, 1, 3, 2, 3, 2, 1, 4, 1, 2, 3, 1, 4, 4, 2, 3, 2, 1, 2, 1, 3, 2, 3, 4, 2, 2, 1, 2, 3, 3, 2, 2, 1, 2, 3, 1, 3, 3, 3, 4, 1, 4, 2, 4, 3, 2, 3, 1, 2, 4, 1, 4, 3, 4, 2, 4, 3, 4, 4, 4, 2, 1, 4, 4, 3, 3, 4, 2, 3, 3, 4, 3, 1, 4, 3, 3, 4, 1, 4, 4, 1, 4, 4, 4, 1, 4, 3, 2, 3, 1, 3, 3, 4, 1, 3, 2, 4, 4, 3, 1, 1, 4, 1, 4, 4, 1, 3, 1, 2, 2, 3, 2, 1, 1, 3, 1, 1, 4, 1, 4, 4, 4, 1, 3, 3, 1, 1, 1, 2, 4, 2, 4, 1, 4, 4, 1, 1, 4, 4, 1, 1, 4, 4, 1, 1, 4, 2, 3, 4, 4, 2, 4, 1, 2, 2, 1, 3, 1, 4, 1, 1, 4, 1, 1, 4, 1, 1, 3, 1, 1, 4, 4, 2, 1, 1, 4, 2, 4, 3, 4, 2, 3, 1, 3, 1, 2, 3, 3, 2, 3, 4, 4, 4, 3, 3, 1, 3, 1, 3, 1, 2, 1, 3, 1, 4, 3, 1, 4, 1, 1, 3, 1, 1, 1, 1, 1, 1, 4, 4, 4, 3, 3, 1, 3, 3, 1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 4, 3, 3, 3, 3, 3, 3, 2, 3, 4, 4, 3, 4, 2, 2, 3, 3, 1, 3, 1, 2, 3, 1, 3, 4, 4, 1, 1, 1, 3, 1, 3, 1, 4, 3, 4, 3, 4, 2, 3, 3, 1, 1, 1, 3, 3, 3, 3, 1, 1, 1, 1, 1, 3, 1, 1, 1, 2, 1, 1, 3, 3, 3, 4, 1, 1, 3, 1, 3, 3, 1, 2, 3, 3, 4, 1, 1, 3, 3, 1, 2, 1, 4, 4, 4, 3, 1, 1, 1, 4, 4, 4, 4, 1, 4, 3, 4, 4, 4, 4, 2, 2, 3, 2, 2, 4, 1, 4, 2, 3, 1, 3, 4, 4, 4, 4, 1, 1, 3, 1, 2, 4, 3, 1, 3, 3, 3, 3, 3, 3, 1, 1, 3, 4, 1, 1, 3, 1, 3, 1, 4, 4, 1, 4, 4, 4, 4, 3, 3, 3, 3, 4, 3, 3, 3, 1, 3, 4, 3, 3, 3, 1, 4, 1, 3, 4, 1, 3, 4, 1, 1, 4, 3, 4, 3, 1, 4, 3, 1, 1, 3, 1, 3, 1, 1, 3, 3, 3, 3, 3, 2, 3, 3, 3, 1, 4, 3, 3, 4, 1, 3, 3, 3, 1, 2, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 3, 2, 3, 4, 2, 3, 4, 1, 1, 3, 3, 3, 3, 1, 4, 1, 3, 3, 3, 3, 2, 1, 1, 3, 3, 1, 1, 3, 3, 1, 1, 1, 3, 3, 3, 3, 1, 1, 1, 2, 1, 3, 1, 3, 3, 3, 3, 3, 3, 1, 3, 1, 2, 4, 4, 4, 1, 4, 2, 4, 1, 2, 3, 4, 4, 1, 3, 3, 4, 3, 3, 4, 3, 1, 1, 1, 2, 3, 1, 1, 4, 1, 3, 1, 3, 4, 2, 1, 1, 1, 1, 4, 2, 4, 4, 4, 1, 2, 1, 3, 2, 2, 2, 3, 4, 3, 1, 3, 1, 4, 3, 1, 3, 3, 3, 3, 1, 4, 1, 1, 1, 3, 1, 1, 1, 4, 1, 2, 2, 4, 4, 4, 2, 2, 4, 3, 3, 4, 1, 2, 3, 3, 4, 4, 4, 3, 4, 1, 4, 4, 1, 2, 3, 4, 3, 4, 4, 1, 2, 4, 1, 1, 2, 1, 4, 4, 1, 3, 1, 3, 1, 4, 2, 3, 1, 1, 2, 3, 1, 4, 3, 3, 3, 3, 2, 4, 4, 3, 3, 1, 2, 4, 2, 1, 2, 4, 4, 3, 1, 3, 3, 3, 4, 3, 4, 1, 1, 1, 4, 4, 3, 1, 3, 3, 1, 3, 2, 1, 4, 3, 1, 1, 1, 1, 2, 2, 2, 1, 3, 1, 1, 2, 3, 1, 4, 3, 1, 1, 2, 3, 1, 3, 2, 3, 1, 2, 3, 1, 1, 4, 2, 3, 1, 2, 3, 4, 3, 1, 1, 1, 1, 3, 2, 3, 4, 4, 1, 2, 3, 3, 4, 1, 2, 3, 3, 1, 3, 1, 3, 3, 3, 3, 3, 1, 3, 2, 2, 2, 1, 1, 1, 3, 1, 2, 3, 1, 2, 4, 2, 1, 4, 4, 1, 1, 3, 3, 4, 4, 4, 1, 2, 3, 1, 1, 4, 1, 1, 1, 3, 2, 1, 1, 1, 2, 4, 4, 4, 1, 1, 3, 4, 1, 1, 2, 3, 4, 1, 4, 1, 3, 4, 1, 1, 3, 3, 3, 3, 1, 2, 2, 2, 4, 4, 2, 2, 4, 3, 1, 1, 4, 4, 4, 3, 2, 4, 2, 3, 3, 1, 2, 3, 3, 1, 3, 3, 2, 3, 2, 2, 4, 3, 1, 3, 1, 3, 2, 1, 4, 4, 1, 1, 3, 3, 3, 1, 1, 2, 4, 3, 1, 1, 4, 1, 2, 1, 1, 2, 3, 3, 2, 2, 3, 2, 4, 1, 1, 1, 2, 1, 2, 4, 2, 4, 4, 4, 4, 1, 2, 1, 4, 3, 1, 3, 3, 3, 3, 3, 4, 3, 3, 3, 3, 1, 1, 4, 1, 1, 1, 2, 3, 4, 1, 1, 1, 1, 3, 4, 3, 1, 3, 3, 4, 2, 1, 2, 4, 4, 2, 4, 1, 1, 1, 1, 1, 1, 3, 4, 3, 3, 1, 2, 4, 4, 2, 1, 3, 1, 3, 1, 1, 1, 1, 4, 1, 2, 1, 3, 4});
+//        new SuffixTree(new byte[]{1, 1, 1});
+//        new SuffixTree(new byte[]{1, 4, 3, 2, 4, 4, 1, 4, 3}).print_all_suffix();
+//        new SuffixTree(new byte[]{1, 3, 3, 1, 3, 3, 3}).print_all_suffix();
+//        var st = new SuffixTree(new byte[]{1, 2, 1, 4, 3, 1, 3, 1, 2, 2, 4, 3, 4, 1, 4, 3, 1, 3, 3, 3, 4, 1, 4, 4, 4, 1, 1, 3, 3, 1, 3, 4, 3, 1, 3, 2, 2, 2, 1, 2, 3, 4, 3, 4, 3, 3, 1, 4, 2, 3, 1, 4, 4, 4, 2, 2, 4, 1, 4, 4, 4, 4, 3, 2, 4, 3, 4, 2, 2, 2, 2, 2, 2, 4, 2, 4, 2, 3, 1, 3, 2, 3, 2, 1, 4, 1, 2, 3, 1, 4, 4, 2, 3, 2, 1, 2, 1, 3, 2, 3, 4, 2, 2, 1, 2, 3, 3, 2, 2, 1, 2, 3, 1, 3, 3, 3, 4, 1, 4, 2, 4, 3, 2, 3, 1, 2, 4, 1, 4, 3, 4, 2, 4, 3, 4, 4, 4, 2, 1, 4, 4, 3, 3, 4, 2, 3, 3, 4, 3, 1, 4, 3, 3, 4, 1, 4, 4, 1, 4, 4, 4, 1, 4, 3, 2, 3, 1, 3, 3, 4, 1, 3, 2, 4, 4, 3, 1, 1, 4, 1, 4, 4, 1, 3, 1, 2, 2, 3, 2, 1, 1, 3, 1, 1, 4, 1, 4, 4, 4, 1, 3, 3, 1, 1, 1, 2, 4, 2, 4, 1, 4, 4, 1, 1, 4, 4, 1, 1, 4, 4, 1, 1, 4, 2, 3, 4, 4, 2, 4, 1, 2, 2, 1, 3, 1, 4, 1, 1, 4, 1, 1, 4, 1, 1, 3, 1, 1, 4, 4, 2, 1, 1, 4, 2, 4, 3, 4, 2, 3, 1, 3, 1, 2, 3, 3, 2, 3, 4, 4, 4, 3, 3, 1, 3, 1, 3, 1, 2, 1, 3, 1, 4, 3, 1, 4, 1, 1, 3, 1, 1, 1, 1, 1, 1, 4, 4, 4, 3, 3, 1, 3, 3, 1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 4, 3, 3, 3, 3, 3, 3, 2, 3, 4, 4, 3, 4, 2, 2, 3, 3, 1, 3, 1, 2, 3, 1, 3, 4, 4, 1, 1, 1, 3, 1, 3, 1, 4, 3, 4, 3, 4, 2, 3, 3, 1, 1, 1, 3, 3, 3, 3, 1, 1, 1, 1, 1, 3, 1, 1, 1, 2, 1, 1, 3, 3, 3, 4, 1, 1, 3, 1, 3, 3, 1, 2, 3, 3, 4, 1, 1, 3, 3, 1, 2, 1, 4, 4, 4, 3, 1, 1, 1, 4, 4, 4, 4, 1, 4, 3, 4, 4, 4, 4, 2, 2, 3, 2, 2, 4, 1, 4, 2, 3, 1, 3, 4, 4, 4, 4, 1, 1, 3, 1, 2, 4, 3, 1, 3, 3, 3, 3, 3, 3, 1, 1, 3, 4, 1, 1, 3, 1, 3, 1, 4, 4, 1, 4, 4, 4, 4, 3, 3, 3, 3, 4, 3, 3, 3, 1, 3, 4, 3, 3, 3, 1, 4, 1, 3, 4, 1, 3, 4, 1, 1, 4, 3, 4, 3, 1, 4, 3, 1, 1, 3, 1, 3, 1, 1, 3, 3, 3, 3, 3, 2, 3, 3, 3, 1, 4, 3, 3, 4, 1, 3, 3, 3, 1, 2, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 3, 2, 3, 4, 2, 3, 4, 1, 1, 3, 3, 3, 3, 1, 4, 1, 3, 3, 3, 3, 2, 1, 1, 3, 3, 1, 1, 3, 3, 1, 1, 1, 3, 3, 3, 3, 1, 1, 1, 2, 1, 3, 1, 3, 3, 3, 3, 3, 3, 1, 3, 1, 2, 4, 4, 4, 1, 4, 2, 4, 1, 2, 3, 4, 4, 1, 3, 3, 4, 3, 3, 4, 3, 1, 1, 1, 2, 3, 1, 1, 4, 1, 3, 1, 3, 4, 2, 1, 1, 1, 1, 4, 2, 4, 4, 4, 1, 2, 1, 3, 2, 2, 2, 3, 4, 3, 1, 3, 1, 4, 3, 1, 3, 3, 3, 3, 1, 4, 1, 1, 1, 3, 1, 1, 1, 4, 1, 2, 2, 4, 4, 4, 2, 2, 4, 3, 3, 4, 1, 2, 3, 3, 4, 4, 4, 3, 4, 1, 4, 4, 1, 2, 3, 4, 3, 4, 4, 1, 2, 4, 1, 1, 2, 1, 4, 4, 1, 3, 1, 3, 1, 4, 2, 3, 1, 1, 2, 3, 1, 4, 3, 3, 3, 3, 2, 4, 4, 3, 3, 1, 2, 4, 2, 1, 2, 4, 4, 3, 1, 3, 3, 3, 4, 3, 4, 1, 1, 1, 4, 4, 3, 1, 3, 3, 1, 3, 2, 1, 4, 3, 1, 1, 1, 1, 2, 2, 2, 1, 3, 1, 1, 2, 3, 1, 4, 3, 1, 1, 2, 3, 1, 3, 2, 3, 1, 2, 3, 1, 1, 4, 2, 3, 1, 2, 3, 4, 3, 1, 1, 1, 1, 3, 2, 3, 4, 4, 1, 2, 3, 3, 4, 1, 2, 3, 3, 1, 3, 1, 3, 3, 3, 3, 3, 1, 3, 2, 2, 2, 1, 1, 1, 3, 1, 2, 3, 1, 2, 4, 2, 1, 4, 4, 1, 1, 3, 3, 4, 4, 4, 1, 2, 3, 1, 1, 4, 1, 1, 1, 3, 2, 1, 1, 1, 2, 4, 4, 4, 1, 1, 3, 4, 1, 1, 2, 3, 4, 1, 4, 1, 3, 4, 1, 1, 3, 3, 3, 3, 1, 2, 2, 2, 4, 4, 2, 2, 4, 3, 1, 1, 4, 4, 4, 3, 2, 4, 2, 3, 3, 1, 2, 3, 3, 1, 3, 3, 2, 3, 2, 2, 4, 3, 1, 3, 1, 3, 2, 1, 4, 4, 1, 1, 3, 3, 3, 1, 1, 2, 4, 3, 1, 1, 4, 1, 2, 1, 1, 2, 3, 3, 2, 2, 3, 2, 4, 1, 1, 1, 2, 1, 2, 4, 2, 4, 4, 4, 4, 1, 2, 1, 4, 3, 1, 3, 3, 3, 3, 3, 4, 3, 3, 3, 3, 1, 1, 4, 1, 1, 1, 2, 3, 4, 1, 1, 1, 1, 3, 4, 3, 1, 3, 3, 4, 2, 1, 2, 4, 4, 2, 4, 1, 1, 1, 1, 1, 1, 3, 4, 3, 3, 1, 2, 4, 4, 2, 1, 3, 1, 3, 1, 1, 1, 1, 4, 1, 2, 1, 3, 4});
 //        st.align_with(new byte[]{1, 2, 1, 4, 3, 1, 3, 1, 2, 2, 4, 3, 1, 4, 3, 1, 3, 3, 3, 4, 1, 4, 4, 4, 1, 1, 3, 3, 1, 3, 4, 3, 1, 3, 2, 2, 2, 1, 2, 3, 4, 3, 4, 3, 3, 1, 4, 2, 3, 2, 4, 4, 4, 2, 2, 4, 1, 4, 4, 4, 4, 3, 2, 4, 3, 4, 2, 2, 2, 2, 2, 2, 4, 2, 4, 2, 3, 1, 3, 2, 3, 2, 1, 4, 1, 2, 3, 1, 4, 4, 2, 3, 2, 1, 2, 1, 3, 1, 2, 3, 4, 2, 2, 1, 2, 3, 3, 2, 2, 1, 2, 3, 1, 3, 3, 3, 4, 1, 4, 2, 4, 3, 2, 3, 1, 2, 4, 1, 4, 3, 4, 2, 4, 3, 4, 4, 4, 2, 1, 4, 4, 3, 3, 4, 2, 3, 3, 4, 3, 1, 4, 3, 3, 4, 1, 4, 4, 1, 4, 4, 4, 1, 4, 3, 2, 3, 1, 3, 3, 4, 1, 3, 2, 4, 4, 1, 1, 4, 1, 4, 4, 1, 3, 1, 2, 2, 3, 2, 1, 1, 3, 1, 1, 4, 1, 4, 4, 4, 1, 3, 3, 1, 1, 1, 2, 4, 2, 4, 1, 4, 4, 1, 1, 4, 4, 1, 1, 4, 4, 1, 1, 4, 2, 3, 4, 4, 2, 4, 1, 2, 2, 1, 3, 1, 4, 1, 1, 4, 1, 1, 4, 1, 1, 3, 1, 1, 4, 4, 2, 1, 1, 4, 2, 4, 3, 4, 2, 3, 1, 3, 1, 3, 3, 3, 2, 3, 4, 4, 4, 3, 3, 1, 3, 1, 3, 1, 2, 1, 3, 1, 4, 3, 1, 4, 1, 1, 3, 1, 1, 1, 1, 1, 1, 4, 4, 4, 3, 3, 1, 3, 3, 1, 1, 1, 3, 3, 3, 3, 3, 3, 3, 3, 4, 3, 3, 3, 3, 3, 3, 2, 3, 4, 4, 3, 4, 2, 2, 3, 3, 1, 3, 1, 2, 3, 1, 3, 4, 4, 1, 1, 1, 3, 1, 3, 1, 4, 3, 4, 3, 4, 2, 3, 3, 1, 1, 1, 3, 3, 3, 3, 1, 1, 1, 1, 1, 3, 1, 1, 1, 2, 1, 1, 3, 3, 3, 4, 1, 1, 3, 1, 3, 3, 1, 2, 3, 3, 4, 1, 1, 3, 3, 1, 2, 1, 4, 4, 4, 3, 1, 1, 1, 4, 4, 4, 4, 1, 4, 3, 4, 4, 4, 4, 2, 2, 3, 2, 2, 4, 1, 4, 2, 3, 1, 3, 4, 4, 4, 4, 1, 1, 3, 1, 2, 4, 3, 1, 3, 3, 3, 3, 3, 3, 1, 1, 3, 4, 1, 1, 3, 1, 3, 1, 4, 4, 1, 4, 4, 4, 4, 3, 3, 3, 3, 4, 3, 3, 3, 1, 3, 4, 3, 3, 3, 1, 4, 1, 3, 1, 3, 4, 1, 1, 4, 3, 4, 3, 1, 4, 3, 1, 1, 3, 1, 3, 1, 1, 3, 3, 3, 3, 3, 2, 3, 3, 3, 1, 4, 3, 3, 4, 1, 3, 3, 3, 1, 2, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 3, 2, 3, 4, 2, 3, 4, 1, 1, 3, 3, 3, 3, 1, 4, 1, 3, 3, 3, 3, 2, 1, 1, 3, 3, 1, 1, 3, 3, 1, 1, 1, 3, 3, 3, 3, 1, 1, 1, 2, 1, 3, 1, 3, 3, 3, 3, 3, 3, 1, 3, 1, 2, 4, 4, 4, 1, 4, 2, 4, 1, 2, 3, 4, 4, 1, 3, 3, 4, 3, 3, 4, 3, 1, 1, 1, 2, 3, 1, 1, 4, 1, 3, 1, 3, 4, 2, 1, 1, 1, 1, 4, 2, 4, 4, 4, 1, 2, 1, 3, 2, 2, 2, 3, 4, 3, 1, 3, 1, 4, 3, 1, 3, 3, 3, 3, 1, 4, 1, 1, 1, 3, 1, 1, 1, 4, 1, 2, 2, 4, 4, 4, 2, 2, 4, 3, 3, 4, 1, 2, 3, 3, 4, 4, 4, 3, 4, 1, 4, 4, 1, 2, 3, 4, 3, 1, 4, 4, 1, 2, 4, 1, 1, 2, 1, 4, 4, 1, 3, 1, 3, 1, 4, 2, 3, 1, 1, 2, 3, 1, 4, 3, 3, 3, 3, 2, 4, 4, 3, 3, 1, 2, 4, 2, 1, 2, 4, 4, 3, 1, 3, 3, 3, 4, 3, 4, 1, 1, 1, 4, 4, 3, 1, 3, 3, 1, 3, 2, 1, 4, 3, 1, 1, 1, 1, 2, 2, 2, 1, 3, 1, 1, 2, 3, 1, 4, 3, 1, 1, 2, 3, 1, 3, 2, 3, 1, 2, 3, 1, 1, 4, 2, 3, 1, 2, 3, 4, 3, 1, 1, 1, 1, 3, 2, 3, 4, 4, 1, 2, 3, 3, 4, 1, 2, 3, 3, 1, 3, 1, 3, 3, 3, 3, 1, 3, 2, 2, 2, 1, 1, 1, 3, 1, 2, 3, 1, 2, 4, 2, 1, 4, 4, 1, 1, 3, 3, 4, 4, 4, 1, 2, 3, 1, 1, 4, 1, 1, 1, 3, 2, 1, 1, 1, 2, 4, 4, 4, 1, 1, 3, 4, 1, 1, 2, 3, 4, 1, 4, 1, 3, 4, 1, 1, 3, 3, 3, 3, 1, 2, 2, 2, 4, 4, 2, 2, 4, 3, 1, 1, 4, 4, 4, 3, 2, 4, 2, 3, 3, 1, 2, 3, 3, 1, 3, 3, 2, 3, 2, 2, 1, 3, 1, 3, 1, 3, 2, 1, 4, 4, 1, 1, 3, 3, 3, 1, 1, 2, 4, 3, 1, 1, 4, 1, 2, 1, 1, 2, 3, 3, 2, 2, 3, 2, 4, 1, 1, 1, 2, 1, 2, 4, 2, 4, 4, 4, 4, 1, 2, 1, 4, 3, 1, 3, 3, 3, 3, 3, 4, 3, 3, 3, 3, 1, 1, 4, 1, 1, 1, 2, 3, 4, 1, 1, 1, 1, 3, 4, 3, 1, 3, 3, 4, 2, 1, 2, 4, 4, 2, 4, 1, 1, 1, 1, 1, 1, 3, 4, 3, 3, 2, 2, 4, 4, 2, 1, 3, 1, 3, 1, 1, 1, 1, 4, 1, 2, 1, 3, 1});
+        final int bgn = 1 << 4, end = 1 << 16;
+        double mx = 0, mn = 1, tt = 0;
+        for (int i = bgn; i < end; i += 8)
+        {
+            var curr_rsl = check_suffix_tree(generate(i));
+            double curr = (double)curr_rsl[0] / curr_rsl[1];
+            tt += curr;
+            if (mx < curr) mx = curr;
+            else if (mn > curr) mn = curr;
+        }
+        System.out.println("avr = " + (tt / (end - bgn) * 8));
+        System.out.println("max = " + mx);
+        System.out.println("min = " + mn);
     }
 
     int[][] align_with(byte[] rhs)
@@ -186,7 +191,7 @@ class SuffixTree
         int rhs_last_end = 0; // lhs_last_end数值上等于lhs_index
         while (rhs_index < rhs.length)
         {
-            var curr_result = search_prefix(rhs, rhs_index);
+            var curr_result = search_prefix(rhs, rhs_index, THRESHOLD);
             if (curr_result == null)
             {
                 ++rhs_index; // 没找到, 从下个字符开始找
@@ -220,73 +225,82 @@ class SuffixTree
                     {
                         ++rhs_index;
                     }
-//
-//                    final int CROSS_THRESHOLD = word.length / 256, // 错位多长需要检查
-//                            MATCH_THRESHOLD = word.length / 128, // 匹配长度大于该值时跳过检查
-//                            DIS_THRESHOLD = 32, //
-//                            VETO = word.length / 3; // 一票否决该匹配
-//                    int curr_dis = al.size() == 0 ?
-//                            min_dis - rhs_index :
-//                            min_dis - (rhs_index - (al.get(al.size() - 2) + al.get(al.size() - 1)));
-//                    if (Math.abs(curr_dis) > CROSS_THRESHOLD) // 进行错配检查的条件
-//                    {
-//                        int lhs_begin, rhs_begin, rhs_end;
-//                        if (al.size() == 0)
-//                        {
-//                            lhs_begin = rhs_begin = 0;
-//                            rhs_end = rhs_index;
-//                        }
-//                        else
-//                        {
-//                            lhs_begin = lhs_index;
-//                            rhs_begin = al.get(al.size()- 2) + al.get(al.size() - 1);
-//                            rhs_end = rhs_index - (al.get(al.size()- 2) + al.get(al.size() - 1));
-//                        }
-//                        System.out.printf("lhs: %-7d, %-7d, rhs : %-7d, %-7d, dis = %-7d, match_len = %-7d",
-//                                lhs_begin, min_dis, rhs_begin, rhs_end, curr_dis, curr_result.get(0));
-//                        if (curr_dis > VETO) System.out.println("x  VETO");
-//                        else if (curr_result.get(0) >= MATCH_THRESHOLD) System.out.println("   match long enough");
-//                        else if (last_dis == -1 || Math.abs(last_dis - curr_dis) > curr_dis/* / DIS_THRESHOLD*/) System.out.println("x  long dis");
-//                        else System.out.println("   short dis");
-//
-//                        if (curr_dis > VETO || // 一票否决
-//                                (curr_result.get(0) < MATCH_THRESHOLD && // 如果匹配足够长则不检查
-//                                        (last_dis == -1 || Math.abs(last_dis - curr_dis) > curr_dis/* / DIS_THRESHOLD*/))) // 检查和前次匹配长度的差
-//                        {
-//                            rhs_index += curr_result.get(0);
-//                            last_dis = curr_dis;
-//                            continue;
-//                        }
-//                    }
-//
-//                    // 检查完成, 把当前结果加入返回值中
-//                    lhs_index += min_dis;
-//                    assert Arrays.equals(word, lhs_index, lhs_index + curr_result.get(0), rhs, rhs_index, rhs_index + curr_result.get(0));
-//                    al.add(lhs_index);
-//                    al.add(rhs_index);
-//                    al.add(curr_result.get(0));
-//                    lhs_index += curr_result.get(0);
-//                    rhs_index += curr_result.get(0);
                 }
             }
         }
 
+//        if (al.get(al.size() - 1) < THRESHOLD * 4) // 去掉结尾位置的同质区段对
+//        {
+//            al.remove(al.size() - 1);
+//            al.remove(al.size() - 1);
+//            al.remove(al.size() - 1);
+//        }
+
+        return UtilityFunctions.to_2d_array(al, 3);
+    }
+
+    int[][] get_identical_subsequence_pairs(byte[] rhs)
+    {
+        var al = new ArrayList<Integer>();
+        al.add(-1);
+        al.add(-1);
+        al.add(0);
+
+        int rhs_index = 0;
+//        var hsal = new ArrayList<HashSet<Integer>>(word.length + 1);
+        var hsal = new ArrayList<HashSet<Integer>>(Collections.nCopies(word.length + 1, null));
+        while (rhs_index < rhs.length)
+        {
+            var curr_result = search_prefix(rhs, rhs_index, GLOBAL_THRESHOLD);
+
+            if (curr_result == null)
+            {
+                ++rhs_index; // 没找到, 从下个字符继续找
+            }
+            else // 找到了
+            {
+                final int curr_len = curr_result.get(0);
+                final int rhs_bgn = rhs_index;
+                for (int i = 1; i != curr_result.size(); ++i)
+                {
+                    final int lhs_bgn = curr_result.get(i);
+                    final int lhs_end = lhs_bgn + curr_len;
+                    final int rhs_end = rhs_bgn + curr_len;
+                    if (hsal.get(lhs_end) == null || !hsal.get(lhs_end).contains(rhs_end))
+                    {
+                        al.add(curr_result.get(i));
+                        al.add(rhs_index);
+                        al.add(curr_result.get(0));
+
+                        if (hsal.get(lhs_end) == null) hsal.set(lhs_end, new HashSet<>());
+                        hsal.get(lhs_end).add(rhs_end);
+                    }
+                }
+                rhs_index += curr_result.get(0) - GLOBAL_THRESHOLD + 1;
+//                rhs_index += GLOBAL_THRESHOLD;
+//                rhs_index += 1;
+            }
+        }
+
+        al.add(word.length - 1);
+        al.add(rhs.length);
+        al.add(1);
         return UtilityFunctions.to_2d_array(al, 3);
     }
 
     // 返回word中所有和rhs.substr(rhs_index)具有相同前缀的子串长度和起始位置
-    private ArrayList<Integer> search_prefix(byte[] rhs, int rhs_index)
+    private ArrayList<Integer> search_prefix(byte[] rhs, int rhs_index, int threshold)
     {
         int common_prefix_length = 0;
         for (Node last_node = root, curr_node = last_node.children[rhs[rhs_index]]; ; last_node = curr_node, curr_node = curr_node.children[rhs[rhs_index]])
         {
             if (curr_node == null)
-                return common_prefix_length < THRESHOLD ? null : get_all_beginning_with(last_node, common_prefix_length);
+                return common_prefix_length < threshold ? null : get_all_beginning_with(last_node, common_prefix_length);
             for (int lhs_index = curr_node.begin, lhs_end = curr_node.begin + curr_node.length; lhs_index != lhs_end && rhs_index != rhs.length; ++lhs_index, ++rhs_index, ++common_prefix_length)
                 if (word[lhs_index] != rhs[rhs_index])
-                    return common_prefix_length < THRESHOLD ? null : get_all_beginning_with(curr_node, common_prefix_length);
+                    return common_prefix_length < threshold ? null : get_all_beginning_with(curr_node, common_prefix_length);
             if (curr_node.children == null || rhs_index == rhs.length)
-                return common_prefix_length < THRESHOLD ? null : get_all_beginning_with(curr_node, common_prefix_length);
+                return common_prefix_length < threshold ? null : get_all_beginning_with(curr_node, common_prefix_length);
         }
     }
 
@@ -324,7 +338,6 @@ class SuffixTree
         for (int i = 0; i != word.length; ++i) assert contains(root, word, i);
     }
 
-    @SuppressWarnings("all")
     private SuffixTree print_all_suffix()
     {
         var stack = new LinkedList<Node>();
@@ -357,14 +370,12 @@ class SuffixTree
         else
         {
             for (var i : root.children)
-            {
                 if (i != null)
                 {
                     stack.add(i);
                     get_all_suffixes(i, stack, suffixes);
                     stack.remove(stack.size() - 1);
                 }
-            }
         }
     }
 
@@ -387,6 +398,20 @@ class SuffixTree
             if (curr.children != null) for (var i : curr.children) if (i != null) queue.add(i);
         }
         return this;
+    }
+
+    static private SuffixTree generate(int len)
+    {
+        var word = new byte[len];
+        new Random(System.currentTimeMillis()).nextBytes(word);
+        for (int i = 0; i != len; ++i) word[i] = (byte)(Math.abs(word[i] % 5) + 1);
+        return new SuffixTree(word);
+    }
+
+    static private int[] check_suffix_tree(SuffixTree st)
+    {
+        return check_suffix_tree(st.root);
+//        System.out.printf("%7d%7d%7d\n", statistics[0], statistics[1], statistics[2]);
     }
 
     static private int[] check_suffix_tree(Node root)

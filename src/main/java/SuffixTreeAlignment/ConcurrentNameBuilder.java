@@ -4,7 +4,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import static Main.GlobalVariables.*;
+import static Main.GlobalVariables.thread;
 
 class ConcurrentNameBuilder
 {
@@ -12,25 +12,26 @@ class ConcurrentNameBuilder
     private final ExecutorService es = Executors.newFixedThreadPool(thread);
     private final SuffixTree st;
     private final byte[][] sequences;
+    private final byte[] centre;
     private final int[][][] name;
-    private final int centre_index;
 
-    static int[][][] build_name(byte[][]sequences, int centre_index, SuffixTree st)
+    static int[][][] build_name(byte[][]sequences, byte[] centre, SuffixTree st)
     {
-        return new ConcurrentNameBuilder(sequences, centre_index, st).build().get_name();
+        return new ConcurrentNameBuilder(sequences, centre, st).build().get_name();
     }
 
-    private ConcurrentNameBuilder(byte[][] sequences, int centre_index, SuffixTree st)
+    private ConcurrentNameBuilder(byte[][] sequences, byte[] centre, SuffixTree st)
     {
         this.sequences = sequences;
-        this.centre_index = centre_index;
+        this.centre = centre;
         this.st = st;
         name = new int[sequences.length][][];
     }
 
     private ConcurrentNameBuilder build()
     {
-        for (int i = 0; i != sequences.length; ++i) es.submit(new NameBuilder(i));
+        for (int i = 0; i != sequences.length; ++i)
+            es.submit(new NameBuilder(i));
         es.shutdown();
         try { es.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS); }
         catch (InterruptedException e) { e.printStackTrace(); }
@@ -51,19 +52,21 @@ class ConcurrentNameBuilder
 
     private class NameBuilder implements Runnable
     {
-        private final int curr_index;
+        private final int curr_sqc;
 
         NameBuilder(int index)
         {
-            curr_index = index;
+            curr_sqc = index;
         }
 
         @Override
         public void run()
         {
 //            System.out.println("hello " + curr_index);
-            if (curr_index == centre_index) name[curr_index] = new int[][]{{0, 0, sequences[centre_index].length}};
-            else name[curr_index] = st.align_with(sequences[curr_index]);
+            name[curr_sqc] =
+                    sequences[curr_sqc] == centre ?
+                    new int[][]{ { 0, 0, centre.length } } :
+                    st.align_with(sequences[curr_sqc]);
 //            System.out.println("bye " + curr_index);
         }
     }

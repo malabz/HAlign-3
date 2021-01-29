@@ -11,33 +11,34 @@ public class ConcurrentFinalSpaceBuilder
     private final ExecutorService es = Executors.newFixedThreadPool(thread);
 
     private final byte[][] sequences;
-    private final int centre_index;
+    private final byte[] centre;
     private final int[][] centre_spaces;
     private final int[][] others_spaces;
     private final int[] final_centre_spaces;
     private final int[][] spaces;
 
-    static int[][] build_final_spaces(byte[][] sequences, int centre_index, int[][]centre_spaces, int[][] others_spaces)
+    static int[][] build_final_spaces(byte[][] sequences, byte[] centre, int[][]centre_spaces, int[][] others_spaces)
     {
-        return new ConcurrentFinalSpaceBuilder(sequences, centre_index, centre_spaces, others_spaces).build().get_spaces();
+        return new ConcurrentFinalSpaceBuilder(sequences, centre, centre_spaces, others_spaces).build().get_spaces();
     }
 
-    private ConcurrentFinalSpaceBuilder(byte[][] sequences, int centre_index, int[][] centre_spaces, int[][] others_spaces)
+    private ConcurrentFinalSpaceBuilder(byte[][] sequences, byte[] centre, int[][] centre_spaces, int[][] others_spaces)
     {
         this.sequences = sequences;
-        this.centre_index = centre_index;
+        this.centre = centre;
         this.centre_spaces = centre_spaces;
         this.others_spaces = others_spaces;
         spaces = new int[sequences.length][];
-        final_centre_spaces = new int[sequences[centre_index].length + 1];
+        final_centre_spaces = new int[centre.length + 1];
         for (int i = 0; i != sequences.length; ++i)
-            for (int j = 0; j <= sequences[centre_index].length; ++j)
+            for (int j = 0; j <= centre.length; ++j)
                 if (final_centre_spaces[j] < centre_spaces[i][j]) final_centre_spaces[j] = centre_spaces[i][j];
     }
 
     private ConcurrentFinalSpaceBuilder build()
     {
-        for (int i = 0; i != sequences.length; ++i) es.submit(new FinalSpacesBuilder(i));
+        for (int i = 0; i != sequences.length; ++i)
+            es.submit(new FinalSpacesBuilder(i));
         es.shutdown();
         try { es.awaitTermination(Long.MAX_VALUE, TimeUnit.SECONDS); }
         catch (InterruptedException e) { e.printStackTrace(); }
@@ -51,49 +52,54 @@ public class ConcurrentFinalSpaceBuilder
 
     private class FinalSpacesBuilder implements Runnable
     {
-        private final int curr_index;
+        private final int curr_sqc;
 
         FinalSpacesBuilder(int index)
         {
-            curr_index = index;
+            curr_sqc = index;
         }
 
         @Override
         public void run()
         {
-            spaces[curr_index] = new int[sequences[curr_index].length + 1];
-            System.arraycopy(others_spaces[curr_index], 0, spaces[curr_index], 0, sequences[curr_index].length + 1); // 先把两两比对结果的空格数量拷贝过来
-            int[] dis = new int[sequences[centre_index].length + 1]; // 中心序列插入空格最终和当前数量的差值
-            for (int j = 0; j <= sequences[centre_index].length; ++j) dis[j] = final_centre_spaces[j] - centre_spaces[curr_index][j];
-            int center_pointer = 0, counterpart_pointer = 0; // 遍历位置
-            while (center_pointer <= sequences[centre_index].length)
+            spaces[curr_sqc] = new int[sequences[curr_sqc].length + 1];
+            System.arraycopy(others_spaces[curr_sqc], 0,
+                    spaces[curr_sqc], 0,
+                    sequences[curr_sqc].length + 1); // 先把两两比对结果的空格数量拷贝过来
+
+            int[] diff = new int[centre.length + 1]; // 中心序列插入空格最终和当前数量的差值
+            for (int j = 0; j <= centre.length; ++j)
+                diff[j] = final_centre_spaces[j] - centre_spaces[curr_sqc][j];
+
+            int centre_idx = 0, curr_idx = 0;
+            while (centre_idx <= centre.length)
             {
-                if (centre_spaces[curr_index][center_pointer] == 0 && others_spaces[curr_index][counterpart_pointer] == 0)
-                { // 如果当前两个位置上空格数量均为0
-                    spaces[curr_index][counterpart_pointer] += dis[center_pointer];
-                    dis[center_pointer] = 0;
-                    ++counterpart_pointer;
-                    ++center_pointer;
+                if (centre_spaces[curr_sqc][centre_idx] == 0 && others_spaces[curr_sqc][curr_idx] == 0)
+                {
+                    spaces[curr_sqc][curr_idx] += diff[centre_idx];
+                    diff[centre_idx] = 0;
+                    ++curr_idx;
+                    ++centre_idx;
                 }
-                else if (centre_spaces[curr_index][center_pointer] == 0)
-                { // 如果只有当前序列索引处空格数量不为0
-                    while (others_spaces[curr_index][counterpart_pointer] > 0)
+                else if (centre_spaces[curr_sqc][centre_idx] == 0)
+                {
+                    while (others_spaces[curr_sqc][curr_idx] > 0)
                     { // 按照当前序列索引处空格数量
-                        --others_spaces[curr_index][counterpart_pointer];
-                        spaces[curr_index][counterpart_pointer] += dis[center_pointer]; // 将中心序列当前索引处空格差异数量并入
-                        dis[center_pointer] = 0;
-                        ++center_pointer; // 序列索引向前移动
+                        --others_spaces[curr_sqc][curr_idx];
+                        spaces[curr_sqc][curr_idx] += diff[centre_idx]; // 将中心序列当前索引处空格差异数量并入
+                        diff[centre_idx] = 0;
+                        ++centre_idx;
                     }
                 }
                 else
-                { // 如果只有中心序列索引处空格数量不为0
-                    while (centre_spaces[curr_index][center_pointer] > 0)
+                {
+                    while (centre_spaces[curr_sqc][centre_idx] > 0)
                     { // 按照中心序列索引处空格数量
-                        --centre_spaces[curr_index][center_pointer];
-                        ++counterpart_pointer; // 当前序列索引向前移动
+                        --centre_spaces[curr_sqc][centre_idx];
+                        ++curr_idx; // 当前序列索引向前移动
                     }
-                    spaces[curr_index][counterpart_pointer] += dis[center_pointer]; // 最后加上差值
-                    dis[center_pointer] = 0;
+                    spaces[curr_sqc][curr_idx] += diff[centre_idx]; // 最后加上差值
+                    diff[centre_idx] = 0;
                 }
             }
         }

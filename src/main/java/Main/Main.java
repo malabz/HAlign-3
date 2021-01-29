@@ -3,23 +3,20 @@ package Main;
 import Utilities.Fasta;
 import Utilities.Pseudo;
 
-import static Main.GlobalVariables.thread;
+import static Main.GlobalVariables.*;
 
 public class Main
 {
 
     private static String infile, outfile;
     private static boolean identifiers_retained = true;
-    private static boolean realign_endings = false;
 
     public static void main(String[] args)
     {
         parse(args);
-        print_args();
         var input = new Fasta(infile);
 
-        var result = SuffixTreeAlignment.SuffixTreeAligner.align(Pseudo.string_to_pseudo(input.get_sequences()));
-        if (realign_endings) result = Pairwise.PoolAligner.align(result);
+        var result = MainAligner.align(Pseudo.string_to_pseudo(input.get_sequences()));
 
         var output_sequences = new String[result.length];
         var output_sequence_identifiers = new String[result.length];
@@ -29,9 +26,13 @@ public class Main
             output_sequence_identifiers[i] = input.get_sequence_identifiers(i);
         }
         new Fasta(output_sequences, output_sequence_identifiers).output(outfile, identifiers_retained);
+
+        System.out.println();
+        System.out.println("http://lab.malab.cn/soft/halign/");
+        System.out.println();
     }
 
-    // 修改参数需要修改parse, arg_help, print_args三个函数, 其中arg_help可能有两个地方需要更改
+    // 修改参数需要修改parse, arg_help, print_args三个函数以及README.md, 其中arg_help可能有两个地方需要更改
     private static void parse(String[] args)
     {
         if (args.length == 0) args_help();
@@ -50,13 +51,19 @@ public class Main
                     try { thread = Integer.parseInt(args[i]); }
                     catch (NumberFormatException e) { args_help(); }
                 }
+                else if (args[i].charAt(1) == 'c')
+                {
+                    if (i == args.length - 1 || args[++i].charAt(0) == '-') args_help();
+                    try { idx_centre = Integer.parseInt(args[i]); }
+                    catch (NumberFormatException nfe) { args_help(); }
+                }
                 else if (args[i].charAt(1) == 's')
                 {
                     identifiers_retained = false;
                 }
                 else if (args[i].charAt(1) == 'r')
                 {
-                    realign_endings = true;
+                    realign_ending = true;
                 }
                 else
                 {
@@ -80,7 +87,7 @@ public class Main
 
     private static void args_help()
     {
-        System.out.println("usage: java -jar " + System.getProperty("java.class.path") + " [-h] [-o] [-t] [-r] [-s] infile" );
+        System.out.println("usage: java -jar " + System.getProperty("java.class.path") + " [-h] [-o] [-t thread] [-c centre_index] [-r] [-s] infile" );
         System.out.println();
         System.out.println("positional argument: ");
         System.out.println("  infile   nucleotide sequences in fasta format");
@@ -89,20 +96,12 @@ public class Main
         System.out.println("  -h       show this help message and exit");
         System.out.println("  -o       target file");
         System.out.println("  -t       multi-thread");
+        System.out.println("  -c       centre sequence index(starting from 0)");
         System.out.println("  -r       realign the endings for better results");
-        System.out.println("  -s       output alignments without sequence identifiers, i.e. in plain txt format but with sequence order retained");
+        System.out.println("  -s       output alignments without sequence identifiers, i.e. in plain txt format but");
+        System.out.println("           with sequence order retained");
         System.out.println();
         System.exit(0);
-    }
-
-    private static void print_args()
-    {
-        System.out.println("\t         infile: " + infile);
-        System.out.println("\t        outfile: " + outfile);
-        System.out.println("\t         thread: " + thread);
-        System.out.println("\t     identifier: " + (identifiers_retained ? "retained" : "not retained"));
-        System.out.println("\trealign endings: " + (realign_endings ? "true" : "false"));
-        System.out.println();
     }
 
     @SuppressWarnings("unused")

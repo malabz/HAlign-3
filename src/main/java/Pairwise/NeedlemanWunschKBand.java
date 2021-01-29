@@ -9,7 +9,7 @@ import static Main.GlobalVariables.UNKNOWN;
 public class NeedlemanWunschKBand extends PairwiseAligner
 {
 
-    private static final int MATCH = 7, MISMATCH = -3, MID_OPEN = -11, EXTENSION = -2;
+    private static final int MATCH = 7, MISMATCH = -3, MID_OPEN = -11, EXTENSION = -2, UNKNOWN_MATCH = 5;
     private static final int MIN_K = 3, LENGTH_DIVISOR = 4;
     private static final int X = 0, Y = 1, Z = 2;
 
@@ -64,6 +64,7 @@ public class NeedlemanWunschKBand extends PairwiseAligner
             mtrx[X][0][j] = mtrx[Z][0][j] = MINUS_INFINITY;
             mtrx[Y][0][j] = MID_OPEN + j * EXTENSION;
         }
+        mtrx[X][0][0] = mtrx[Y][0][0] = MID_OPEN;
         mtrx[Z][0][0] = 0;
 
         path = new int[3][lhs.length + 1][rhs.length + 1];
@@ -95,7 +96,6 @@ public class NeedlemanWunschKBand extends PairwiseAligner
             for (int j = 1; j <= rhs.length; ++j)
                 if (i - j <= lhs_offset || j - i >= rhs_offset)
                 {
-//                    int open = i == lhs.length || j == rhs.length ? END_OPEN : MID_OPEN;
                     var arr = new int[3];
                     int index_of_max;
 
@@ -124,7 +124,7 @@ public class NeedlemanWunschKBand extends PairwiseAligner
 
     private int score(byte l, byte r)
     {
-        if (l == UNKNOWN || r == UNKNOWN) return MATCH;
+        if (l == UNKNOWN || r == UNKNOWN) return UNKNOWN_MATCH;
         else return l == r ? MATCH : MISMATCH;
     }
 
@@ -157,10 +157,12 @@ public class NeedlemanWunschKBand extends PairwiseAligner
 
     public static void main(String[] args)
     {
-        byte[] lhs = Pseudo.string_to_pseudo("agcttcttaggagaatgacaataaggtagcgaaattccttgtcaactaattattgacctgcacgaaaggcgcatgcctaacatgcttagaattatggcctcacttgt");
-        byte[] rhs = Pseudo.string_to_pseudo("nnnnnnttaggaaaaaaanaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-//        byte[] lhs = Pseudo.string2pseudo("agct");
-//        byte[] rhs = Pseudo.string2pseudo("agct");
+//        byte[] lhs = Pseudo.string_to_pseudo("agcttcttaggagaatgacaataaggtagcgaaattccttgtcaactaattattgacctgcacgaaaggcgcatgcctaacatgcttagaattatggcctcacttgt");
+//        byte[] rhs = Pseudo.string_to_pseudo("nnnnnnttaggaaaaaaanaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+//        byte[] lhs = Pseudo.string_to_pseudo("TTAATTTTAGTAGTGCTATCCCCATGTGATTTTAATAGCTTCTTAGGAGAATCTGCC");
+//        byte[] rhs = Pseudo.string_to_pseudo("TTAATTTTAGTAGTGCTATCCCCATGTGATTTTAATAGCTTCTTAGGAGAATG");
+        byte[] lhs = Pseudo.string_to_pseudo("ttctggtct");
+        byte[] rhs = Pseudo.string_to_pseudo("ttctct");
         var result = NeedlemanWunschKBand.align(lhs, rhs);
         System.out.println(Pseudo.pseudo_to_string(Pseudo.insert_spaces(lhs, result.get_first())));
         System.out.println(Pseudo.pseudo_to_string(Pseudo.insert_spaces(rhs, result.get_second())));

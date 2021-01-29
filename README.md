@@ -5,7 +5,7 @@ This project is aimed at improving a part of [HAlign2.0](https://github.com/mala
 ## Usage
 
 ```
-java -jar halign-stmsa.jar [-h] [-o outfile] [-t thread] [-r] [-s] infile
+java -jar halign-stmsa.jar [-h] [-o] [-t thread] [-c centre_index] [-r] [-s] infile
 ```
 
 ```
@@ -16,6 +16,7 @@ optional arguments:
   -h       show this help message and exit
   -o       target file
   -t       multi-thread
+  -c       centre sequence index starting from 0
   -r       realign the endings for better results
   -s       output alignments without sequence identifiers, i.e. in plain txt format but with sequence order retained
 ```
