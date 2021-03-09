@@ -21,7 +21,7 @@ optional arguments:
   -s       output alignments without sequence identifiers, i.e. in plain txt format but with sequence order retained
 ```
 
-## Chang Log
+## Change Log
 
 * 15-10-2020
 
