@@ -17,7 +17,6 @@ optional arguments:
   -o       target file
   -t       multi-thread
   -c       centre sequence index starting from 0
-  -r       realign the endings for better results
   -s       output alignments without sequence identifiers, i.e. in plain txt format but with sequence order retained
 ```
 

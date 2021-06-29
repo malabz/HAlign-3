@@ -26,11 +26,6 @@ public class NeedlemanWunschKBand extends PairwiseAligner
     {
         initialise(lhs, rhs);
 
-//        print_dp(lhs, rhs, matrix[X]);
-//        print_dp(lhs, rhs, matrix[Y]);
-//        print_dp(lhs, rhs, matrix[Z]);
-//        System.out.println();
-
         dp();
 
 //        print_dp_matrix(lhs, rhs, mtrx[X]);
@@ -138,6 +133,7 @@ public class NeedlemanWunschKBand extends PairwiseAligner
         int curr_path = UtilityFunctions.index_of_max(arr);
         while (lhs_index > 0 || rhs_index > 0)
         {
+//            System.out.printf("%7d%7d%7d\n", curr_path, lhs_index, rhs_index);
             switch (curr_path)
             {
                 case X:
@@ -161,8 +157,10 @@ public class NeedlemanWunschKBand extends PairwiseAligner
 //        byte[] rhs = Pseudo.string_to_pseudo("nnnnnnttaggaaaaaaanaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 //        byte[] lhs = Pseudo.string_to_pseudo("TTAATTTTAGTAGTGCTATCCCCATGTGATTTTAATAGCTTCTTAGGAGAATCTGCC");
 //        byte[] rhs = Pseudo.string_to_pseudo("TTAATTTTAGTAGTGCTATCCCCATGTGATTTTAATAGCTTCTTAGGAGAATG");
-        byte[] lhs = Pseudo.string_to_pseudo("ttctggtct");
-        byte[] rhs = Pseudo.string_to_pseudo("ttctct");
+//        byte[] lhs = Pseudo.string_to_pseudo("ttctggtct");
+//        byte[] rhs = Pseudo.string_to_pseudo("ttctct");
+        byte[] lhs = { 3, 3 };
+        byte[] rhs = { 2, 1, 1, 3, 2, 2, 2 };
         var result = NeedlemanWunschKBand.align(lhs, rhs);
         System.out.println(Pseudo.pseudo_to_string(Pseudo.insert_spaces(lhs, result.get_first())));
         System.out.println(Pseudo.pseudo_to_string(Pseudo.insert_spaces(rhs, result.get_second())));

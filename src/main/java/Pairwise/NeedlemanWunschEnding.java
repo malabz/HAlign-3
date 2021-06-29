@@ -170,8 +170,10 @@ public class NeedlemanWunschEnding extends PairwiseAligner
 //        byte[] rhs = Pseudo.string_to_pseudo("nnnnnnttaggaaaaaaanaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 //        byte[] lhs = Pseudo.string_to_pseudo("TGCTAGGTAGAGCTGCCTATATGGAAGAGCCCTAATGTGTAAAATTAATTTTAGTAGTGCTATCCCCATGTGATTTTAAAAGCTTTTTAGGAAAATGACCAAAAAAAAAAAAAAAA");
 //        byte[] rhs = Pseudo.string_to_pseudo("TGCTAGGTAGAGCTGCCTATATGGAAGAGCCCTAATGTGTAAAATTAATTTTAGTAGTGCTATCCCCATGTGATTTTAATAGCTTCTTAGGAGAATGACAAAAAAAAAAAAAAAAAAAAA");
-        byte[] lhs = Pseudo.string_to_pseudo("TTAATTTTAGTAGTGCTATCCCCATGTGATTTTAATAGCTTCTTAGGAGAATCTGCCACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-        byte[] rhs = Pseudo.string_to_pseudo("TTAATTTTAGTAGTGCTATCCCCATGTGATTTTAATAGCTTCTTAGGAGAATGACAAAAAAAAAAAAAAAAAAAAA");
+//        byte[] lhs = Pseudo.string_to_pseudo("TTAATTTTAGTAGTGCTATCCCCATGTGATTTTAATAGCTTCTTAGGAGAATCTGCCACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+//        byte[] rhs = Pseudo.string_to_pseudo("TTAATTTTAGTAGTGCTATCCCCATGTGATTTTAATAGCTTCTTAGGAGAATGACAAAAAAAAAAAAAAAAAAAAA");
+        byte[] lhs = Pseudo.string_to_pseudo("agaga");
+        byte[] rhs = Pseudo.string_to_pseudo("aga");
         var result = NeedlemanWunschEnding.align(lhs, rhs, RIGHT_ENDING);
         System.out.println(Pseudo.pseudo_to_string(Pseudo.insert_spaces(lhs, result.get_first())));
         System.out.println(Pseudo.pseudo_to_string(Pseudo.insert_spaces(rhs, result.get_second())));

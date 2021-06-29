@@ -10,14 +10,14 @@ import java.util.Comparator;
 import Utilities.Pair;
 import Utilities.Pseudo;
 import Utilities.UtilityFunctions;
+import MultipleSequenceAlignment.ResultInfo;
 
 import static Main.GlobalVariables.*;
 
 /**
  * 用于对dna, rna比对结果的后续处理
  */
-@Deprecated
-class PostProcessor
+public class PostProcessor
 {
 
     private byte[][] pseudo;
@@ -41,7 +41,7 @@ class PostProcessor
         if (chaotic_areas.size() != 0)
         {
             post_align();
-            // output_chaotic_part();
+            output_chaotic_part();
             return put_together();
         }
         else
@@ -62,11 +62,16 @@ class PostProcessor
     {
         contains_gap = new boolean[old_column];
         most_char_of_column = new byte[old_column];
+
         var char_frequency = new int[old_column][CHAR_KIND];
-        for (int i = 0; i != row; ++i) for (int j = 0; j != old_column; ++j) ++char_frequency[j][pseudo[i][j]];
+        for (int i = 0; i != row; ++i)
+            for (int j = 0; j != old_column; ++j)
+                ++char_frequency[j][pseudo[i][j]];
+
         for (int j = 0; j != old_column; ++j)
         {
-            if (char_frequency[j][GAP] != 0) contains_gap[j] = true;
+            if (char_frequency[j][GAP] != 0)
+                contains_gap[j] = true;
             for (byte curr_char = 1; curr_char != CHAR_KIND; ++curr_char)
                 if (char_frequency[j][curr_char] > char_frequency[j][most_char_of_column[j]])
                     most_char_of_column[j] = curr_char;
@@ -74,7 +79,8 @@ class PostProcessor
         var al = new ArrayList<Integer>();
         al.add(0);
         for (int j = 1; j != old_column; ++j)
-            if ((most_char_of_column[j - 1] == GAP) != (most_char_of_column[j] == GAP)) al.add(j);
+            if ((most_char_of_column[j - 1] == GAP) != (most_char_of_column[j] == GAP))
+                al.add(j);
         al.add(old_column);
         endpoints = UtilityFunctions.to_array(al);
     }
@@ -85,6 +91,7 @@ class PostProcessor
         for (int i = most_char_of_column[0] == GAP ? 1 : 0; i < endpoints.length - 1; i += 2)
             if (determine_if_unstable(endpoints[i], endpoints[i + 1]))
                 for (int j = endpoints[i]; j != endpoints[i + 1]; ++j) is_unstable[j] = true;
+
         var al = new ArrayList<Integer>();
         for (int j = 0; j < old_column; ++j) // 待检查
             if (is_unstable[j])
@@ -141,7 +148,18 @@ class PostProcessor
             var pending_alignment = new byte[row][];
             for (int j = 0; j != row; ++j)
                 pending_alignment[j] = Pseudo.remove_spaces(pseudo[j], chaotic_areas.get(i).get_first(), chaotic_areas.get(i).get_second());
-            substitutes[i] = new Realigner(pending_alignment).align();
+
+            final int original_length = chaotic_areas.get(i).get_second() - chaotic_areas.get(i).get_first();
+            var original_alignment = new byte[row][original_length];
+            for (int j = 0; j != row; ++j)
+                for (int k = 0; k != original_length; ++k)
+                    original_alignment[j][k] = pseudo[j][k + chaotic_areas.get(i).get_first()];
+
+            var possible_substitute = new Realigner(pending_alignment).align();
+            if (ResultInfo.calculate_sp(possible_substitute) > ResultInfo.calculate_sp(original_alignment))
+                substitutes[i] = possible_substitute;
+            else
+                substitutes[i] = original_alignment;
         }
         // for (int i = 0; i != chaotic_areas.size(); ++i) substitutes[i] = post_align(chaotic_areas.get(i).get_first(), chaotic_areas.get(i).get_second());
     }
@@ -276,7 +294,7 @@ class PostProcessor
                 for (int j = 0; j != row; ++j)
                 {
                     bw.write(">" + j + '\n');
-                    bw.write(Pseudo.pseudo_to_string(Pseudo.remove_spaces(pseudo[j], chaotic_areas.get(i).get_first(), chaotic_areas.get(i).get_second())));
+                    bw.write(Pseudo.pseudo_to_string(pseudo[j], chaotic_areas.get(i).get_first(), chaotic_areas.get(i).get_second()));
                     if (j != row - 1) bw.write('\n');
                 }
             }

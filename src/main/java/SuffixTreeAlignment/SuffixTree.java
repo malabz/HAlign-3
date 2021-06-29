@@ -242,14 +242,11 @@ class SuffixTree
     int[][] get_identical_subsequence_pairs(byte[] rhs)
     {
         var al = new ArrayList<Integer>();
-        al.add(-1);
-        al.add(-1);
+        al.add(0);
+        al.add(0);
         al.add(0);
 
-        int rhs_index = 0;
-//        var hsal = new ArrayList<HashSet<Integer>>(word.length + 1);
-        var hsal = new ArrayList<HashSet<Integer>>(Collections.nCopies(word.length + 1, null));
-        while (rhs_index < rhs.length)
+        for (int rhs_index = 0; rhs_index < rhs.length; )
         {
             var curr_result = search_prefix(rhs, rhs_index, GLOBAL_THRESHOLD);
 
@@ -259,26 +256,18 @@ class SuffixTree
             }
             else // 找到了
             {
-                final int curr_len = curr_result.get(0);
-                final int rhs_bgn = rhs_index;
+//                final int curr_len = curr_result.get(0);
+//                final int rhs_bgn = rhs_index;
+//                final int rhs_end = rhs_bgn + curr_len;
                 for (int i = 1; i != curr_result.size(); ++i)
                 {
-                    final int lhs_bgn = curr_result.get(i);
-                    final int lhs_end = lhs_bgn + curr_len;
-                    final int rhs_end = rhs_bgn + curr_len;
-                    if (hsal.get(lhs_end) == null || !hsal.get(lhs_end).contains(rhs_end))
-                    {
-                        al.add(curr_result.get(i));
-                        al.add(rhs_index);
-                        al.add(curr_result.get(0));
-
-                        if (hsal.get(lhs_end) == null) hsal.set(lhs_end, new HashSet<>());
-                        hsal.get(lhs_end).add(rhs_end);
-                    }
+//                    final int lhs_bgn = curr_result.get(i);
+//                    final int lhs_end = lhs_bgn + curr_len;
+                    al.add(curr_result.get(i));
+                    al.add(rhs_index);
+                    al.add(curr_result.get(0));
                 }
                 rhs_index += curr_result.get(0) - GLOBAL_THRESHOLD + 1;
-//                rhs_index += GLOBAL_THRESHOLD;
-//                rhs_index += 1;
             }
         }
 

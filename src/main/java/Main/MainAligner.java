@@ -20,7 +20,7 @@ public class MainAligner
 //        var next_centre = extract(result);
 //        result = SuffixTreeAlignment.SuffixTreeAligner.align(sequences, next_centre);
 
-        if (realign_ending) result = Pairwise.PoolAligner.align(result);
+//        if (realign_ending) result = Pairwise.PoolAligner.align(result);
 
         return result;
     }

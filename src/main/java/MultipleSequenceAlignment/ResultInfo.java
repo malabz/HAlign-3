@@ -1,6 +1,6 @@
 package MultipleSequenceAlignment;
 
-import static Main.GlobalVariables.GAP;
+import static Main.GlobalVariables.*;
 
 /**
  * 全部为静态函数, 返回比对结果的某些属性
@@ -31,12 +31,22 @@ public class ResultInfo
      */
     public static long calculate_sp(byte[][] pseudo_result, int match_score, int mismatch_score, int gap_score)
     {
-        int row = pseudo_result.length;
-        long ret = 0;
-        for (int i = 0; i != row - 1; ++i)
-            for (int j = i + 1; j != row; ++j)
-                ret += pairwise_sp(pseudo_result[i], pseudo_result[j], match_score, mismatch_score, gap_score);
-        return ret;
+        long score = 0;
+        for (int j = 0; j != pseudo_result[0].length; ++j)
+        {
+            int[] statistics = new int[CHAR_KIND];
+            for (int i = 0; i != pseudo_result.length; ++i)
+                ++statistics[pseudo_result[i][j]];
+            score += score_of(statistics[A], statistics[G], statistics[C], statistics[T], statistics[UNKNOWN], statistics[GAP]);
+        }
+        return score;
+    }
+
+    private static long score_of(int a, int g, int c, int t, int n, int gap)
+    {
+        return ((a + c) * (g + t) + a * c + g * t) * MISMATCH_SCORE +
+                (a * (a - 1) + c * (c - 1) + g * (g - 1) + t * (t - 1)) / 2 * MATCH_SCORE +
+                (a + c + g + t + n) * gap * GAP_SCORE;
     }
 
     public static long pairwise_sp(byte[] lhs, byte[] rhs)

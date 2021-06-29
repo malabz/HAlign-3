@@ -29,7 +29,7 @@ public class SuffixTreeAligner
 
     public static byte[][] align(byte[][] sequences, int centre)
     {
-        if (centre == -1)
+        if (centre < 0 || centre >= sequences.length)
         {
             centre = 0;
             for (int i = 1; i != sequences.length; ++i)
@@ -100,9 +100,11 @@ public class SuffixTreeAligner
     {
         name = new int[row][][];
         for (int i = 0; i != row; ++i)
-            if (sequences[i] == centre) name[i] = new int[][]{{0, 0, centre.length}};
-//            else name[i] = st.align_with(sequences[i]);
-            else name[i] = IdenticalSubsequencePairsOptimizer.optimize(st.get_identical_subsequence_pairs(sequences[i]));
+            if (sequences[i] == centre)
+                name[i] = new int[][]{{0, 0, centre.length}};
+            else
+//                name[i] = st.align_with(sequences[i]);
+                name[i] = IdenticalSubsequencePairsOptimizer.optimize(st.get_identical_subsequence_pairs(sequences[i]));
     }
 
     // 测试name数组是否有效: 即检查所有同质子串对是否相等
@@ -110,7 +112,6 @@ public class SuffixTreeAligner
     private void check_name()
     {
         for (int i = 0; i != row; ++i)
-        {
             for (int j = 0; j != name[i].length; ++j)
             {
                 assert name[i][j][0] >= 0;
@@ -123,7 +124,6 @@ public class SuffixTreeAligner
                             Pseudo.pseudo_to_string(Arrays.copyOfRange(centre      , name[i][j][0], name[i][j][0] + name[i][j][2])) + "\n" +
                             Pseudo.pseudo_to_string(Arrays.copyOfRange(sequences[i], name[i][j][1], name[i][j][1] + name[i][j][2]));
             }
-        }
     }
 
     private void build_anti_name()

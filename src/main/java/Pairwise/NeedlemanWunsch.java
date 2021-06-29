@@ -80,7 +80,6 @@ public class NeedlemanWunsch extends PairwiseAligner
 //        lhs_gap_open[0] = lhs_gap_open[lhs.length] = rhs_gap_open[0] = rhs_gap_open[rhs.length] = END_OPEN;
 
         for (int i = 1; i <= lhs.length; ++i)
-        {
             for (int j = 1; j <= rhs.length; ++j)
             {
                 int open = i == lhs.length || j == rhs.length ? END_OPEN : MID_OPEN;
@@ -88,13 +87,13 @@ public class NeedlemanWunsch extends PairwiseAligner
                 int index_of_max;
 
                 arr[X] = mtrx[X][i - 1][j];
-                arr[Y] = mtrx[Y][i - 1][j] + open;
+                arr[Y] = mtrx[Y][i - 1][j] + open; //
                 arr[Z] = mtrx[Z][i - 1][j] + open;
                 index_of_max = UtilityFunctions.index_of_max(arr);
                 mtrx[X][i][j] = arr[index_of_max] + EXTENSION;
                 path[X][i][j] = index_of_max;
 
-                arr[X] = mtrx[X][i][j - 1] + open;
+                arr[X] = mtrx[X][i][j - 1] + open; //
                 arr[Y] = mtrx[Y][i][j - 1];
                 arr[Z] = mtrx[Z][i][j - 1] + open;
                 index_of_max = UtilityFunctions.index_of_max(arr);
@@ -108,7 +107,6 @@ public class NeedlemanWunsch extends PairwiseAligner
                 mtrx[Z][i][j] = arr[index_of_max] + score(lhs[i - 1], rhs[j - 1]);
                 path[Z][i][j] = index_of_max;
             }
-        }
     }
 
     private int score(byte l, byte r)

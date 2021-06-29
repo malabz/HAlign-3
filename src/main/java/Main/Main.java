@@ -17,6 +17,7 @@ public class Main
         var input = new Fasta(infile);
 
         var result = MainAligner.align(Pseudo.string_to_pseudo(input.get_sequences()));
+//        result = new SuffixTreeAlignment.PostProcessor().post_process(result);
 
         var output_sequences = new String[result.length];
         var output_sequence_identifiers = new String[result.length];
@@ -61,10 +62,10 @@ public class Main
                 {
                     identifiers_retained = false;
                 }
-                else if (args[i].charAt(1) == 'r')
-                {
-                    realign_ending = true;
-                }
+//                else if (args[i].charAt(1) == 'r')
+//                {
+//                    realign_ending = true;
+//                }
                 else
                 {
                     args_help();
@@ -85,9 +86,10 @@ public class Main
         if (thread < 1 || thread > core_num) thread = core_num > 2 ? core_num / 2 : 1;
     }
 
-    private static void args_help()
+    public static void args_help()
     {
-        System.out.println("usage: java -jar " + System.getProperty("java.class.path") + " [-h] [-o] [-t thread] [-c centre_index] [-r] [-s] infile" );
+//        System.out.println("usage: java -jar " + System.getProperty("java.class.path") + " [-h] [-o] [-t thread] [-c centre_index] [-r] [-s] infile" );
+        System.out.println("usage: java -jar " + System.getProperty("java.class.path") + " [-h] [-o] [-t thread] [-c centre_index] [-s] infile" );
         System.out.println();
         System.out.println("positional argument: ");
         System.out.println("  infile   nucleotide sequences in fasta format");
@@ -97,7 +99,7 @@ public class Main
         System.out.println("  -o       target file");
         System.out.println("  -t       multi-thread");
         System.out.println("  -c       centre sequence index(starting from 0)");
-        System.out.println("  -r       realign the endings for better results");
+//        System.out.println("  -r       realign the endings for better results");
         System.out.println("  -s       output alignments without sequence identifiers, i.e. in plain txt format but");
         System.out.println("           with sequence order retained");
         System.out.println();
