@@ -85,9 +85,9 @@ public final class Fasta
         return str.replaceAll("\\s+", "");
     }
 
-    public String get_sequence_identifiers(int index) { return sequence_identifiers[index]; }
+    public String get_sequence_identifier(int index) { return sequence_identifiers[index].substring(1); }
 
-    public String[] get_sequence_identifiers() { return sequence_identifiers; }
+    public String[] get_sequence_identifier() { return sequence_identifiers; }
 
     public String get_sequence(int index) { return sequences[index]; }
 
