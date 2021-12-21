@@ -24,13 +24,9 @@ public class Main
         for (int i = 0; i != result.length; ++i)
         {
             output_sequences[i] = Pseudo.merge(result[i], input.get_sequence(i));
-            output_sequence_identifiers[i] = input.get_sequence_identifiers(i);
+            output_sequence_identifiers[i] = input.get_sequence_identifier(i);
         }
         new Fasta(output_sequences, output_sequence_identifiers).output(outfile, identifiers_retained);
-
-        System.out.println();
-        System.out.println("http://lab.malab.cn/soft/halign/");
-        System.out.println();
     }
 
     // 修改参数需要修改parse, arg_help, print_args三个函数以及README.md, 其中arg_help可能有两个地方需要更改
@@ -40,7 +36,9 @@ public class Main
         for (int i = 0; i < args.length; ++i)
             if (args[i].charAt(0) == '-')
             {
-                if (args[i].length() != 2) args_help();
+                if (args[i].length() != 2)
+                    args_help();
+
                 if (args[i].charAt(1) == 'o')
                 {
                     if (i == args.length - 1 || args[++i].charAt(0) == '-') args_help();
@@ -66,6 +64,10 @@ public class Main
 //                {
 //                    realign_ending = true;
 //                }
+                else if (args[i].charAt(1) == 'v')
+                {
+                    produce_version_message();
+                }
                 else
                 {
                     args_help();
@@ -95,14 +97,22 @@ public class Main
         System.out.println("  infile   nucleotide sequences in fasta format");
         System.out.println();
         System.out.println("optional arguments: ");
-        System.out.println("  -h       show this help message and exit");
-        System.out.println("  -o       target file");
-        System.out.println("  -t       multi-thread");
-        System.out.println("  -c       centre sequence index(starting from 0)");
+        System.out.println("  -h       produce help message and exit");
+        System.out.println("  -v       produce version message and exit");
+        System.out.println("  -o       target file path");
+        System.out.println("  -t       multi-thread, with a default setting of half of the cores available");
+        System.out.println("  -c       centre sequence index (0-based), with a default setting of the longest sequence index");
 //        System.out.println("  -r       realign the endings for better results");
         System.out.println("  -s       output alignments without sequence identifiers, i.e. in plain txt format but");
         System.out.println("           with sequence order retained");
         System.out.println();
+        System.exit(0);
+    }
+
+    public static void produce_version_message()
+    {
+        System.out.println("HAlign v3.0.0-rc1");
+        System.out.println("http://lab.malab.cn/soft/halign/");
         System.exit(0);
     }
 

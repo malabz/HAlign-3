@@ -3,13 +3,10 @@ package SuffixTreeAlignment;
 import Utilities.Fasta;
 import Utilities.Pseudo;
 import Utilities.UtilityFunctions;
-import SequenceDistance.OptimalStringAlignmentDistance;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 class IdenticalSubsequencePairsOptimizer
@@ -124,99 +121,64 @@ class IdenticalSubsequencePairsOptimizer
 
     public static void main(String[] args)
     {
-        System.out.println(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")));
-        var fasta = new Fasta("dataset/SARS-CoV-2_20200417.fasta");
-//        var fasta = new Fasta("dataset/gisaid_hcov-19_2020_09_01_08_tmp.fasta");
-        var differences = new int[fasta.get_sequence_number()][2];
+//        System.out.println(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")));
+        final String[] similarities = { "60", "70", "80", "85", "90", "91", "92", "93", "94", "95", "96", "97", "98", "99" };
+        final String infile = "C:\\Users\\heartunderblade\\Documents\\papers\\papers\\experiment\\tangfurong\\simulate_", postfix = ".fasta";
 
-//        var sequences = Pseudo.string_to_pseudo(fasta.get_sequences());
-//        var distance_matrix = new int[sequences.length][sequences.length];
-//        for (int i = 0; i != sequences.length - 1; ++i)
-//        {
-//            for (int j = i + 1; j != sequences.length; ++j)
-//                distance_matrix[i][j] = SequenceDistance.OptimalStringAlignmentDistance.get_distance(sequences[i], sequences[j]);
-//            System.out.println("" + i);
-//        }
-
-        long total_time_consuming = 0, counterpart_total_time_consuming = 0;
-        for (int c = 0; c != fasta.get_sequence_number(); ++c)
+        for (var similarity : similarities)
         {
-            int[] coverages = new int[fasta.get_sequence_number()], counterpart_coverages = new int[fasta.get_sequence_number()];
-            int sum = 0, counterpart_sum = 0;
-            int min = Integer.MAX_VALUE;
-            int plus = 0, minus = 0;
-            int plus_sum = 0, minus_sum = 0;
-
-            var centre = Pseudo.string_to_pseudo(fasta.get_sequence(c));
-            var st = new SuffixTree(centre);
-            long total_length_of_sequences = 0;
-            for (int i = 0; i != fasta.get_sequence_number(); ++i)
+            final var fasta = new Fasta(infile + similarity + postfix);
+            final int n = fasta.get_sequence_number();
+            var lengths = new int[2][n];
+            var counts = new int[2][n];
+            for (int c = 0; c != 1; ++c)
             {
-                long stop;
-                var rhs = Pseudo.string_to_pseudo(fasta.get_sequence(i));
-                total_length_of_sequences += rhs.length;
+                final var centre = Pseudo.string_to_pseudo(fasta.get_sequence(c));
+                final var st = new SuffixTree(centre);
+                for (int i = 1; i != n; ++i)
+                {
+                    final var rhs = Pseudo.string_to_pseudo(fasta.get_sequence(i));
 
-                stop = System.currentTimeMillis();
-                var result = IdenticalSubsequencePairsOptimizer.optimize(st.get_identical_subsequence_pairs(rhs));
-                total_time_consuming += System.currentTimeMillis() - stop;
-                check_pairs(centre, rhs, result);
-                int coverage = 0;
-                for (int j = 0; j != result.length; ++j) coverage += result[j][2];
-                coverages[i] = coverage;
-                sum += coverage;
-                if (coverage < min) min = coverage;
+                    final var optimized_common_substrings = IdenticalSubsequencePairsOptimizer.optimize(st.get_identical_subsequence_pairs(rhs));
+                    check_pairs(centre, rhs, optimized_common_substrings);
+                    for (int j = 0; j != optimized_common_substrings.length; ++j)
+                        lengths[0][i] += optimized_common_substrings[j][2];
+                    counts[0][i] = optimized_common_substrings.length;
 
-                stop = System.currentTimeMillis();
-                var counterpart_result = st.align_with(rhs);
-                counterpart_total_time_consuming += System.currentTimeMillis() - stop;
-                check_pairs(centre, rhs, counterpart_result);
-                int counterpart_coverage = 0;
-                for (int j = 0; j != counterpart_result.length; ++j) counterpart_coverage += counterpart_result[j][2];
-                counterpart_coverages[i] = counterpart_coverage;
-                counterpart_sum += counterpart_coverage;
-                if (coverage > counterpart_coverage) { ++plus; plus_sum += coverage - counterpart_coverage; }
-                if (coverage < counterpart_coverage) { ++minus; minus_sum += counterpart_coverage - coverage; }
+                    final var original_common_substrings = st.align_with(rhs);
+                    check_pairs(centre, rhs, original_common_substrings);
+                    for (int j = 0; j != original_common_substrings.length; ++j)
+                        lengths[1][i] += original_common_substrings[j][2];
+                    counts[1][i] = original_common_substrings.length;
+                }
             }
 
-            for (int i = 0; i != fasta.get_sequence_number(); ++i)
-                if (coverages[i] != counterpart_coverages[i])
-                {
-                    differences[c][0] += coverages[i];
-                    differences[c][1] += counterpart_coverages[i];
-                }
-//            System.out.printf("      sum = %d\n", sum);
-//            System.out.printf("    c_sum = %d\n", counterpart_sum);
-//            System.out.printf("     plus = %d\n", plus);
-//            System.out.printf("    minus = %d\n", minus);
-//            System.out.printf(" plus_sum = %d\n", plus_sum);
-//            System.out.printf("minus_sum = %d\n", minus_sum);
-//            System.out.printf("      min = %d\n", min);
-//            System.out.printf("  average = %.1f\n", 1. *             sum / fasta.get_sequence_number());
-//            System.out.printf("c_average = %.1f\n", 1. * counterpart_sum / fasta.get_sequence_number());
-//            System.out.printf("     time = %d\n", total_time_consuming);
-//            System.out.printf("   c_time = %d\n", counterpart_total_time_consuming);
-//            System.out.printf(" a_length = %.1f\n", (float)total_length_of_sequences / fasta.get_sequence_number());
-//            Arrays.sort(            coverages); for (int i = 0; i != 100 ; ++i) System.out.printf("%7d",             coverages[i]); System.out.println();
-//            Arrays.sort(counterpart_coverages); for (int i = 0; i != 100; ++i) System.out.printf("%7d", counterpart_coverages[i]); System.out.println();
-//            System.out.println(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")));
+            // 中心序列名, 参比序列名, 中心序列长度, 相似性, 新同源字符串长度和, 新同源子字符串数量, 新同源子字符串平均长度, 旧同源子字符串长度和, 旧同源子字符串数量, 旧同源子字符串平均长度
+            try (var bw = new BufferedWriter(new FileWriter(infile + similarity + ".txt")))
+            {
+                final int length_of_centre = fasta.get_sequence(0).length();
+                for (int c = 0; c != 1; ++c)
+                    for (int i = 1; i != n; ++i)
+                    {
+                        bw.write(fasta.get_sequence_identifier(0));
+                        bw.write(','); bw.write(fasta.get_sequence_identifier(i));
+                        bw.write(','); bw.write(String.valueOf(length_of_centre));
+                        bw.write(','); bw.write(similarity);
+                        bw.write(','); bw.write(String.valueOf(lengths[0][i]));
+                        bw.write(','); bw.write(String.valueOf(counts[0][i]));
+                        bw.write(','); bw.write(String.valueOf(counts[0][i] == 0 ? -1 : lengths[0][i] / counts[0][i]));
+                        bw.write(','); bw.write(String.valueOf(lengths[1][i]));
+                        bw.write(','); bw.write(String.valueOf(counts[1][i]));
+                        bw.write(','); bw.write(String.valueOf(counts[1][i] == 0 ? -1 : lengths[0][i] / counts[0][i]));
+                        bw.newLine();
+                    }
+            }
+            catch (IOException e)
+            {
+                System.err.println("fatal error: cannot write file ");
+                System.exit(1);
+            }
         }
-        System.out.printf("     time = %d\n", total_time_consuming);
-        System.out.printf("   c_time = %d\n", counterpart_total_time_consuming);
-
-//        try (var bw = new BufferedWriter(new FileWriter("D:/tmp3.txt")))
-//        {
-//            for (int i = 0; i != fasta.get_sequence_number(); ++i)
-//            {
-//                bw.write("" + differences[i][0] + "," + differences[i][1]);
-//                if (i != fasta.get_sequence_number()) bw.newLine();
-//                bw.flush();
-//            }
-//        }
-//        catch (IOException e)
-//        {
-//            System.err.println("fatal error: cannot write file ");
-//            System.exit(1);
-//        }
     }
 
     static private void print_name(int[][] name)

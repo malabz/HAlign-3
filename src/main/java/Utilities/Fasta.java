@@ -85,9 +85,9 @@ public final class Fasta
         return str.replaceAll("\\s+", "");
     }
 
-    public String get_sequence_identifiers(int index) { return sequence_identifiers[index]; }
+    public String get_sequence_identifier(int index) { return sequence_identifiers[index].substring(1); }
 
-    public String[] get_sequence_identifiers() { return sequence_identifiers; }
+    public String[] get_sequence_identifier() { return sequence_identifiers; }
 
     public String get_sequence(int index) { return sequences[index]; }
 
@@ -114,12 +114,16 @@ public final class Fasta
             {
                 if (output_identifiers)
                 {
+                    bw.write(">");
+
                     if (sequence_identifiers != null && sequence_identifiers[i] != null)
                         bw.write(sequence_identifiers[i]);
                     else
-                        bw.write(">" + i + "\n");
+                        bw.write(i);
+
                     bw.newLine();
                 }
+
                 bw.write(sequences[i]);
                 if (i != sequences.length - 1) bw.newLine();
                 bw.flush();
