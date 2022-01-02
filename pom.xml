@@ -6,7 +6,7 @@
 
     <groupId>malabz</groupId>
     <artifactId>HAlign</artifactId>
-    <version>3.0.0-rc1</version>
+    <version>3.0.0_rc1</version>
 
     <dependencies>
         <!-- <dependency>
