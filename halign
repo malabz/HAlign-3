@@ -1,0 +1,14 @@
+#!/bin/bash
+set -e
+
+PROG=$(dirname $(readlink -f $0))
+#echo $PROG
+
+if [ "$*" == "" ] 
+then
+    java -jar $PROG/../share/halign-stmsa.jar -h
+    exit 0
+fi
+
+java -jar $PROG/../share/halign-stmsa.jar $*
+
