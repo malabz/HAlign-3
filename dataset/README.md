@@ -64,7 +64,7 @@ tar -Jxf simudata_splitted.tar.xz
 
 ## Human mitochondrial genomes
 
-<a href="http://lab.malab.cn/%7Etfr/HAlign3_testdata/mt_genome.fasta" download="mt_genome.fasta">mt_genome.fasta</a> is composed of 672 sequences with the longest length of 16,579 bp and the shortest length of 16,556 bp, which is highly similar to each other  (>99%). 
+<a href="http://lab.malab.cn/%7Etfr/HAlign3_testdata/mt_genome.tar.xz" download="mt_genome.tar.xz">mt_genome.tar.xz</a> is composed of 672 sequences with the longest length of 16,579 bp and the shortest length of 16,556 bp, which is highly similar to each other  (>99%). 
 
 
 
@@ -78,10 +78,10 @@ Respiratory syndrome coronavirus 2 (SARS‑CoV‑2) is an RNA virus, which cause
 tar -Jxf sars_cov_2_1Mseq.tar.xz
 ```
 
-<a href="http://lab.malab.cn/%7Etfr/HAlign3_testdata/sars_cov_2_500seq.fasta" download="sars_cov_2_500seq.fasta">sars_cov_2_500seq.fasta</a> is the first 500 sequences (29283 to 29891bp) from the dataset above. 500 SARS-CoV-2 genomes are less similar to each other (>97%), ranging from 21,111bp to 29,891bp.
+<a href="http://lab.malab.cn/%7Etfr/HAlign3_testdata/sars_cov_2_500seq.tar.xz" download="sars_cov_2_500seq.tar.xz">sars_cov_2_500seq.tar.xz</a> is the first 500 sequences (29283 to 29891bp) from the dataset above. 500 SARS-CoV-2 genomes are less similar to each other (>97%), ranging from 21,111bp to 29,891bp.
 
 
 
 ## Mycobacterium 23S rRNA sequences
 
-<a href="http://lab.malab.cn/%7Etfr/HAlign3_testdata/23s-rRNA.fasta" download="23s-rRNA.fasta">23s-rRNA.fasta</a> is composed of 641 Mycobacterium 23S rRNA sequences in the range from 1909 to 3485 bp, downloaded from the SLIVA rRNA database (http://www.arb-silva.de/) of bacteria, archaea and eukarya. Sequences from this dataset are more diverse to each other (>30%).
+<a href="http://lab.malab.cn/%7Etfr/HAlign3_testdata/23s-rRNA.tar.xz" download="23s-rRNA.tar.xz">23s-rRNA.tar.xz</a> is composed of 641 Mycobacterium 23S rRNA sequences in the range from 1909 to 3485 bp, downloaded from the SLIVA rRNA database (http://www.arb-silva.de/) of bacteria, archaea and eukarya. Sequences from this dataset are more diverse to each other (>30%).
