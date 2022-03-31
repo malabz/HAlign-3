@@ -59,7 +59,7 @@ positional argument:
 
 optional arguments: 
     -o <filename>    output aligned file, with option (-s) on, sequence identifiers will not be outputted
-    -t <integer>     multi-thread, with a default setting of half of the threads available
+    -t <integer>     multi-thread, with a default setting of half of the cores available
     -c <integer>     centre sequence index (0-based), (default: the longest sequence)
     -s               output alignments without sequence identifiers, i.e. in plain txt format but with sequence order retained, (default: off)
     -h               produce help message and exit
@@ -102,7 +102,7 @@ positional argument:
 
 optional arguments: 
     -o <filename>    output aligned file, with option (-s) on, sequence identifiers will not be outputted
-    -t <integer>     multi-thread, with a default setting of half of the threads available
+    -t <integer>     multi-thread, with a default setting of half of the cores available
     -c <integer>     centre sequence index (0-based), (default: the longest sequence)
     -s               output alignments without sequence identifiers, i.e. in plain txt format but with sequence order retained, (default: off)
     -h               produce help message and exit
