@@ -4,7 +4,7 @@
 
 <a href="http://lab.malab.cn/%7Etfr/HAlign3_testdata/mt_genome.tar.xz" download="mt_genome.tar.xz">mt_genome.tar.xz</a> is composed of 672 sequences with the longest length of 16,579 bp and the shortest length of 16,556 bp, which is highly similar to each other  (>99%). Use the following command line to uncompress:
 ```
-tar -Jxf sars_cov_2_1Mseq.tar.xz
+tar -Jxf mt_genome.tar.xz
 ```
 
 ## Respiratory syndrome coronavirus 2 genomes
