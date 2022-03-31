@@ -28,7 +28,7 @@ HAlign is a cross-platform program that performs multiple sequence alignment bas
 3.Install HAlign 3
 
 ```bash
-#1 Create an environment for halign 
+#1 Create an environment and install the required package openjdk for running halign
 conda create -n halign_env -c conda-forge openjdk=11
 
 #2 Activate halign environment everytime when using halign program.
