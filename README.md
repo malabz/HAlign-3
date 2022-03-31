@@ -23,7 +23,7 @@ HAlign is a cross-platform program that performs multiple sequence alignment bas
 ### 1.1 OSX/Linux/WSL(Windows Subsystem for Linux ) - using anaconda
 1.Intall WSL for Windows. Instructional video [1](https://www.youtube.com/watch?v=X-DHaQLrBi8&t=5s) or [2](http://lab.malab.cn/%7Etfr/1.mp4) (Copyright belongs to the original work).
 
-2.Download and install Anaconda. Download Anaconda versions for different systems from [here](https://www.anaconda.com/products/distribution#Downloads). Click [here](https://www.youtube.com/watch?v=AshsPB3KT-E) for instructional video of anaconda installation or [here](http://lab.malab.cn/%7Etfr/Install_anaconda_in_Linux.mp4) (Copyright belongs to the original work).
+2.Download and install Anaconda. Download Anaconda versions for different systems from [here](https://www.anaconda.com/products/distribution#Downloads). Instructional video of anaconda installation [1](https://www.youtube.com/watch?v=AshsPB3KT-E) or [2](http://lab.malab.cn/%7Etfr/Install_anaconda_in_Linux.mp4) (Copyright belongs to the original work).
 
 3.Install HAlign 3
 
