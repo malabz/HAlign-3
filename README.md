@@ -59,7 +59,7 @@ positional argument:
 
 optional arguments: 
     -o <filename>    output aligned file, with option (-s) on, sequence identifiers will not be outputted
-    -t <integer>     multi-thread, with a default setting of half of the cores available
+    -t <integer>     multi-thread, with a default setting of half of the threads available
     -c <integer>     centre sequence index (0-based), (default: the longest sequence)
     -s               output alignments without sequence identifiers, i.e. in plain txt format but with sequence order retained, (default: off)
     -h               produce help message and exit
@@ -74,7 +74,7 @@ optional arguments:
 
 2.Run HAlign 3.
 
-Align mt_genome.fasta dataset by HAlign 3 with the setting of: 5 CPU cores for paralization alignment, the 7th sequence as center sequence during alignment, output alignment block without sequence identifiers
+Align mt_genome.fasta dataset by HAlign 3 with the setting of: 5 threads for paralization alignment, the 7th sequence as center sequence during alignment, output alignment block without sequence identifiers
 
 ```shell
 halign -o halign3ed_mt_genome.fasta -t 5 -c 6 -s mt_genome.fasta
@@ -102,7 +102,7 @@ positional argument:
 
 optional arguments: 
     -o <filename>    output aligned file, with option (-s) on, sequence identifiers will not be outputted
-    -t <integer>     multi-thread, with a default setting of half of the cores available
+    -t <integer>     multi-thread, with a default setting of half of the threads available
     -c <integer>     centre sequence index (0-based), (default: the longest sequence)
     -s               output alignments without sequence identifiers, i.e. in plain txt format but with sequence order retained, (default: off)
     -h               produce help message and exit
@@ -117,7 +117,7 @@ optional arguments:
 
 2.Run HAlign 3.
 
-Align mt_genome.fasta dataset by HAlign 3 with the setting of: 5 CPU cores for paralization alignment, the 7th sequence as center sequence during alignment, output alignment block without sequence identifiers
+Align mt_genome.fasta dataset by HAlign 3 with the setting of: 5 threads for paralization alignment, the 7th sequence as center sequence during alignment, output alignment block without sequence identifiers
 
 ```shell
 java -jar halign-stmsa.jar -o halign3ed_mt_genome.fasta -t 5 -c 6 -s mt_genome.fasta
