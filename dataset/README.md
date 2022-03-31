@@ -19,7 +19,7 @@ Respiratory syndrome coronavirus 2 (SARS‑CoV‑2) is an RNA virus, which cause
 
 ## Mycobacterium 23S rRNA sequences
 
-<a href="http://lab.malab.cn/%7Etfr/HAlign3_testdata/23s-rRNA.tar.xz" download="23s-rRNA.tar.xz">23s-rRNA.tar.xz</a> is composed of 641 Mycobacterium 23S rRNA sequences in the range from 1909 to 3485 bp, downloaded from the SLIVA rRNA database (http://www.arb-silva.de/) of bacteria, archaea and eukarya. Sequences from this dataset are more diverse to each other (>30%).
+<a href="http://lab.malab.cn/%7Etfr/HAlign3_testdata/23s_rRNA.tar.xz" download="23s_rRNA.tar.xz">23s_rRNA.tar.xz</a> is composed of 641 Mycobacterium 23S rRNA sequences in the range from 1909 to 3485 bp, downloaded from the SLIVA rRNA database (http://www.arb-silva.de/) of bacteria, archaea and eukarya. Sequences from this dataset are more diverse to each other (>30%).
 
 
 # Simulated datasets
