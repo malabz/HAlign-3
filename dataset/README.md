@@ -57,19 +57,21 @@ refer_99.fasta  FASTA   DNA      1,000  31,941,000   31,941   31,941   31,941
 test datasets:
 
 ```
-file                 format  type  num_seqs     sum_len  min_len   avg_len  max_len
-simulated_60.fasta   FASTA   DNA      1,000  28,923,078   28,922  28,923.1   30,000
-simulated_70.fasta   FASTA   DNA      1,000  29,192,808   29,192  29,192.8   30,000
-simulated_80.fasta   FASTA   DNA      1,000  29,462,538   29,462  29,462.5   30,000
-simulated_85.fasta   FASTA   DNA      1,000  29,597,403   29,597  29,597.4   30,000
-simulated_90.fasta   FASTA   DNA      1,000  29,732,268   29,732  29,732.3   30,000
-simulated_91.fasta   FASTA   DNA      1,000  29,759,241   29,759  29,759.2   30,000
-simulated_92.fasta   FASTA   DNA      1,000  29,786,214   29,786  29,786.2   30,000
-simulated_93.fasta   FASTA   DNA      1,000  29,813,187   29,813  29,813.2   30,000
-simulated_94.fasta   FASTA   DNA      1,000  29,840,160   29,840  29,840.2   30,000
-simulated_95.fasta   FASTA   DNA      1,000  29,867,133   29,867  29,867.1   30,000
-simulated_96.fasta   FASTA   DNA      1,000  29,894,106   29,894  29,894.1   30,000
-simulated_97.fasta   FASTA   DNA      1,000  29,921,079   29,921  29,921.1   30,000
+file                format  type  num_seqs     sum_len  min_len   avg_len  max_len
+simulated_60.fasta  FASTA   DNA      1,000  28,923,078   28,922  28,923.1   30,000
+simulated_70.fasta  FASTA   DNA      1,000  29,192,808   29,192  29,192.8   30,000
+simulated_80.fasta  FASTA   DNA      1,000  29,462,538   29,462  29,462.5   30,000
+simulated_85.fasta  FASTA   DNA      1,000  29,597,403   29,597  29,597.4   30,000
+simulated_90.fasta  FASTA   DNA      1,000  29,732,268   29,732  29,732.3   30,000
+simulated_91.fasta  FASTA   DNA      1,000  29,759,241   29,759  29,759.2   30,000
+simulated_92.fasta  FASTA   DNA      1,000  29,786,214   29,786  29,786.2   30,000
+simulated_93.fasta  FASTA   DNA      1,000  29,813,187   29,813  29,813.2   30,000
+simulated_94.fasta  FASTA   DNA      1,000  29,840,160   29,840  29,840.2   30,000
+simulated_95.fasta  FASTA   DNA      1,000  29,867,133   29,867  29,867.1   30,000
+simulated_96.fasta  FASTA   DNA      1,000  29,894,106   29,894  29,894.1   30,000
+simulated_97.fasta  FASTA   DNA      1,000  29,921,079   29,921  29,921.1   30,000
+simulated_98.fasta  FASTA   DNA      1,000  29,948,052   29,948  29,948.1   30,000
+simulated_99.fasta  FASTA   DNA      1,000  29,975,025   29,975    29,975   30,000
 ```
 
 
