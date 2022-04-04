@@ -83,14 +83,14 @@ halign -o halign3ed_mt_genome.fasta -t 5 -c 6 -s mt_genome.fasta
 
 
 
-### 2.1 OSX/Linux/windows - from a release tarball
+### 2.1 OSX/Linux/windows - from a released package
 1.Download and install  JDK 11 for different systems from [here](https://www.oracle.com/java/technologies/javase/jdk11-archive-downloads.html).  
 
 2.Download HAlign3 from [relseases](https://github.com/malabz/HAlign-3/releases/download/v3.0.0-rc1/HAlign-3.0.0-rc1.jar).
 
 
 
-### 2.2 Usage for release version
+### 2.2 Usage for released package
 
 ```
 java -jar halign-stmsa.jar [options] <infile>
@@ -111,7 +111,7 @@ optional arguments:
 
 
 
-### 2.3 Example usage for release version
+### 2.3 Example usage for released package
 
 1.Download [testdata](https://github.com/malabz/HAlign-3/tree/main/dataset).
 
