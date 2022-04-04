@@ -83,6 +83,9 @@ halign -o halign3ed_mt_genome.fasta -t 5 -c 6 -s mt_genome.fasta
 
 
 
+
+
+
 ### 2.1 OSX/Linux/windows - from a released package
 1.Download and install  JDK 11 for different systems from [here](https://www.oracle.com/java/technologies/javase/jdk11-archive-downloads.html).  
 
