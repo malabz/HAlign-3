@@ -14,7 +14,7 @@ This project is aimed at improving a part of [HAlign2.0](https://github.com/mala
 
 ## Introduction
 
-HAlign is a cross-platform program that performs multiple sequence alignment based on the center star strategy. Here, we present two major updates of HAlign 3 which help to improve the time efficiency and the alignment quality. 1) The left-child right-sibling is replaced by K-ary tree to build the suffix tree to reach a higher identical substring searching efficiency at the cost of only a few extra space; 2) a global substring selection algorithm combining directed acyclic graphs with dynamic programming is adopted to screen out the unsatisfactory identical substrings. These improvements make HAlign 3 the only program which can align 1 million SARS-CoV-2 sequences fast and accurately.
+HAlign is a cross-platform program that performs multiple sequence alignment based on the center star strategy. Here, we present two major updates of HAlign 3 which help to improve the time efficiency and the alignment quality. 1) The suffix tree data structure is specifically modified to fit the nucleotide sequence: Left-child right-sibling is replaced by K-ary tree to build the suffix tree to reach a higher identical substring searching efficiency at the cost of a few extra space; 2) a global substring selection algorithm combining directed acyclic graphs with dynamic programming is adopted to screen out the unsatisfactory identical substrings. These improvements make HAlign 3 the only program which can align 1 million SARS-CoV-2 sequences fast and accurately.
 
 
 
