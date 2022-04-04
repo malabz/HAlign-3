@@ -50,7 +50,7 @@ conda deactivate halign_env
 ### 1.2 Usage for conda version
 
 ```
-halign [optionl] <infile>
+halign [options] <infile>
 ```
 
 ```
@@ -93,7 +93,7 @@ halign -o halign3ed_mt_genome.fasta -t 5 -c 6 -s mt_genome.fasta
 ### 2.2 Usage for release version
 
 ```
-java -jar halign-stmsa.jar [optional] <infile>
+java -jar halign-stmsa.jar [options] <infile>
 ```
 
 ```
