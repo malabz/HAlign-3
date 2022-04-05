@@ -2,10 +2,11 @@
 
 ## Human mitochondrial genomes
 
-<a href="http://lab.malab.cn/%7Etfr/HAlign3_testdata/mt_genome.tar.xz" download="mt_genome.tar.xz">mt_genome.tar.xz</a> is composed of 672 sequences with the longest length of 16,579 bp and the shortest length of 16,556 bp, which is highly similar to each other  (>99%). Use the following command line to uncompress:
+<a href="http://lab.malab.cn/%7Etfr/HAlign3_testdata/mt_genome.tar.xz" download="mt_genome.tar.xz">mt_genome.tar.xz</a> is composed of 672 sequences with the longest length of 16,579 bp and the shortest length of 16,556 bp, which is highly similar to each other  (>99%). 
 ```
 #download
 wget http://lab.malab.cn/%7Etfr/HAlign3_testdata/mt_genome.tar.xz
+
 #uncompress
 tar -Jxf mt_genome.tar.xz
 ```
@@ -31,9 +32,13 @@ Respiratory syndrome coronavirus 2 (SARS‑CoV‑2) is an RNA virus, which cause
 
 ## 14 simulated datasets
 
-There are 1000 sequences in each dataset with different similarities (99%, 98%, 97%, 96%, 95%, 94%, 93%, 92%, 91%, 90%, 85%, 80%, 70%, 60%). The DNA center sequences were simulated randomly with 25% of A, C, T and G in the length of 30kb. Then the other 999 sequences, randomly mutated from the center sequence with substitutions: deletions = 10:1 and fixed 2 insertions (Perl script: [small_variation_simulation_splice.pl](https://github.com/malabz/MSATOOLS/tree/main/small_variation_simulation)), together with center sequence act as reference alignment. After deleted all the gaps in the reference alignments, they were used as test datasets.  Use the following command line to uncompress <a href="http://lab.malab.cn/%7Etfr/HAlign3_testdata/simudata_1000seq.tar.xz" download="simudata_1000seq.tar.xz">simudata_1000seq.tar.xz</a> :
+There are 1000 sequences in each dataset with different similarities (99%, 98%, 97%, 96%, 95%, 94%, 93%, 92%, 91%, 90%, 85%, 80%, 70%, 60%). The DNA center sequences were simulated randomly with 25% of A, C, T and G in the length of 30kb. Then the other 999 sequences, randomly mutated from the center sequence with substitutions: deletions = 10:1 and fixed 2 insertions (Perl script: [small_variation_simulation_splice.pl](https://github.com/malabz/MSATOOLS/tree/main/small_variation_simulation)), together with center sequence act as reference alignment. After deleted all the gaps in the reference alignments, they were used as test datasets.  Use the following command line to download and uncompress <a href="http://lab.malab.cn/%7Etfr/HAlign3_testdata/simudata_1000seq.tar.xz" download="simudata_1000seq.tar.xz">simudata_1000seq.tar.xz</a> :
 
 ```
+#download
+wget http://lab.malab.cn/%7Etfr/HAlign3_testdata/simudata_1000seq.tar.xz
+
+#uncompress
 tar -Jxf simudata_1000seq.tar.xz
 ```
 
