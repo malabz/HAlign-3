@@ -73,13 +73,13 @@ optional arguments:
 Align mt_genome.fasta dataset by HAlign 3 with the setting of: 5 threads for paralization alignment, the 7th sequence as center sequence during alignment, output alignment block without sequence identifiers.
 
 ```shell
-#download
+# Download dataset
 wget http://lab.malab.cn/%7Etfr/HAlign3_testdata/mt_genome.tar.xz
 
-#uncompress
+# Uncompress dataset
 tar -Jxf mt_genome.tar.xz
 
-#run halign
+# Run halign
 halign -o halign3ed_mt_genome.fasta -t 5 -c 6 -s mt_genome.fasta
 ```
 
@@ -92,7 +92,7 @@ halign -o halign3ed_mt_genome.fasta -t 5 -c 6 -s mt_genome.fasta
 ### 2.1 OSX/Linux/windows - from a released package
 1.Download and install  JDK 11 for different systems from [here](https://www.oracle.com/java/technologies/javase/jdk11-archive-downloads.html).  
 
-2.Download HAlign3 from [relseases](https://github.com/malabz/HAlign-3/releases/download/v3.0.0-rc1/HAlign-3.0.0-rc1.jar).
+2.Download HAlign3 from [relseases](https://github.com/malabz/HAlign-3/releases/download/v3.0.0-rc1/HAlign-3.0.0_rc1.jar).
 
 
 
@@ -126,13 +126,13 @@ optional arguments:
 Align mt_genome.fasta dataset by HAlign 3 with the setting of: 5 threads for paralization alignment, the 7th sequence as center sequence during alignment, output alignment block without sequence identifiers.
 
 ```shell
-#download
+# Download dataset
 wget http://lab.malab.cn/%7Etfr/HAlign3_testdata/mt_genome.tar.xz
 
-#uncompress
+# Uncompress dataset
 tar -Jxf mt_genome.tar.xz
 
-#run halign
+# Run halign
 java -jar halign-stmsa.jar -o halign3ed_mt_genome.fasta -t 5 -c 6 -s mt_genome.fasta
 ```
 
