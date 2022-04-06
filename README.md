@@ -37,7 +37,7 @@ conda activate halign_env
 #3 Install halign
 conda install -c malab halign
 
-#4 Test haign
+#4 Test halign
 halign -h
 ```
 
