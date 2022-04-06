@@ -77,6 +77,13 @@ optional arguments:
 Align mt_genome.fasta dataset by HAlign 3 with the setting of: 5 threads for paralization alignment, the 7th sequence as center sequence during alignment, output alignment block without sequence identifiers.
 
 ```shell
+#download
+wget http://lab.malab.cn/%7Etfr/HAlign3_testdata/mt_genome.tar.xz
+
+#uncompress
+tar -Jxf mt_genome.tar.xz
+
+#run halign
 halign -o halign3ed_mt_genome.fasta -t 5 -c 6 -s mt_genome.fasta
 ```
 
@@ -123,6 +130,13 @@ optional arguments:
 Align mt_genome.fasta dataset by HAlign 3 with the setting of: 5 threads for paralization alignment, the 7th sequence as center sequence during alignment, output alignment block without sequence identifiers.
 
 ```shell
+#download
+wget http://lab.malab.cn/%7Etfr/HAlign3_testdata/mt_genome.tar.xz
+
+#uncompress
+tar -Jxf mt_genome.tar.xz
+
+#run halign
 java -jar halign-stmsa.jar -o halign3ed_mt_genome.fasta -t 5 -c 6 -s mt_genome.fasta
 ```
 
