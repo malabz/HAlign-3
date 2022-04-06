@@ -17,7 +17,7 @@ Respiratory syndrome coronavirus 2 (SARS‑CoV‑2) is an RNA virus, which cause
 
 <a href="http://lab.malab.cn/%7Etfr/HAlign3_testdata/sars_cov_2_1Mseq.tar.xz" download="sars_cov_2_1Mseq.tar.xz">sars_cov_2_1Mseq.tar.xz</a> is 1 million SARS-CoV-2 sequences (21111 to 29891bp), which have >99% similarity to the reference genome (GISAID accession ID: EPI_ISL_402124), were selected by CD-HIT (threshold=0.99). The uncompressed file is nearly 29GB, which needs ～500GB RAM to be aligned by HAlign 3. 
 
-<a href="http://lab.malab.cn/%7Etfr/HAlign3_testdata/sars_cov_2_500seq.tar.xz" download="sars_cov_2_500seq.tar.xz">sars_cov_2_500seq.tar.xz</a> is the first 500 sequences (29283 to 29891bp) from the dataset above. 500 SARS-CoV-2 genomes are less similar to each other (>97%), ranging from 21,111bp to 29,891bp.
+<a href="http://lab.malab.cn/%7Etfr/HAlign3_testdata/sars_cov_2_500seq.tar.xz" download="sars_cov_2_500seq.tar.xz">sars_cov_2_500seq.tar.xz</a> is the first 500 sequences (29283 to 29891bp) from the dataset above. 500 SARS-CoV-2 genomes are less similar to each other (>97%).
 
 
 
