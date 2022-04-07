@@ -85,7 +85,10 @@ wget http://lab.malab.cn/%7Etfr/HAlign3_testdata/mt_genome.tar.xz
 tar -Jxf mt_genome.tar.xz
 
 # Run halign
-halign -o halign3ed_mt_genome.fasta -t 5 -c 6 -s mt_genome.fasta
+halign -o haling3_aligned_mt_genome.fasta -t 5 -c 6 -s mt_genome.fasta
+
+# Check aligment ressults
+seqkit stat mt_genome.fasta haling3_aligned_mt_genome.fasta
 ```
 
 
