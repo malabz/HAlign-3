@@ -12,6 +12,7 @@ This project is aimed at improving a part of [HAlign2.0](https://github.com/mala
 [![Anaconda-Server Badge](https://anaconda.org/malab/halign/badges/downloads.svg)](https://anaconda.org/malab/halign)
 
 ![avatar](https://anaconda.org/malab/halign/badges/downloads.svg)
+https://anaconda.org/malab/halign/badges/downloads.svg
 
 
 ## Introduction
