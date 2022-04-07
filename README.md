@@ -27,10 +27,14 @@ HAlign is a cross-platform program that performs multiple sequence alignment bas
 3.Install HAlign 3.
 
 ```bash
+#1 Add channels
+conda config --add channels conda-forge
+conda config --add channels bioconda
+
 #1 Create an environment and install the required package openjdk for running halign,
 #  wget package for retrieving files using HTTP, HTTPS and FTP,
 #  seqkit package for manipulating FASTA/Q file.
-conda create -n halign_env -c conda-forge openjdk=11 wget seqkit
+conda create -n halign_env openjdk=11 wget seqkit
 
 #2 Activate halign environment everytime when using halign program.
 conda activate halign_env
