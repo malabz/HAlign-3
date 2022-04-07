@@ -32,20 +32,12 @@ conda config --add channels conda-forge
 conda config --add channels bioconda
 
 #2 Install the required package openjdk=11 for running halign
-#  !!!If #2 run successfully, skip #3 and #4
 conda install -c conda-forge openjdk=11
 
-#3 If you have inconsistent warning, then create an environment and 
-#  install the required package openjdk for running halign
-conda create -n halign_env openjdk=11
-
-#4 Activate halign environment everytime when using halign program.
-conda activate halign_env
-
-#5 Install halign
+#3 Install halign
 conda install -c malab halign
 
-#6 Test halign
+#4 Test halign
 halign -h
 ```
 
@@ -82,7 +74,7 @@ Align mt_genome.fasta dataset by HAlign 3 with the setting of: 5 threads for par
 
 ```shell
 # Download dataset
-conda install wget
+conda install wget   # for retrieving files using HTTP, HTTPS and FTP
 wget http://lab.malab.cn/%7Etfr/HAlign3_testdata/mt_genome.tar.xz
 
 # Uncompress dataset
@@ -92,7 +84,7 @@ tar -Jxf mt_genome.tar.xz
 halign -o haling3_aligned_mt_genome.fasta -t 5 -c 6 mt_genome.fasta
 
 # Check alignment result
-conda install seqkit
+conda install seqkit   # for manipulating FASTA/Q file.
 seqkit stat mt_genome.fasta haling3_aligned_mt_genome.fasta
 
 # file                             format  type  num_seqs     sum_len  min_len   avg_len  max_len
