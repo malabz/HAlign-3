@@ -130,7 +130,7 @@ optional arguments:
 
 ### 2.3 Example usage for released package
 
-1.Download [testdata](https://github.com/malabz/HAlign-3/tree/main/dataset).
+1.Download [testdata](https://github.com/malabz/HAlign-3/tree/main/dataset). Uncompress dataset by [WinRAR](https://www.win-rar.com/start.html?&L=0) for Windows.
 
 2.Run HAlign 3.
 
