@@ -82,6 +82,7 @@ Align mt_genome.fasta dataset by HAlign 3 with the setting of: 5 threads for par
 
 ```shell
 # Download dataset
+conda install wget #if you don't have it
 wget http://lab.malab.cn/%7Etfr/HAlign3_testdata/mt_genome.tar.xz
 
 # Uncompress dataset
@@ -91,6 +92,7 @@ tar -Jxf mt_genome.tar.xz
 halign -o haling3_aligned_mt_genome.fasta -t 5 -c 6 mt_genome.fasta
 
 # Check alignment result
+conda install seqkit #if you don't have it
 seqkit stat mt_genome.fasta haling3_aligned_mt_genome.fasta
 
 # file                             format  type  num_seqs     sum_len  min_len   avg_len  max_len
