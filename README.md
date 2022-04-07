@@ -144,7 +144,7 @@ wget http://lab.malab.cn/%7Etfr/HAlign3_testdata/mt_genome.tar.xz
 tar -Jxf mt_genome.tar.xz
 
 # Run halign
-java -jar HAlign-3.0.0_rc1.jar -o halign3ed_mt_genome.fasta -t 5 -c 6 -s mt_genome.fasta
+java -jar HAlign-3.0.0_rc1.jar -o haling3_aligned_mt_genome.fasta -t 5 -c 6 -s mt_genome.fasta
 ```
 
 
