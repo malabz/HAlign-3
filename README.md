@@ -31,18 +31,21 @@ HAlign is a cross-platform program that performs multiple sequence alignment bas
 conda config --add channels conda-forge
 conda config --add channels bioconda
 
-#1 Create an environment and install the required package openjdk for running halign,
-#  wget package for retrieving files using HTTP, HTTPS and FTP,
-#  seqkit package for manipulating FASTA/Q file.
-conda create -n halign_env openjdk=11 wget seqkit
+#2 Install the required package openjdk=11 for running halign
+#  If #2 run successfully, skip #3 and #4
+conda install -c conda-forge openjdk=11
 
-#2 Activate halign environment everytime when using halign program.
+#3 If you have inconsistent warning, then create an environment and 
+#  install the required package openjdk for running halign
+conda create -n halign_env openjdk=11
+
+#4 Activate halign environment everytime when using halign program.
 conda activate halign_env
 
-#3 Install halign
+#5 Install halign
 conda install -c malab halign
 
-#4 Test halign
+#6 Test halign
 halign -h
 ```
 
@@ -87,7 +90,7 @@ tar -Jxf mt_genome.tar.xz
 # Run halign
 halign -o haling3_aligned_mt_genome.fasta -t 5 -c 6 mt_genome.fasta
 
-# Check aligment ressults
+# Check alignment result
 seqkit stat mt_genome.fasta haling3_aligned_mt_genome.fasta
 
 # file                             format  type  num_seqs     sum_len  min_len   avg_len  max_len
