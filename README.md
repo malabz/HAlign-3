@@ -109,7 +109,7 @@ seqkit stat mt_genome.fasta haling3_aligned_mt_genome.fasta
 ### 2.2 Usage for released package
 
 ```
-java -jar halign-stmsa.jar [options] <infile>
+java -jar HAlign-3.0.0_rc1.jar [options] <infile>
 ```
 
 ```
