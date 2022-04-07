@@ -8,11 +8,8 @@ This project is aimed at improving a part of [HAlign2.0](https://github.com/mala
 [![Anaconda-Server Badge](https://anaconda.org/malab/halign/badges/platforms.svg)](https://anaconda.org/malab/halign)
 [![Anaconda-Server Badge](https://anaconda.org/malab/halign/badges/license.svg)](https://anaconda.org/malab/halign)
 [![Anaconda-Server Badge](https://anaconda.org/malab/halign/badges/installer/conda.svg)](https://anaconda.org/malab/halign)
-<a href="https://anaconda.org/malab/halign"> <img src="https://anaconda.org/malab/halign/badges/downloads.svg" /> </a>
 
 [![Anaconda-Server Badge](https://img.shields.io/badge/downloads-9%20total-green.svg?style=flat-square)](https://anaconda.org/malab/halign)
-
-.. image:: https://anaconda.org/malab/halign/badges/downloads.svg   :target: https://anaconda.org/malab/halign
 
 ## Introduction
 
@@ -30,8 +27,10 @@ HAlign is a cross-platform program that performs multiple sequence alignment bas
 3.Install HAlign 3.
 
 ```bash
-#1 Create an environment and install the required package openjdk for running halign and wget package for retrieving files using HTTP, HTTPS and FTP.
-conda create -n halign_env -c conda-forge openjdk=11 wget
+#1 Create an environment and install the required package openjdk for running halign,
+#  wget package for retrieving files using HTTP, HTTPS and FTP,
+#  seqkit package for manipulating FASTA/Q file.
+conda create -n halign_env -c conda-forge openjdk=11 wget seqkit
 
 #2 Activate halign environment everytime when using halign program.
 conda activate halign_env
