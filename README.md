@@ -27,7 +27,7 @@ HAlign is a cross-platform program that performs multiple sequence alignment bas
 3.Install HAlign 3.
 
 ```bash
-#1 Add channels
+#1 Add channels to conda
 conda config --add channels conda-forge
 conda config --add channels bioconda
 
