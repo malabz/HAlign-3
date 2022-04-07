@@ -75,7 +75,7 @@ optional arguments:
 
 2.Run HAlign 3.
 
-Align mt_genome.fasta dataset by HAlign 3 with the setting of: 5 threads for paralization alignment, the 7th sequence as center sequence during alignment, output alignment block without sequence identifiers.
+Align mt_genome.fasta dataset by HAlign 3 with the setting of: 5 threads for paralization alignment, the 7th sequence as center sequence during alignment, output alignment block with sequence identifiers.
 
 ```shell
 # Download dataset
@@ -85,10 +85,15 @@ wget http://lab.malab.cn/%7Etfr/HAlign3_testdata/mt_genome.tar.xz
 tar -Jxf mt_genome.tar.xz
 
 # Run halign
-halign -o haling3_aligned_mt_genome.fasta -t 5 -c 6 -s mt_genome.fasta
+halign -o haling3_aligned_mt_genome.fasta -t 5 -c 6 mt_genome.fasta
 
 # Check aligment ressults
 seqkit stat mt_genome.fasta haling3_aligned_mt_genome.fasta
+
+# file                             format  type  num_seqs     sum_len  min_len   avg_len  max_len
+# mt_genome.fasta                  FASTA   DNA        672  11,134,166   16,555  16,568.7   16,578
+# haling3_aligned_mt_genome.fasta  FASTA   DNA        672  11,172,000   16,625    16,625   16,625
+
 ```
 
 
