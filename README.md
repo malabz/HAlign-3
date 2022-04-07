@@ -32,7 +32,7 @@ conda config --add channels conda-forge
 conda config --add channels bioconda
 
 #2 Install the required package openjdk=11 for running halign
-#  If #2 run successfully, skip #3 and #4
+#  !!!If #2 run successfully, skip #3 and #4
 conda install -c conda-forge openjdk=11
 
 #3 If you have inconsistent warning, then create an environment and 
