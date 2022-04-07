@@ -99,7 +99,7 @@ seqkit stat mt_genome.fasta haling3_aligned_mt_genome.fasta
 
 
 
-### 2.1 OSX/Linux/windows - from a released package
+### 2.1 OSX/Linux/Windows - from a released package
 1.Download and install  JDK 11 for different systems from [here](https://www.oracle.com/java/technologies/javase/jdk11-archive-downloads.html).  
 
 2.Download HAlign3 from [relseases](https://github.com/malabz/HAlign-3/releases/download/v3.0.0-rc1/HAlign-3.0.0_rc1.jar).
