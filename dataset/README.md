@@ -23,8 +23,8 @@ wget http://lab.malab.cn/%7Etfr/HAlign3_testdata/sars_cov_2_1Mseq.tar.xz
 #uncompress
 tar -Jxf sars_cov_2_1Mseq.tar.xz
 
-#run halign
-java -Xmx512g -jar HAlign-3.0.0_rc1.jar -o sars_cov_2_1Mseq.fasta.aln sars_cov_2_1Mseq.fasta
+#run halign (the index of reference genome is 0)
+java -Xmx512g -jar HAlign-3.0.0_rc1.jar -c 0 -o sars_cov_2_1Mseq.fasta.aln sars_cov_2_1Mseq.fasta
 ```
 
 
