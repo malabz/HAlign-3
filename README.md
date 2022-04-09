@@ -82,15 +82,15 @@ wget http://lab.malab.cn/%7Etfr/HAlign3_testdata/mt_genome.tar.xz
 tar -Jxf mt_genome.tar.xz
 
 # Run halign
-halign -o haling3_aligned_mt_genome.fasta -t 5 -c 6 mt_genome.fasta
+halign -o mt_genome.fasta.aln -t 5 -c 6 mt_genome.fasta
 
 # Check alignment result
 conda install seqkit   # for manipulating FASTA/Q file.
-seqkit stat mt_genome.fasta haling3_aligned_mt_genome.fasta
+seqkit stat mt_genome.fasta mt_genome.fasta.aln
 
 # file                             format  type  num_seqs     sum_len  min_len   avg_len  max_len
 # mt_genome.fasta                  FASTA   DNA        672  11,134,166   16,555  16,568.7   16,578
-# haling3_aligned_mt_genome.fasta  FASTA   DNA        672  11,172,000   16,625    16,625   16,625
+# mt_genome.fasta.aln              FASTA   DNA        672  11,172,000   16,625    16,625   16,625
 
 ```
 
@@ -144,7 +144,7 @@ wget http://lab.malab.cn/%7Etfr/HAlign3_testdata/mt_genome.tar.xz
 tar -Jxf mt_genome.tar.xz
 
 # Run halign
-java -jar HAlign-3.0.0_rc1.jar -o haling3_aligned_mt_genome.fasta -t 5 -c 6 -s mt_genome.fasta
+java -jar HAlign-3.0.0_rc1.jar -o mt_genome.fasta.aln -t 5 -c 6 -s mt_genome.fasta
 ```
 
 
