@@ -61,6 +61,7 @@ optional arguments:
     -o <filename>    output aligned file, with option (-s) on, sequence identifiers will not be outputted
     -t <integer>     multi-thread, with a default setting of half of the cores available
     -c <integer>     centre sequence index (0-based), (default: the longest sequence)
+    -Xmx<size>       set maximum Java heap size, such as "-Xmx512g" used for the alignment of 1 million SARS-CoV-2 sequences; the default maximum Java heap size varies on different machine, which can be checked by command "java -XX:+PrintFlagsFinal -version | grep MaxHeapSize"
     -s               output alignments without sequence identifiers, i.e. in plain txt format but with sequence order retained, (default: off)
     -h               produce help message and exit
     -v               produce version message and exit
@@ -123,6 +124,7 @@ optional arguments:
     -o <filename>    output aligned file, with option (-s) on, sequence identifiers will not be outputted
     -t <integer>     multi-thread, with a default setting of half of the cores available
     -c <integer>     centre sequence index (0-based), (default: the longest sequence)
+    -Xmx<size>       set maximum Java heap size, such as "-Xmx512g" used for the alignment of 1 million SARS-CoV-2 sequences; the default maximum Java heap size varies on different machine, which can be checked by command "java -XX:+PrintFlagsFinal -version | grep MaxHeapSize"
     -s               output alignments without sequence identifiers, i.e. in plain txt format but with sequence order retained, (default: off)
     -h               produce help message and exit
     -v               produce version message and exit
