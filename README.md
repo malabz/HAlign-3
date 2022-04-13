@@ -113,7 +113,7 @@ seqkit stat mt_genome.fasta mt_genome.fasta.aln
 ### 2.2 Usage for released package
 
 ```
-java -jar HAlign-3.0.0_rc1.jar [options] <infile>
+java -X[options] -jar HAlign-3.0.0_rc1.jar [options] <infile>
 ```
 
 ```
