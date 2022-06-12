@@ -289,11 +289,6 @@ Download the datasets:
     <td class="xl73" x:num>3220</td>
     <td class="xl73" x:num>0.82</td>
    </tr>
-   <![if supportMisalignedColumns]>
-    <tr width="0" style='display:none;'>
-     <td width="55" style='width:55;'></td>
-    </tr>
-   <![endif]>
   </table>
  </body>
 </html>
