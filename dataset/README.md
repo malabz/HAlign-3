@@ -63,8 +63,8 @@ Download the datasets:
 <html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
  </head>
  <body link="blue" vlink="purple">
-  <table width="681.60" border="0" cellpadding="0" cellspacing="0" style='width:681.60pt;border-collapse:collapse;table-layout:fixed;'>
-   <col width="56.80" span="12" style='mso-width-source:userset;mso-width-alt:2423;'/>
+  <table width="660" border="0" cellpadding="0" cellspacing="0" style='width:681.60pt;border-collapse:collapse;table-layout:fixed;'>
+   <col width="55" span="12" style='mso-width-source:userset;mso-width-alt:2423;'/>
    <tr height="19.10" style='height:19.10pt;mso-height-source:userset;mso-height-alt:382;'>
     <td class="xl65" height="19.10" width="330" colspan="6" style='height:19.10pt;width:330pt;border-right:none;border-bottom:none;' x:str>Datasets with different mean similarities</td>
     <td class="xl65" width="330" colspan="6" style='width:330pt;border-right:none;border-bottom:none;' x:str>Datasets with different scales of tree length</td>
