@@ -70,6 +70,8 @@ Mean similarity	Mean length difference	Tree length	Mean similarity	Mean length d
 0.80 	3376 	7.5	0.80 	2958 	12.1	10	4175 	0.79 	10	2166 	0.86 
 0.75 	4971 	11	0.75 	4097 	16.75	12.5	5145 	0.76 	12.5	2698 	0.84 
 0.70 	6504 	15.68	0.70 	5232 	23	15	6195 	0.75 	15	3220 	0.82 
+```
+
 
 
 
