@@ -40,11 +40,11 @@ java -Xmx512g -jar HAlign-3.0.0_rc1.jar -c 0 -t 1 -o sars_cov_2_1Mseq.fasta.aln 
 
 
 
-# Simulated datasets
+# Star-tree simulated datasets
 
 ## 14 simulated datasets
 
-There are 1000 sequences in each dataset with different similarities (99%, 98%, 97%, 96%, 95%, 94%, 93%, 92%, 91%, 90%, 85%, 80%, 70%, 60%). The DNA center sequences were simulated randomly with 25% of A, C, T and G in the length of 30kb. Then the other 999 sequences, randomly mutated from the center sequence with substitutions: deletions = 10:1 and fixed 2 insertions (Perl script: [small_variation_simulation_splice.pl](https://github.com/malabz/MSATOOLS/tree/main/small_variation_simulation)), together with center sequence act as reference alignment. After deleted all the gaps in the reference alignments, they were used as test datasets.  Use the following command line to download and uncompress <a href="http://lab.malab.cn/%7Etfr/HAlign3_testdata/simudata_1000seq.tar.xz" download="simudata_1000seq.tar.xz">simudata_1000seq.tar.xz</a> :
+There are 1000 sequences in each dataset with different similarities (99%, 98%, 97%, 96%, 95%, 94%, 93%, 92%, 91%, 90%, 85%, 80%, 70%, 60%). The DNA center sequences were simulated randomly with 25% of A, C, T and G in the length of 30kb. Then the other 999 sequences, randomly mutated from the center sequence with substitutions: deletions = 10:1 and fixed 2 insertions (Perl script: [small_variation_simulation_splice.pl](https://github.com/malabz/MSATOOLS/tree/main/small_variation_simulation)), together with center sequence act as reference alignment. After deleted all the gaps in the reference alignments, they were used as test datasets.  Use the following command line to download and uncompress <a href="http://lab.malab.cn/%7Etfr/HAlign3_testdata/star_simudata_1000seq.tar.xz" download="star_simudata_1000seq.tar.xz">star_simudata_1000seq.tar.xz</a> :
 
 ```bash
 #download
@@ -98,5 +98,5 @@ simulated_99.fasta  FASTA   DNA      1,000  29,975,025   29,975    29,975   30,0
 
 ## Splitted simulated datasets
 
-Since Mafft, Muscle and ClustalO cannot complete the alignment above, reference and test datasets above were split into 9 small datasets with the same corresponding center sequence respectively in order to compare the performance fairly. Use the following command line to uncompress <a href="http://lab.malab.cn/%7Etfr/HAlign3_testdata/simudata_split.tar.xz" download="simudata_split.tar.xz">simudata_split.tar.xz</a> :
+Since Mafft, Muscle and ClustalO cannot complete the alignment above, reference and test datasets above were split into 9 small datasets with the same corresponding center sequence respectively in order to compare the performance fairly. Use the following command line to uncompress <a href="http://lab.malab.cn/%7Etfr/HAlign3_testdata/star_simudata_split.tar.xz" download="star_simudata_split.tar.xz">star_simudata_split.tar.xz</a> :
 
