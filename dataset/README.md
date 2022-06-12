@@ -48,6 +48,20 @@ For the simulations of datasets with different mean similarities, every branch i
 
 For the simulations of datasets with different scales of tree length, every branch in the tree is the same as the tree of 100 SARS‑CoV‑2 and mitochondrial genomes; then, different scales of tree length (0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0, 7.5, 10.0, 12.5 and 15.0) were set for simulation. The simulation sequence length is 30kb and 16kb for the SARS-CoV-2-like and mitochondrial-like genome. The indel model parameter is LAV 5 50 with the rates of 0.01 and 0.1 for insertion and deletion. 
 
+
+
+Download the datasets: 
+
+<a href="http://lab.malab.cn/%7Etfr/HAlign3_testdata/sars_cov_2_like_diff_similarity.tar.xz" download="sars_cov_2_like_diff_similarity.tar.xz">sars_cov_2_like_diff_similarity.tar.xz</a>
+
+<a href="http://lab.malab.cn/%7Etfr/HAlign3_testdata/sars_cov_2_like_diff_treelength.tar.xz" download="sars_cov_2_like_diff_treelength.tar.xz">sars_cov_2_like_diff_treelength.tar.xz</a>
+
+<a href="http://lab.malab.cn/%7Etfr/HAlign3_testdata/mt_like_diff_similarity.tar.xz" download="mt_like_diff_similarity.tar.xz">mt_like_diff_similarity.tar.xz</a>
+
+<a href="http://lab.malab.cn/%7Etfr/HAlign3_testdata/mt_like_diff_treelength.tar.xz" download="mt_like_diff_treelength.tar.xz">mt_like_diff_treelength.tar.xz</a>
+
+
+
 Each dataset contains 9 replicates with 100 simulated sequences each. Mean length difference is the mean difference between the reference alignment length and the average length of simulated sequences. The tree length, the difference between alignment length and the average of sequence length and the mean similarity of the 100 randomly picked SARS‑CoV‑2 and mitochondrial genomes are 0.028, 111, 0.996 and 0.048, 55, 0.998. The detailed information of those 4 sets of 14 datasets is summarized in the following table. 
 
 <html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
@@ -1205,18 +1219,6 @@ td
 </html>
 
 
-
-
-
-Download the datasets: 
-
-<a href="http://lab.malab.cn/%7Etfr/HAlign3_testdata/sars_cov_2_like_diff_similarity.tar.xz" download="sars_cov_2_like_diff_similarity.tar.xz">sars_cov_2_like_diff_similarity.tar.xz</a>
-
-<a href="http://lab.malab.cn/%7Etfr/HAlign3_testdata/sars_cov_2_like_diff_treelength.tar.xz" download="sars_cov_2_like_diff_treelength.tar.xz">sars_cov_2_like_diff_treelength.tar.xz</a>
-
-<a href="http://lab.malab.cn/%7Etfr/HAlign3_testdata/mt_like_diff_similarity.tar.xz" download="mt_like_diff_similarity.tar.xz">mt_like_diff_similarity.tar.xz</a>
-
-<a href="http://lab.malab.cn/%7Etfr/HAlign3_testdata/mt_like_diff_treelength.tar.xz" download="mt_like_diff_treelength.tar.xz">mt_like_diff_treelength.tar.xz</a>
 
 
 
