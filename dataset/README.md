@@ -52,13 +52,10 @@ The detailed information of those 4 sets of 14 datasets is summarized in the fol
 
 Download the datasets: 
 
-<a href="http://lab.malab.cn/%7Etfr/HAlign3_testdata/sars_cov_2_like_diff_similarity.tar.xz" download="sars_cov_2_like_diff_similarity.tar.xz">sars_cov_2_like_diff_similarity.tar.xz</a>
-
+<a href="http://lab.malab.cn/%7Etfr/HAlign3_testdata/sars_cov_2_like_diff_similarity.tar.xz" download="sars_cov_2_like_diff_similarity.tar.xz">sars_cov_2_like_diff_similarity.tar.xz</a>                               
 <a href="http://lab.malab.cn/%7Etfr/HAlign3_testdata/sars_cov_2_like_diff_treelength.tar.xz" download="sars_cov_2_like_diff_treelength.tar.xz">sars_cov_2_like_diff_treelength.tar.xz</a>
-
-<a href="http://lab.malab.cn/%7Etfr/HAlign3_testdata/mt_like_diff_similarity.tar.xz" download="mt_like_diff_similarity.tar.xz">mt_like_diff_similarity.tar.xz</a>
-
-<a href="http://lab.malab.cn/%7Etfr/HAlign3_testdata/mt_like_diff_treelength.tar.xz" download="mt_like_diff_treelength.tar.xz">mt_like_diff_treelength.tar.xz</a>
+<a href="http://lab.malab.cn/%7Etfr/HAlign3_testdata/mt_like_diff_similarity.tar.xz" download="mt_like_diff_similarity.tar.xz">mt_like_diff_similarity.tar.xz</a>                            
+<a href="http://lab.malab.cn/%7Etfr/HAlign3_testdata/mt_like_diff_treelength.tar.xz" download="mt_like_diff_treelength.tar.xz">mt_like_diff_treelength.tar.xz</a>            
 
 <html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
  </head>
