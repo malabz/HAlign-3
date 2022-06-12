@@ -50,6 +50,29 @@ For the simulations of datasets with different scales of tree length, every bran
 
 The detailed information of those 4 sets of 14 datasets is summarized in Table S1. Each dataset contains 9 replicates with 100 simulated sequences each. Mean length difference is the mean difference between the reference alignment length and the average length of simulated sequences. The tree length, the difference between alignment length and the average of sequence length and the mean similarity of the 100 randomly picked SARS‑CoV‑2 and mitochondrial genomes are 0.028, 111, 0.996 and 0.048, 55, 0.998. 
 
+```
+Datasets with different mean similarities
+(random branch lengths) 	Datasets with different scales of tree length
+ (preset branch lengths based on real cases)
+SARS-CoV-2-like genome	Mitochondrial-like genome	SARS-CoV-2-like genome	Mitochondrial-like genome
+Mean similarity	Mean length difference	Tree length	Mean similarity	Mean length difference	Tree length	Tree length	Mean length difference	Mean similarity	Tree length	Mean length difference	Mean similarity
+0.99 	48 	0.1	0.99 	24 	0.1	0.5	213 	0.97 	0.5	115 	0.98 
+0.98 	145 	0.3	0.98 	77 	0.3	1	439 	0.95 	1	223 	0.96 
+0.97 	213 	0.45	0.97 	119 	0.5	1.5	662 	0.93 	1.5	333 	0.95 
+0.96 	317 	0.65	0.96 	188 	0.7	2	869 	0.92 	2	456 	0.95 
+0.95 	340 	0.75	0.95 	258 	1	2.5	1050 	0.91 	2.5	553 	0.94 
+0.94 	491 	1	0.94 	372 	1.5	3	1291 	0.90 	3	658 	0.93 
+0.93 	596 	1.3	0.93 	551 	2.15	3.5	1484 	0.88 	3.5	769 	0.93 
+0.92 	697 	1.5	0.92 	683 	2.7	4	1692 	0.87 	4	879 	0.92 
+0.91 	838 	1.7	0.91 	795 	3.3	4.5	1907 	0.86 	4.5	998 	0.91 
+0.90 	961 	2	0.90 	991 	4	5	2110 	0.86 	5	1104 	0.91 
+0.85 	1930 	4.1	0.85 	1831 	7.5	7.5	3169 	0.82 	7.5	1630 	0.89 
+0.80 	3376 	7.5	0.80 	2958 	12.1	10	4175 	0.79 	10	2166 	0.86 
+0.75 	4971 	11	0.75 	4097 	16.75	12.5	5145 	0.76 	12.5	2698 	0.84 
+0.70 	6504 	15.68	0.70 	5232 	23	15	6195 	0.75 	15	3220 	0.82 
+
+
+
 Download the datasets: 
 
 <a href="http://lab.malab.cn/%7Etfr/HAlign3_testdata/sars_cov_2_like_diff_similarity.tar.xz" download="sars_cov_2_like_diff_similarity.tar.xz">sars_cov_2_like_diff_similarity.tar.xz</a>
