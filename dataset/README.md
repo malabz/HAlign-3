@@ -61,25 +61,6 @@ Download the datasets:
 <a href="http://lab.malab.cn/%7Etfr/HAlign3_testdata/mt_like_diff_treelength.tar.xz" download="mt_like_diff_treelength.tar.xz">mt_like_diff_treelength.tar.xz</a>
 
 
-
-<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
- <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-  <meta name="ProgId" content="Excel.Sheet"/>
-  <meta name="Generator" content="WPS Office ET"/>
-  <!--[if gte mso 9]>
-   <xml>
-    <o:DocumentProperties>
-     <o:Author>furongtang</o:Author>
-     <o:Created>2022-06-12T16:41:44</o:Created>
-     <o:LastSaved>2022-06-12T16:48:41</o:LastSaved>
-    </o:DocumentProperties>
-    <o:CustomDocumentProperties>
-     <o:KSOProductBuildVer dt:dt="string">2052-3.9.1.6204</o:KSOProductBuildVer>
-    </o:CustomDocumentProperties>
-   </xml>
-  <![endif]-->
-  
   <!--[if gte mso 9]>
    <xml>
     <x:ExcelWorkbook>
