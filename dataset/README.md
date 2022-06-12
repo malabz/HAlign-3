@@ -60,46 +60,6 @@ Download the datasets:
 
 <a href="http://lab.malab.cn/%7Etfr/HAlign3_testdata/mt_like_diff_treelength.tar.xz" download="mt_like_diff_treelength.tar.xz">mt_like_diff_treelength.tar.xz</a>
 
-
-  <!--[if gte mso 9]>
-   <xml>
-    <x:ExcelWorkbook>
-     <x:ExcelWorksheets>
-      <x:ExcelWorksheet>
-       <x:Name>Sheet1</x:Name>
-       <x:WorksheetOptions>
-        <x:DefaultRowHeight>352</x:DefaultRowHeight>
-        <x:StandardWidth>2340</x:StandardWidth>
-        <x:Selected/>
-        <x:Panes>
-         <x:Pane>
-          <x:Number>3</x:Number>
-          <x:ActiveCol>10</x:ActiveCol>
-          <x:ActiveRow>10</x:ActiveRow>
-          <x:RangeSelection>K11</x:RangeSelection>
-         </x:Pane>
-        </x:Panes>
-        <x:ProtectContents>False</x:ProtectContents>
-        <x:ProtectObjects>False</x:ProtectObjects>
-        <x:ProtectScenarios>False</x:ProtectScenarios>
-        <x:PageBreakZoom>100</x:PageBreakZoom>
-        <x:Zoom>121</x:Zoom>
-        <x:Print>
-         <x:PaperSizeIndex>9</x:PaperSizeIndex>
-        </x:Print>
-       </x:WorksheetOptions>
-      </x:ExcelWorksheet>
-     </x:ExcelWorksheets>
-     <x:ProtectStructure>False</x:ProtectStructure>
-     <x:ProtectWindows>False</x:ProtectWindows>
-     <x:WindowHeight>14620</x:WindowHeight>
-     <x:WindowWidth>26700</x:WindowWidth>
-    </x:ExcelWorkbook>
-    <x:SupBook>
-     <x:Path>/private/var/folders/nt/mk_5djwj3jn50l47f5681wym0000gn/T/com.kingsoft.wpsoffice.mac/</x:Path>
-    </x:SupBook>
-   </xml>
-  <![endif]-->
  </head>
  <body link="blue" vlink="purple">
   <table width="681.60" border="0" cellpadding="0" cellspacing="0" style='width:681.60pt;border-collapse:collapse;table-layout:fixed;'>
