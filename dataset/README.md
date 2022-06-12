@@ -60,13 +60,14 @@ Download the datasets:
 
 <a href="http://lab.malab.cn/%7Etfr/HAlign3_testdata/mt_like_diff_treelength.tar.xz" download="mt_like_diff_treelength.tar.xz">mt_like_diff_treelength.tar.xz</a>
 
+<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
  </head>
  <body link="blue" vlink="purple">
   <table width="681.60" border="0" cellpadding="0" cellspacing="0" style='width:681.60pt;border-collapse:collapse;table-layout:fixed;'>
    <col width="56.80" span="12" style='mso-width-source:userset;mso-width-alt:2423;'/>
    <tr height="19.10" style='height:19.10pt;mso-height-source:userset;mso-height-alt:382;'>
-    <td class="xl65" height="19.10" width="340.80" colspan="6" style='height:19.10pt;width:340.80pt;border-right:none;border-bottom:none;' x:str>Datasets with different mean similarities</td>
-    <td class="xl65" width="340.80" colspan="6" style='width:340.80pt;border-right:none;border-bottom:none;' x:str>Datasets with different scales of tree length</td>
+    <td class="xl65" height="19.10" width="330" colspan="6" style='height:19.10pt;width:330pt;border-right:none;border-bottom:none;' x:str>Datasets with different mean similarities</td>
+    <td class="xl65" width="330" colspan="6" style='width:330pt;border-right:none;border-bottom:none;' x:str>Datasets with different scales of tree length</td>
    </tr>
    <tr height="10" style='height:10.00pt;mso-height-source:userset;mso-height-alt:200;'>
     <td class="xl67" height="10" colspan="6" style='height:10.00pt;border-right:none;border-bottom:none;' x:str>(random branch lengths)</td>
@@ -290,13 +291,12 @@ Download the datasets:
    </tr>
    <![if supportMisalignedColumns]>
     <tr width="0" style='display:none;'>
-     <td width="57" style='width:57;'></td>
+     <td width="55" style='width:55;'></td>
     </tr>
    <![endif]>
   </table>
  </body>
 </html>
-
 
 
 
