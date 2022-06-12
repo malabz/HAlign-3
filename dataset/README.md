@@ -60,7 +60,7 @@ The detailed information of those 4 sets of 14 datasets is summarized in Table S
     <o:DocumentProperties>
      <o:Author>furongtang</o:Author>
      <o:Created>2022-06-12T16:41:44</o:Created>
-     <o:LastSaved>2022-06-12T16:44:44</o:LastSaved>
+     <o:LastSaved>2022-06-12T16:48:41</o:LastSaved>
     </o:DocumentProperties>
     <o:CustomDocumentProperties>
      <o:KSOProductBuildVer dt:dt="string">2052-3.9.1.6204</o:KSOProductBuildVer>
@@ -941,9 +941,9 @@ td
         <x:Panes>
          <x:Pane>
           <x:Number>3</x:Number>
-          <x:ActiveCol>8</x:ActiveCol>
-          <x:ActiveRow>21</x:ActiveRow>
-          <x:RangeSelection>I22</x:RangeSelection>
+          <x:ActiveCol>10</x:ActiveCol>
+          <x:ActiveRow>10</x:ActiveRow>
+          <x:RangeSelection>K11</x:RangeSelection>
          </x:Pane>
         </x:Panes>
         <x:ProtectContents>False</x:ProtectContents>
@@ -975,8 +975,8 @@ td
     <td class="xl65" height="19.10" width="340.80" colspan="6" style='height:19.10pt;width:340.80pt;border-right:none;border-bottom:none;' x:str>Datasets with different mean similarities</td>
     <td class="xl65" width="340.80" colspan="6" style='width:340.80pt;border-right:none;border-bottom:none;' x:str>Datasets with different scales of tree length</td>
    </tr>
-   <tr height="17.60" style='height:17.60pt;mso-height-source:userset;mso-height-alt:352;'>
-    <td class="xl67" height="17.60" colspan="6" style='height:17.60pt;border-right:none;border-bottom:none;' x:str>(random branch lengths)</td>
+   <tr height="10" style='height:10.00pt;mso-height-source:userset;mso-height-alt:200;'>
+    <td class="xl67" height="10" colspan="6" style='height:10.00pt;border-right:none;border-bottom:none;' x:str>(random branch lengths)</td>
     <td class="xl67" colspan="6" style='border-right:none;border-bottom:none;' x:str><span style='mso-spacerun:yes;'>&nbsp;</span><font class="font2">(preset branch lengths based on real cases)</font></td>
    </tr>
    <tr height="17.60" style='height:17.60pt;mso-height-source:userset;mso-height-alt:352;'>
