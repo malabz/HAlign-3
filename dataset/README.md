@@ -2,7 +2,7 @@
 
 ## Human mitochondrial genomes
 
-<a href="http://lab.malab.cn/%7Etfr/HAlign3_testdata/mt_genome.tar.xz" download="mt_genome.tar.xz">mt_genome.tar.xz</a> is composed of 672 sequences with the longest length of 16,578 bp and the shortest length of 16,556 bp, which are highly similar to each other  (>99%). 
+<a href="http://lab.malab.cn/%7Etfr/HAlign3_testdata/mt_genome.tar.xz" download="mt_genome.tar.xz">mt_genome.tar.xz</a> is the human mitochondrial genome dataset contained 672 sequences with the longest and shortest lengths of 16,578  bp and 16,556  bp, respectively, which were highly similar to each other. (> 99%). 
 ```bash
 #download
 wget http://lab.malab.cn/%7Etfr/HAlign3_testdata/mt_genome.tar.xz
