@@ -352,5 +352,5 @@ simulated_99.fasta  FASTA   DNA      1,000  29,975,025   29,975    29,975   30,0
 
 ## Splitted simulated datasets
 
-Since Mafft, Muscle and ClustalO cannot complete the alignment above, reference and test datasets above were split into 9 small datasets with the same corresponding center sequence respectively in order to compare the performance fairly. Use the following command line to uncompress <a href="http://lab.malab.cn/%7Etfr/HAlign3_testdata/star_simudata_split.tar.xz" download="star_simudata_split.tar.xz">star_simudata_split.tar.xz</a> :
+Since Mafft, Muscle and ClustalO cannot complete the alignment above, reference and test datasets were split into 9 small datasets with the same corresponding center sequence, respectively, to compare the performance fairly. Use the following command line to uncompress <a href="http://lab.malab.cn/%7Etfr/HAlign3_testdata/star_simudata_split.tar.xz" download="star_simudata_split.tar.xz">star_simudata_split.tar.xz</a> :
 
