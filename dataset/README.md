@@ -48,7 +48,7 @@ For the simulation of datasets with various mean similarities, every branch in t
 
 For the simulation of datasets with varying scales of tree length, every branch in the tree was the same as the tree of 100 SARS‑CoV‑2 and mitochondrial genomes; then, different scales of tree length (0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0, 7.5, 10.0, 12.5, and 15.0) were set.
 
-The detailed information of those four sets of 14 datasets is summarized in Table S1. Each dataset contained nine replicates with 100 simulated sequences each. The mean length difference is the mean of nine replicates of the difference between the reference alignment length and the average length of simulated sequences. The tree length, the difference between alignment length and the average sequence length, and the mean similarity of the 100 randomly selected SARS‑CoV‑2 and mitochondrial genomes are 0.028, 111, 0.996 and 0.048, 55, 0.998.
+The detailed information of those four sets of 14 datasets is summarized in the following table. Each dataset contained nine replicates with 100 simulated sequences each. The mean length difference is the mean of nine replicates of the difference between the reference alignment length and the average length of simulated sequences. The tree length, the difference between alignment length and the average sequence length, and the mean similarity of the 100 randomly selected SARS‑CoV‑2 and mitochondrial genomes are 0.028, 111, 0.996 and 0.048, 55, 0.998.
 
 
 Download the datasets:                                                                                    
