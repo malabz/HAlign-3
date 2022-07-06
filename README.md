@@ -161,7 +161,7 @@ HAlign 3 is a free software, licensed under [MIT](https://github.com/malabz/HAli
 
 ## Feedback/Issues
 
-HAlign 3 is supported by ZOU's Lab. If you have any questions and suggestions, please feel free to contact us on the [issues page](https://github.com/malabz/HAlign-3/issues). You are also welcomed to send a copy to Furong.TANG@uestc.edu.cn to make sure we could answer you ASAP! 
+HAlign 3 is supported by ZOU's Lab. If you have any questions and suggestions, please feel free to contact us on the [issues page](https://github.com/malabz/HAlign-3/issues). You are also welcomed to send a copy to Furong.TANG@uestc.edu.cn or Furong.TANG@hotmail.com to make sure we could answer you ASAP! 
 
 
 
