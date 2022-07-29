@@ -1,4 +1,4 @@
-# HAlign 3: Fast multiple alignment of ultra-large similar DNA/RNA sequences
+# HAlign 3: Fast multiple alignment of ultra-large numbers of similar DNA/RNA sequences
 
 This project is aimed at improving a part of [HAlign2.0](https://github.com/malabz/HAlign-2), which could align multiple nucleotide sequences fast and accurately.
 
@@ -13,8 +13,7 @@ This project is aimed at improving a part of [HAlign2.0](https://github.com/mala
 
 ## Introduction
 
-HAlign is a cross-platform program that performs multiple sequence alignment based on the center star strategy. Here, we present two major updates of HAlign 3 which help to improve the time efficiency and the alignment quality. 1) The suffix tree data structure is specifically modified to fit the nucleotide sequence: Left-child right-sibling is replaced by K-ary tree to build the suffix tree to reach a higher identical substring searching efficiency at the cost of a few extra space; 2) a global substring selection algorithm combining directed acyclic graphs with dynamic programming is adopted to screen out the unsatisfactory identical substrings. These improvements make HAlign 3 the only program which can align 1 million SARS-CoV-2 sequences fast and accurately. HAlign 3 can be easily installed via anaconda and released package on MacOS, Linux, Windows Subsystem for Linux and Windows systems, and the source code is available on github (https://github.com/malabz/HAlign-3).
-
+HAlign is a cross-platform program that performs multiple sequence alignment based on the center star strategy. Here, we present two major updates of HAlign 3, which help improve the time efficiency and the alignment quality. 1) The suffix tree data structure is specifically modified to fit the nucleotide sequence: Left-child right-sibling is replaced by a K-ary tree to build the suffix tree to reach a higher common substring searching efficiency at a small cost in memory usage; 2) a global substring selection algorithm combining directed acyclic graphs with dynamic programming is adopted to screen out the unsatisfactory common substrings. These improvements make HAlign 3 a specialized program to deal with ultra-large numbers of similar DNA/RNA sequences, such as closely related viral or prokaryotic genomes. HAlign 3 can be easily installed via the Anaconda and Java release package on macOS, Linux, Windows subsystem for Linux, and Windows systems, and the source code is available on GitHub (https://github.com/malabz/HAlign-3).
 
 
 ## Installation and Usage
