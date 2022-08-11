@@ -168,7 +168,7 @@ HAlign 3 is supported by ZOU's Lab. If you have any questions and suggestions, p
 
 If you use this software please cite:
 
-HAlign 3: Fast multiple alignment of ultra-large similar DNA/RNA sequences. [(2022)]()
+HAlign 3: Fast multiple alignment of ultra-large numbers of similar DNA/RNA sequences. Molecular Biology and Evolution [(2022)](https://doi.org/10.1093/molbev/msac166)
 
 
 
