@@ -9,7 +9,7 @@ This project is aimed at improving a part of [HAlign2.0](https://github.com/mala
 [![Anaconda-Server Badge](https://anaconda.org/malab/halign/badges/license.svg)](https://anaconda.org/malab/halign)
 [![Anaconda-Server Badge](https://anaconda.org/malab/halign/badges/installer/conda.svg)](https://anaconda.org/malab/halign)
 
-[![Anaconda-Server Badge](https://img.shields.io/badge/downloads-59%20total-green.svg?style=flat-square)](https://anaconda.org/malab/halign)
+[![Anaconda-Server Badge](https://img.shields.io/badge/downloads-63%20total-green.svg?style=flat-square)](https://anaconda.org/malab/halign)
 
 ## Introduction
 
